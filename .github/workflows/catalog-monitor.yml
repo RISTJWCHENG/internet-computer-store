@@ -1,0 +1,166 @@
+name: Catalog Monitor
+run-name: Catalog Monitor - ${{ github.event_name }} - ${{ github.ref_name }}
+
+on:
+  push:
+    branches: [main, core17-staging-safe]
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      run_daily_index:
+        description: 'Run real daily index now (Staging D1/R2)'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalog-monitor-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-validation:
+    if: github.ref == 'refs/heads/core17-staging-safe'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Native Cloud v1 and Core tests
+        run: |
+          node --test core/cloud-v1/*.test.mjs
+          node --test core/tests/*.test.mjs
+      - name: Website tests and build
+        run: |
+          npm ci
+          npm test
+          npm run build
+
+  real-discovery-readonly:
+    if: github.ref == 'refs/heads/core17-staging-safe'
+    needs: native-validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Real GitHub discovery (no cloud writes)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/catalog-review"
+          node core/discovery/run.mjs --sources github --strict --out "$RUNNER_TEMP/catalog-review/candidates.json"
+      - name: Robots-aware public crawl (max 3)
+        run: |
+          node core/crawl/prepare.mjs --in "$RUNNER_TEMP/catalog-review/candidates.json" --out "$RUNNER_TEMP/catalog-review/batch.json" --max 3 --scan 12
+      - name: Verify discovery evidence, no checkpoint
+        run: |
+          node core/cloud-v1/real-discovery-proof.mjs "$RUNNER_TEMP/catalog-review/candidates.json" "$RUNNER_TEMP/catalog-review/batch.json"
+      - name: Upload review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-native-discovery-review
+          path: ${{ runner.temp }}/catalog-review/*.json
+          if-no-files-found: ignore
+          retention-days: 3
+
+  native-daily-staging:
+    name: Daily Cloud v1 Staging Index
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_daily_index))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: ordosyn-staging
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout main Cloud v1 code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify native Cloud v1
+        run: |
+          node --test core/cloud-v1/*.test.mjs
+      - name: Discover, crawl and classify real projects
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GPT_API_KEY_CATALOGSEARCH: ${{ secrets.GPT_API_KEY_ORDOSYNSEARCH }}
+        run: |
+          test -n "$GPT_API_KEY_CATALOGSEARCH"
+          node core/cloud-v1/native-stage1.mjs --sources github --max 3 --scan 40 --out "$RUNNER_TEMP/catalog-classified.json"
+      - name: Persist verified artifacts to isolated Staging D1/R2
+        env:
+          CATALOG_NATIVE_INGEST_TOKEN: ${{ secrets.ORDOSYN_NATIVE_INGEST_TOKEN }}
+        run: |
+          test -n "$CATALOG_NATIVE_INGEST_TOKEN"
+          node core/cloud-v1/native-submit-cli.mjs --in "$RUNNER_TEMP/catalog-classified.json"
+  pages-build:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule' && !(github.event_name == 'workflow_dispatch' && inputs.run_daily_index)
+    name: Build GitHub Pages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install, test and build
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  pages-deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule' && !(github.event_name == 'workflow_dispatch' && inputs.run_daily_index)
+    name: Deploy GitHub Pages
+    needs: pages-build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+      contents: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publish site
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Remove merged review branch after successful deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = 'heads/refactor/neutral-catalog-names';
+            try {
+              const pr = await github.rest.pulls.get({ ...context.repo, pull_number: 1 });
+              if (!pr.data.merged) {
+                core.info('Review PR is not merged; branch retained.');
+                return;
+              }
+              await github.rest.git.deleteRef({ ...context.repo, ref });
+              core.info('Removed the merged review branch.');
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              core.info('Review branch is already absent.');
+            }

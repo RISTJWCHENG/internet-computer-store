@@ -1,0 +1,32 @@
+import {compatibility} from '../../config/compatibility.js';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync} from 'node:fs';
+import {createCloudLease} from './cloud-lease.mjs';
+import {buildNativeProcessedArtifact} from './native-processed-artifact.mjs';
+import {persistNativeBatch,createNativeArtifactR2Store} from './native-persist.mjs';
+const hash=s=>createHash('sha256').update(s).digest('hex');
+function fixture(){
+ const sql=new DatabaseSync(':memory:');sql.exec(readFileSync(new URL('./cloud-schema.sql',import.meta.url),'utf8'));
+ const db={prepare(query){const stmt=sql.prepare(query);let args=[];return {bind(...v){args=v;return this},async run(){return {meta:{changes:Number(stmt.run(...args).changes)}}},async first(){return stmt.get(...args)||null}}}};
+ const objects=new Map();const store={async putIfAbsent(k,b){if(objects.has(k))return 'exists';objects.set(k,Buffer.from(b));return 'created'},async read(k){return objects.get(k)}};
+ const page={title:'Example Project',description:'Example',bodyText:'An authentic real project with public evidence. '.repeat(3),url:'https://example.com/'};
+ page.contentHash=hash(JSON.stringify({title:page.title,description:page.description,bodyText:page.bodyText}));
+ const event={schema:compatibility.ingest_v1,eventId:'evt_'+ 'a'.repeat(40),project:{id:'proj_'+ 'b'.repeat(32),sources:['https://example.com/']},page};
+ const classification={schema:compatibility.classification_v1,model:'gpt-5-nano',category:'Infrastructure',summary:'Infrastructure project',confidence:0.8,sourceEventId:event.eventId,sourceContentHash:page.contentHash,verified:true};
+ const built=buildNativeProcessedArtifact({event,classification,createdAt:'2026-10-20T00:00:00Z'});
+ const entry={artifact:built.artifact,key:built.key,bytesSha256:built.bytesSha256,sourceEvidence:['An authentic real project'],tags:['infrastructure']};
+ const batch={schema:compatibility.cloud_classified_batch_v1,artifacts:[entry],cloudWrites:0,checkpointAllowed:false};
+ return {sql,objects,store,lease:createCloudLease(db),batch,entry,query:()=>sql.prepare('SELECT * FROM catalog_checkpoint').all()};
+}
+const options=f=>({batch:f.batch,lease:f.lease,store:f.store,holder:'123456-1',now:()=>10000,ttlMs:5000});
+test('native artifact writes exact canonical R2 key and only then checkpoints D1',async()=>{const f=fixture();try{assert.equal((await persistNativeBatch(options(f))).written,1);assert.ok(f.objects.has(f.entry.key));assert.equal(f.query()[0].content_hash,f.entry.artifact.contentHash)}finally{f.sql.close()}});
+test('remote readback mismatch never checkpoints',async()=>{const f=fixture();try{await assert.rejects(persistNativeBatch({...options(f),store:{...f.store,read:async()=>Buffer.from('tampered')}}),/readback mismatch/);assert.equal(f.query().length,0)}finally{f.sql.close()}});
+test('content hash tampering fails before lease or storage writes',async()=>{const f=fixture();try{f.entry.artifact.contentHash='0'.repeat(64);await assert.rejects(persistNativeBatch(options(f)),/hash mismatch/);assert.equal(f.objects.size,0);assert.equal(f.query().length,0)}finally{f.sql.close()}});
+test('repeated immutable bytes are safe to replay with higher fencing token',async()=>{const f=fixture();try{await persistNativeBatch(options(f));await persistNativeBatch({...options(f),holder:'123456-2',now:()=>12000});assert.equal(f.objects.size,1);assert.equal(f.query().length,1)}finally{f.sql.close()}});
+test('R2 failure leaves no checkpoint',async()=>{const f=fixture();try{await assert.rejects(persistNativeBatch({...options(f),store:{...f.store,putIfAbsent:async()=>{throw Error('R2 offline')}}}),/R2 offline/);assert.equal(f.query().length,0)}finally{f.sql.close()}});
+test('D1 checkpoint failure retains R2 bytes for safe retry',async()=>{const f=fixture();try{await assert.rejects(persistNativeBatch({...options(f),lease:{...f.lease,checkpoint:async()=>{throw Error('D1 offline')}}}),/D1 offline/);assert.equal(f.objects.size,1);assert.equal(f.query().length,0);await persistNativeBatch({...options(f),holder:'123456-2',now:()=>12000});assert.equal(f.query().length,1)}finally{f.sql.close()}});
+test('invalid or empty batch fails closed',async()=>{const f=fixture();try{await assert.rejects(persistNativeBatch({...options(f),batch:{...f.batch,artifacts:[]}}),/Untrusted/);assert.equal(f.query().length,0)}finally{f.sql.close()}});
+test('native R2 adapter uses atomic conditional put, no head-then-put',async()=>{const f=fixture();let condition;const bucket={async put(k,bytes,opts){condition=opts.onlyIf.get('If-None-Match');f.objects.set(k,bytes);return {etag:'etag'}},async get(k){return {arrayBuffer:async()=>f.objects.get(k)}}};try{const store=createNativeArtifactR2Store(bucket);assert.equal(await store.putIfAbsent(f.entry.key,Buffer.from('json')),'created');assert.equal(condition,'*');assert.deepEqual(await store.read(f.entry.key),Buffer.from('json'))}finally{f.sql.close()}});

@@ -52,32 +52,32 @@ footer{margin-top:112px;border-top:1px solid var(--line);background:var(--soft);
 /* Authentication diagnostics are visible instead of hiding failures in a tooltip. */
 .auth-error { display: inline-block; max-width: 290px; font-size: 12px; color: #e59f9f; overflow-wrap: anywhere; }
 
-/* ORDOVIWORLD TOP-RIGHT AUTH V1 -- scoped to existing Internet Identity UI */
+/* CATALOG TOP-RIGHT AUTH V1 -- scoped to existing Internet Identity UI */
 header .wrap { max-width: none; width: 100%; padding-right: 22px; padding-left: 22px; }
 #auth { display: flex; align-items: center; margin-left: auto; position: relative; }
-.ow-topbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
-.ow-top-icon { display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; padding: 0; flex: none; border: 1px solid transparent; border-radius: 50%; background: transparent; color: #697586; cursor: pointer; text-decoration: none; transition: background-color .15s, border-color .15s; }
-.ow-top-icon:hover { color: #253044; background: #f3f5f8; }
-.ow-top-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.ow-avatar-btn { background: #f7f9fc; border-color: #e8ebf0; }
-.ow-avatar-btn:hover { border-color: #d9e0e8; }
-.ow-avatar-btn:disabled { opacity: .45; cursor: wait; }
-.ow-account-slot { position: relative; }
-.ow-account-menu { position: absolute; z-index: 200; right: 0; top: calc(100% + 10px); width: 218px; padding: 8px; border: 1px solid #e7eaf0; border-radius: 14px; background: #fff; box-shadow: 0 12px 30px rgba(16, 24, 40, .13); text-align: left; }
-.ow-account-menu[hidden] { display: none !important; }
-.ow-account-heading { padding: 10px 11px 12px; border-bottom: 1px solid #edf0f3; margin-bottom: 5px; overflow-wrap: anywhere; }
-.ow-account-heading strong { display: block; font-size: 13px; color: #202a38; }
-.ow-account-heading small { display: block; font: 11px ui-monospace, Consolas, monospace; color: #7c8594; margin-top: 5px; }
-.ow-menu-item { display: block; width: 100%; border: 0; border-radius: 8px; padding: 10px 11px; background: transparent; color: #263041; text-align: left; font: 500 13px Inter, system-ui, sans-serif; cursor: pointer; }
-.ow-menu-item:hover { background: #f4f6f9; }
-.ow-auth-error { position: absolute; top: calc(100% + 10px); right: 0; width: min(300px, 90vw); border: 1px solid #f6c9c9; border-radius: 10px; padding: 9px 12px; background: #fff9f9; color: #a82020; font-size: 12px; box-shadow: 0 8px 20px #1111; overflow-wrap: anywhere; z-index: 201; }
-@media (max-width: 700px) { header .wrap { padding-left: 12px; padding-right: 12px; } .ow-topbar-actions { gap: 5px; } }
+.account-topbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+.account-top-icon { display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; padding: 0; flex: none; border: 1px solid transparent; border-radius: 50%; background: transparent; color: #697586; cursor: pointer; text-decoration: none; transition: background-color .15s, border-color .15s; }
+.account-top-icon:hover { color: #253044; background: #f3f5f8; }
+.account-top-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.account-avatar-btn { background: #f7f9fc; border-color: #e8ebf0; }
+.account-avatar-btn:hover { border-color: #d9e0e8; }
+.account-avatar-btn:disabled { opacity: .45; cursor: wait; }
+.account-account-slot { position: relative; }
+.account-account-menu { position: absolute; z-index: 200; right: 0; top: calc(100% + 10px); width: 218px; padding: 8px; border: 1px solid #e7eaf0; border-radius: 14px; background: #fff; box-shadow: 0 12px 30px rgba(16, 24, 40, .13); text-align: left; }
+.account-account-menu[hidden] { display: none !important; }
+.account-account-heading { padding: 10px 11px 12px; border-bottom: 1px solid #edf0f3; margin-bottom: 5px; overflow-wrap: anywhere; }
+.account-account-heading strong { display: block; font-size: 13px; color: #202a38; }
+.account-account-heading small { display: block; font: 11px ui-monospace, Consolas, monospace; color: #7c8594; margin-top: 5px; }
+.account-menu-item { display: block; width: 100%; border: 0; border-radius: 8px; padding: 10px 11px; background: transparent; color: #263041; text-align: left; font: 500 13px Inter, system-ui, sans-serif; cursor: pointer; }
+.account-menu-item:hover { background: #f4f6f9; }
+.account-auth-error { position: absolute; top: calc(100% + 10px); right: 0; width: min(300px, 90vw); border: 1px solid #f6c9c9; border-radius: 10px; padding: 9px 12px; background: #fff9f9; color: #a82020; font-size: 12px; box-shadow: 0 8px 20px #1111; overflow-wrap: anywhere; z-index: 201; }
+@media (max-width: 700px) { header .wrap { padding-left: 12px; padding-right: 12px; } .account-topbar-actions { gap: 5px; } }
 
-/* ORDOSYN SORT PILL START */
+/* CATALOG SORT PILL START */
 
 /* Match the category chip height */
 :root {
-  --ordosyn-sort-height: 30px;
+  --catalog-sort-height: 30px;
 }
 
 /* Native Sort dropdown */
@@ -85,9 +85,9 @@ select[id*="sort" i],
 select[class*="sort" i],
 select[name*="sort" i] {
   box-sizing: border-box !important;
-  height: var(--ordosyn-sort-height) !important;
-  min-height: var(--ordosyn-sort-height) !important;
-  max-height: var(--ordosyn-sort-height) !important;
+  height: var(--catalog-sort-height) !important;
+  min-height: var(--catalog-sort-height) !important;
+  max-height: var(--catalog-sort-height) !important;
 
   width: 145px;
   border-radius: 999px !important;
@@ -126,12 +126,12 @@ select[name*="sort" i]:focus-visible {
   outline-offset: 2px;
 }
 
-/* ORDOSYN SORT PILL END */
+/* CATALOG SORT PILL END */
 /* V4 cached project logos; maintain letter fallback if image is unavailable. */
-.logo{position:relative;overflow:hidden}.ordosyn-project-logo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;z-index:1}.ordosyn-logo-initial{position:relative;z-index:0}
+.logo{position:relative;overflow:hidden}.catalog-project-logo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;z-index:1}.catalog-logo-initial{position:relative;z-index:0}
 
 
-/* ORDOSYN_CARD_BUTTONS_BEGIN */
+/* CATALOG_CARD_BUTTONS_BEGIN */
 .grid > .card {
   position: relative;
 }
@@ -186,7 +186,7 @@ select[name*="sort" i]:focus-visible {
   padding-right: 66px;
 }
 
-.ordosyn-heart-pill {
+.catalog-heart-pill {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -206,23 +206,23 @@ select[name*="sort" i]:focus-visible {
   line-height: 1;
 }
 
-.ordosyn-heart-pill:hover {
+.catalog-heart-pill:hover {
   background: #fceff3;
   color: #d83d72;
 }
 
-.ordosyn-heart-pill[aria-pressed="true"] {
+.catalog-heart-pill[aria-pressed="true"] {
   background: #fff0f4;
   color: #df4278;
   border-color: #f7cedb;
 }
 
-.ordosyn-heart-pill:focus-visible {
+.catalog-heart-pill:focus-visible {
   outline: 2px solid #648bfa;
   outline-offset: 2px;
 }
-/* ORDOSYN_CARD_BUTTONS_END */
-/* ORDOSYN_NAV_CLEAN_START */
+/* CATALOG_CARD_BUTTONS_END */
+/* CATALOG_NAV_CLEAN_START */
 
 /* Default navigation buttons: transparent */
 .navrow a {
@@ -246,9 +246,9 @@ select[name*="sort" i]:focus-visible {
   color: #101828 !important;
 }
 
-/* ORDOSYN_NAV_CLEAN_END */
+/* CATALOG_NAV_CLEAN_END */
 
-/* ORDOSYN_WIDE_LAYOUT_START */
+/* CATALOG_WIDE_LAYOUT_START */
 
 /* Give the page more usable space on desktop */
 .wrap {
@@ -320,9 +320,9 @@ select[name*="sort" i]:focus-visible {
   }
 }
 
-/* ORDOSYN_WIDE_LAYOUT_END */
+/* CATALOG_WIDE_LAYOUT_END */
 
-/* ORDOSYN_NAV_PILL_START */
+/* CATALOG_NAV_PILL_START */
 
 /* Default: transparent navigation links */
 .navrow a {
@@ -356,27 +356,27 @@ select[name*="sort" i]:focus-visible {
   outline-offset: 2px;
 }
 
-/* ORDOSYN_NAV_PILL_END */
+/* CATALOG_NAV_PILL_END */
 
-/* ORDOSYN_PROFILE_REPAIRED_START */
-.ow-account-menu.ordosyn-profile-clean{box-sizing:border-box;width:270px;max-width:calc(100vw - 24px);padding:12px;border:1px solid #e5eaf1;border-radius:19px;background:#fff;box-shadow:0 16px 40px rgba(21,34,54,.12);text-align:left}
-.ordosyn-profile-heading{display:flex;align-items:center;gap:12px;padding:6px 5px 15px;border-bottom:1px solid #edf0f4}
-.ordosyn-profile-avatar{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f2f5f9;color:#718096}
-.ordosyn-profile-avatar svg{width:23px;height:23px}
-.ordosyn-profile-identity{display:flex;flex-direction:column;min-width:0;flex:1}
-.ordosyn-profile-identity strong{font-size:14px;font-weight:650;line-height:1.35;color:#273348;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ordosyn-profile-identity small{font-size:11px;color:#8993a3;margin-top:4px}
-.ordosyn-profile-check{display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;width:20px;height:20px;color:#25a77d}
-.ordosyn-profile-check svg{display:block;width:17px;height:17px;fill:none;stroke:currentColor}
-.ordosyn-profile-actions{display:flex;flex-direction:column;gap:4px;padding-top:9px}
-.ordosyn-profile-clean .ow-menu-item{box-sizing:border-box;display:flex;align-items:center;gap:11px;width:100%;min-height:42px;padding:10px 12px;border:0;border-radius:11px;background:transparent;text-align:left;text-decoration:none;color:#344054;font:500 13px Inter,system-ui,sans-serif;cursor:pointer}
-.ordosyn-profile-clean .ow-menu-item svg{width:18px;height:18px;flex:none;color:#79879b}
-.ordosyn-profile-clean .ow-menu-item:hover{background:#f4f6fa}
-.ordosyn-profile-clean .ow-menu-logout:hover{color:#b74d59;background:#fff2f3}
-.ordosyn-profile-clean .ow-menu-logout:hover svg{color:#b74d59}
-/* ORDOSYN_PROFILE_REPAIRED_END */
+/* CATALOG_PROFILE_REPAIRED_START */
+.account-account-menu.catalog-profile-clean{box-sizing:border-box;width:270px;max-width:calc(100vw - 24px);padding:12px;border:1px solid #e5eaf1;border-radius:19px;background:#fff;box-shadow:0 16px 40px rgba(21,34,54,.12);text-align:left}
+.catalog-profile-heading{display:flex;align-items:center;gap:12px;padding:6px 5px 15px;border-bottom:1px solid #edf0f4}
+.catalog-profile-avatar{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f2f5f9;color:#718096}
+.catalog-profile-avatar svg{width:23px;height:23px}
+.catalog-profile-identity{display:flex;flex-direction:column;min-width:0;flex:1}
+.catalog-profile-identity strong{font-size:14px;font-weight:650;line-height:1.35;color:#273348;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.catalog-profile-identity small{font-size:11px;color:#8993a3;margin-top:4px}
+.catalog-profile-check{display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;width:20px;height:20px;color:#25a77d}
+.catalog-profile-check svg{display:block;width:17px;height:17px;fill:none;stroke:currentColor}
+.catalog-profile-actions{display:flex;flex-direction:column;gap:4px;padding-top:9px}
+.catalog-profile-clean .account-menu-item{box-sizing:border-box;display:flex;align-items:center;gap:11px;width:100%;min-height:42px;padding:10px 12px;border:0;border-radius:11px;background:transparent;text-align:left;text-decoration:none;color:#344054;font:500 13px Inter,system-ui,sans-serif;cursor:pointer}
+.catalog-profile-clean .account-menu-item svg{width:18px;height:18px;flex:none;color:#79879b}
+.catalog-profile-clean .account-menu-item:hover{background:#f4f6fa}
+.catalog-profile-clean .account-menu-logout:hover{color:#b74d59;background:#fff2f3}
+.catalog-profile-clean .account-menu-logout:hover svg{color:#b74d59}
+/* CATALOG_PROFILE_REPAIRED_END */
 
-/* ORDOSYN_LEFT_BRAND_SEARCH_START
+/* CATALOG_LEFT_BRAND_SEARCH_START
    Fixed compact brand/search in upper-left; original centered content untouched.
    Mobile masthead remains sticky rather than covering the full viewport. */
 @media (min-width: 1024px) {
@@ -390,7 +390,7 @@ select[name*="sort" i]:focus-visible {
     min-height: 128px;
     gap: 0;
   }
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     position: fixed;
     top: 18px;
     left: 24px;
@@ -457,7 +457,7 @@ select[name*="sort" i]:focus-visible {
     padding-top: 12px;
     padding-bottom: 12px;
   }
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     font-size: clamp(11px, 3vw, 14px);
     line-height: 1.25;
     letter-spacing: -0.045em;
@@ -477,10 +477,10 @@ select[name*="sort" i]:focus-visible {
   #mast.mast > .sbar input { font-size: 12px; }
   #mast.mast > .navrow { justify-content: flex-start; margin: 0; }
 }
-/* ORDOSYN_LEFT_BRAND_SEARCH_END */
-/* ORDOSYN_STORE_MESSAGES_START: brand descriptions follow the compact search. */
-#mast.mast > .ordosyn-store-intro,
-#mast.mast > .ordosyn-store-notice {
+/* CATALOG_LEFT_BRAND_SEARCH_END */
+/* CATALOG_STORE_MESSAGES_START: brand descriptions follow the compact search. */
+#mast.mast > .catalog-store-intro,
+#mast.mast > .catalog-store-notice {
   box-sizing: border-box;
   width: 260px;
   max-width: calc(100vw - 48px);
@@ -491,32 +491,32 @@ select[name*="sort" i]:focus-visible {
   text-align: left;
   overflow-wrap: break-word;
 }
-#mast.mast > .ordosyn-store-intro { color: #475467; }
+#mast.mast > .catalog-store-intro { color: #475467; }
 @media (min-width: 1024px) {
-  #mast.mast > .ordosyn-store-intro,
-  #mast.mast > .ordosyn-store-notice {
+  #mast.mast > .catalog-store-intro,
+  #mast.mast > .catalog-store-notice {
     position: fixed;
     left: 24px;
     z-index: 109;
   }
-  #mast.mast > .ordosyn-store-intro { top: 108px; }
-  #mast.mast > .ordosyn-store-notice { top: 188px; }
+  #mast.mast > .catalog-store-intro { top: 108px; }
+  #mast.mast > .catalog-store-notice { top: 188px; }
 }
 @media (max-width: 1023px) {
-  #mast.mast > .ordosyn-store-intro,
-  #mast.mast > .ordosyn-store-notice {
+  #mast.mast > .catalog-store-intro,
+  #mast.mast > .catalog-store-notice {
     position: static;
     width: min(100%, 460px);
     max-width: 100%;
   }
 }
-/* ORDOSYN_STORE_MESSAGES_END */
+/* CATALOG_STORE_MESSAGES_END */
 
-/* ORDOSYN_BRAND_DIVIDER_START */
+/* CATALOG_BRAND_DIVIDER_START */
 @media (min-width: 1024px) {
 
   /* Larger, single-line brand aligned with the search width */
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     width: 260px;
     max-width: 260px;
     box-sizing: border-box;
@@ -545,16 +545,16 @@ select[name*="sort" i]:focus-visible {
 
 /* No divider on tablets and mobile */
 @media (max-width: 1023px) {
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     white-space: nowrap;
     max-width: 100%;
   }
 }
 
-/* ORDOSYN_BRAND_DIVIDER_END */
-/* ORDOSYN_QUICK_EXPLORE_ORDER_START: introduction above compact search. */
+/* CATALOG_BRAND_DIVIDER_END */
+/* CATALOG_QUICK_EXPLORE_ORDER_START: introduction above compact search. */
 @media (min-width: 1024px) {
-  #mast.mast > .ordosyn-store-intro {
+  #mast.mast > .catalog-store-intro {
     position: fixed;
     top: 69px;
     left: 24px;
@@ -570,7 +570,7 @@ select[name*="sort" i]:focus-visible {
     background-color: #f2f4f7;
     border-color: #e4e7ec;
   }
-  #mast.mast > .ordosyn-store-notice {
+  #mast.mast > .catalog-store-notice {
     top: 187px;
     left: 24px;
   }
@@ -592,14 +592,14 @@ select[name*="sort" i]:focus-visible {
   border-color: #98a2b3;
 }
 @media (max-width: 1023px) {
-  #mast.mast > .ordosyn-store-intro,
+  #mast.mast > .catalog-store-intro,
   #mast.mast > .sbar,
-  #mast.mast > .ordosyn-store-notice {
+  #mast.mast > .catalog-store-notice {
     position: static;
   }
 }
-/* ORDOSYN_QUICK_EXPLORE_ORDER_END */
-/* ORDOSYN_NAV_AT_DIVIDER_V1: primary navigation aligns to divider; center content untouched. */
+/* CATALOG_QUICK_EXPLORE_ORDER_END */
+/* CATALOG_NAV_AT_DIVIDER_V1: primary navigation aligns to divider; center content untouched. */
 @media (min-width: 1200px) {
   #mast.mast > .navrow {
     display: flex;
@@ -646,9 +646,9 @@ select[name*="sort" i]:focus-visible {
 #app.wrap > div[style*="max-width:760px"] > p.note {
   display: none;
 }
-/* ORDOSYN_NAV_AT_DIVIDER_V1_END */
+/* CATALOG_NAV_AT_DIVIDER_V1_END */
 
-/* ORDOSYN_TOP_NAV_UNDERLINE_ACTIVE_V1: flat active nav, no oval background */
+/* CATALOG_TOP_NAV_UNDERLINE_ACTIVE_V1: flat active nav, no oval background */
 #mast.mast .navrow a,
 .navrow a {
   position: relative;
@@ -695,19 +695,19 @@ select[name*="sort" i]:focus-visible {
   outline-offset: 3px;
   border-radius: 4px !important;
 }
-/* ORDOSYN_TOP_NAV_UNDERLINE_ACTIVE_V1_END */
+/* CATALOG_TOP_NAV_UNDERLINE_ACTIVE_V1_END */
 
-/* ORDOSYN_HEADER_BASELINE_FIX_V1 */
+/* CATALOG_HEADER_BASELINE_FIX_V1 */
 @media (min-width: 1024px) {
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     top: 28px !important;
     margin: 0 !important;
     line-height: 1.25 !important;
     white-space: nowrap !important;
   }
 }
-/* ORDOSYN_HEADER_BASELINE_FIX_V1_END */
-/* ORDOSYN_EXPLORE_FOUR_COLUMNS_V1
+/* CATALOG_HEADER_BASELINE_FIX_V1_END */
+/* CATALOG_EXPLORE_FOUR_COLUMNS_V1
    Align Explore content to the primary navigation's left edge.
    Each section paginates four real records; the last page can be incomplete.
    This override beats the injected 3-column card enhancement CSS. */
@@ -721,8 +721,8 @@ select[name*="sort" i]:focus-visible {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  #app.wrap .ordosyn-section .grid,
-  #app.wrap .grid:has(> .ordosyn-project-card) {
+  #app.wrap .catalog-section .grid,
+  #app.wrap .grid:has(> .catalog-project-card) {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     align-items: stretch !important;
   }
@@ -737,8 +737,8 @@ select[name*="sort" i]:focus-visible {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  #app.wrap .ordosyn-section .grid,
-  #app.wrap .grid:has(> .ordosyn-project-card) {
+  #app.wrap .catalog-section .grid,
+  #app.wrap .grid:has(> .catalog-project-card) {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
@@ -752,14 +752,14 @@ select[name*="sort" i]:focus-visible {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  #app.wrap .ordosyn-section .grid,
-  #app.wrap .grid:has(> .ordosyn-project-card) {
+  #app.wrap .catalog-section .grid,
+  #app.wrap .grid:has(> .catalog-project-card) {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
-/* ORDOSYN_EXPLORE_FOUR_COLUMNS_V1_END */
+/* CATALOG_EXPLORE_FOUR_COLUMNS_V1_END */
 
-/* ORDOSYN_NAV_TEXT_ALIGN_V1
+/* CATALOG_NAV_TEXT_ALIGN_V1
    Nav links have 15px horizontal padding.
    Offset the nav container, not the content grid. */
 @media (min-width: 1200px) {
@@ -772,8 +772,8 @@ select[name*="sort" i]:focus-visible {
     left: 305px !important;
   }
 }
-/* ORDOSYN_NAV_TEXT_ALIGN_V1_END */
-/* ORDOSYN_EXPLORE_SECTION_RHYTHM_V1
+/* CATALOG_NAV_TEXT_ALIGN_V1_END */
+/* CATALOG_EXPLORE_SECTION_RHYTHM_V1
    Keep the current nav-to-content gap; tighten only the vertical space
    between top-level Explore sections. Do not shift the grid horizontally. */
 @media (min-width: 1024px) {
@@ -789,9 +789,9 @@ select[name*="sort" i]:focus-visible {
     margin-top: 28px !important;
   }
 }
-/* ORDOSYN_EXPLORE_SECTION_RHYTHM_V1_END */
+/* CATALOG_EXPLORE_SECTION_RHYTHM_V1_END */
 
-/* ORDOSYN_UNIFIED_TOP_SPACING_V1
+/* CATALOG_UNIFIED_TOP_SPACING_V1
    Use the same compact top spacing on desktop routes.
    Keep the existing fixed sidebar and content width. */
 @media (min-width: 1024px) {
@@ -812,28 +812,28 @@ select[name*="sort" i]:focus-visible {
     margin-top: 0 !important;
   }
 
-  #app.wrap > .page.ordosyn-explore-sections,
+  #app.wrap > .page.catalog-explore-sections,
   #app.wrap > .page#cats {
     padding-top: 40px !important;
     margin-top: 0 !important;
   }
 }
-/* ORDOSYN_UNIFIED_TOP_SPACING_V1_END */
+/* CATALOG_UNIFIED_TOP_SPACING_V1_END */
 
-/* ORDOSYN_MATCH_FILTER_TOP_V1 */
+/* CATALOG_MATCH_FILTER_TOP_V1 */
 @media (min-width: 1024px) {
   /*
    * Match filtered Explore pages to the categorized Explore
    * landing page without shifting the header or sidebar.
    */
-  #app.wrap > .page#cats.ordosyn-explore-sections {
+  #app.wrap > .page#cats.catalog-explore-sections {
     padding-top: 84px !important;
   }
 }
-/* ORDOSYN_MATCH_FILTER_TOP_V1_END */
+/* CATALOG_MATCH_FILTER_TOP_V1_END */
 
-/* ORDOSYN_BRAND_PNG_LOGO_V1 */
-#mast.mast > h1.ordosyn-store-title {
+/* CATALOG_BRAND_PNG_LOGO_V1 */
+#mast.mast > h1.catalog-store-title {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -846,26 +846,26 @@ select[name*="sort" i]:focus-visible {
   box-sizing: border-box !important;
 }
 
-#mast.mast > h1.ordosyn-store-title::before {
+#mast.mast > h1.catalog-store-title::before {
   content: "" !important;
   display: block !important;
   width: 26px !important;
   height: 26px !important;
   flex: 0 0 26px !important;
-  background-image: url("../public/Internet-Computer-Network-Store-logo.png");
+  background-image: url("../public/site-logo.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 @media (max-width: 1023px) {
-  #mast.mast > h1.ordosyn-store-title {
+  #mast.mast > h1.catalog-store-title {
     max-width: 100% !important;
   }
 }
-/* ORDOSYN_BRAND_PNG_LOGO_V1_END */
-/* ORDOSYN_PAGE_HEADING_UNIFORM_V1: equal title typography across the five routes. */
-#app .ordosyn-explore-sections > section:first-of-type > h2,
+/* CATALOG_BRAND_PNG_LOGO_V1_END */
+/* CATALOG_PAGE_HEADING_UNIFORM_V1: equal title typography across the five routes. */
+#app .catalog-explore-sections > section:first-of-type > h2,
 #app .page#cats > h1,
 #app .page > h1 {
   font-size: 20px !important;
@@ -873,9 +873,9 @@ select[name*="sort" i]:focus-visible {
   line-height: 1.3 !important;
   letter-spacing: normal !important;
 }
-/* ORDOSYN_PAGE_HEADING_UNIFORM_V1_END */
+/* CATALOG_PAGE_HEADING_UNIFORM_V1_END */
 
-/* ORDOSYN_PROJECT_DETAIL_TOP_GAP_V1
+/* CATALOG_PROJECT_DETAIL_TOP_GAP_V1
    Keep the detail-page gradient cover close to the navigation.
    Do not change Explore or other page layouts.
 */
@@ -890,26 +890,26 @@ select[name*="sort" i]:focus-visible {
     padding-top: 12px !important;
   }
 }
-/* ORDOSYN_PROJECT_DETAIL_TOP_GAP_V1_END */
+/* CATALOG_PROJECT_DETAIL_TOP_GAP_V1_END */
 
-/* ORDOSYN_VOTE_SPACING_SYMMETRY_V1
+/* CATALOG_VOTE_SPACING_SYMMETRY_V1
    Keep equal spacing above and below the vote divider.
    Do not push the vote divider to the card bottom.
 */
-#app .grid > .ordosyn-project-card.ordosyn-vote-layout {
+#app .grid > .catalog-project-card.catalog-vote-layout {
   min-height: 0 !important;
   height: auto !important;
   max-height: none !important;
   align-self: stretch !important;
 }
 
-#app .grid > .ordosyn-project-card.ordosyn-vote-layout
-  > p.ordosyn-description-clamped {
+#app .grid > .catalog-project-card.catalog-vote-layout
+  > p.catalog-description-clamped {
   margin-bottom: 0 !important;
 }
 
-#app .grid > .ordosyn-project-card.ordosyn-vote-layout
-  > .ordosyn-vote-panel {
+#app .grid > .catalog-project-card.catalog-vote-layout
+  > .catalog-vote-panel {
   margin-top: 10px !important;
   padding-top: 10px !important;
   border-top: 1px solid #e5e7eb !important;
@@ -918,26 +918,26 @@ select[name*="sort" i]:focus-visible {
 }
 
 /* Avoid displaying a second divider if one already exists. */
-#app .ordosyn-vote-layout .ordosyn-vote-divider {
+#app .catalog-vote-layout .catalog-vote-divider {
   display: none !important;
 }
 
 /* Equal-height grid cards without forcing a large blank vote gap. */
-#app .grid:has(> .ordosyn-project-card.ordosyn-vote-layout) {
+#app .grid:has(> .catalog-project-card.catalog-vote-layout) {
   align-items: stretch !important;
 }
-/* ORDOSYN_VOTE_SPACING_SYMMETRY_V1_END */
+/* CATALOG_VOTE_SPACING_SYMMETRY_V1_END */
 
-/* ORDOSYN_REMOVE_RESIDUAL_HEADER_CIRCLE_V1
+/* CATALOG_REMOVE_RESIDUAL_HEADER_CIRCLE_V1
    Hide the obsolete favorite control in the card header.
    Keep the independent Website link visible.
 */
-#app .grid > .card.ordosyn-clean-card > .row:first-child button,
-#app .grid > .card.ordosyn-clean-card > .row:first-child .ordosyn-hidden-fav {
+#app .grid > .card.catalog-clean-card > .row:first-child button,
+#app .grid > .card.catalog-clean-card > .row:first-child .catalog-hidden-fav {
   display: none !important;
 }
 
-#app .grid > .card.ordosyn-clean-card > .ordosyn-website-top {
+#app .grid > .card.catalog-clean-card > .catalog-website-top {
   background: transparent !important;
   background-image: none !important;
   border: 0 !important;
@@ -946,14 +946,14 @@ select[name*="sort" i]:focus-visible {
   text-decoration: none !important;
 }
 
-#app .grid > .card.ordosyn-clean-card > .ordosyn-website-top:hover {
+#app .grid > .card.catalog-clean-card > .catalog-website-top:hover {
   background: transparent !important;
   text-decoration: none !important;
 }
-/* ORDOSYN_REMOVE_RESIDUAL_HEADER_CIRCLE_V1_END */
+/* CATALOG_REMOVE_RESIDUAL_HEADER_CIRCLE_V1_END */
 
-/* ORDOSYN_STATIC_HEADINGS_NO_FLICKER_V2 */
-#app.wrap > .page.ordosyn-explore-sections > section:first-of-type > h2,
+/* CATALOG_STATIC_HEADINGS_NO_FLICKER_V2 */
+#app.wrap > .page.catalog-explore-sections > section:first-of-type > h2,
 #app.wrap > .page#cats > h1,
 #app.wrap > .page > h1 {
   font-size: 20px !important;
@@ -967,15 +967,15 @@ select[name*="sort" i]:focus-visible {
   transform: none !important;
   translate: none !important;
 }
-/* ORDOSYN_STATIC_HEADINGS_NO_FLICKER_V2_END */
+/* CATALOG_STATIC_HEADINGS_NO_FLICKER_V2_END */
 
-/* ORDOSYN_TITLE_NEXT_ROW_22PX_V1
+/* CATALOG_TITLE_NEXT_ROW_22PX_V1
    Uniform title-to-next-row spacing.
    Static CSS only; no layout observers or transforms.
 */
 
 /* Explore landing-page heading */
-#app.wrap > .page.ordosyn-explore-sections
+#app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2,
 
 /* SNS and Caffeine Apps headings */
@@ -987,7 +987,7 @@ select[name*="sort" i]:focus-visible {
 }
 
 /* Explore category buttons */
-#app.wrap > .page.ordosyn-explore-sections
+#app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2 + .chips,
 
 /* SNS / Caffeine Apps category buttons */
@@ -1001,14 +1001,14 @@ select[name*="sort" i]:focus-visible {
   margin-top: 22px !important;
 }
 
-/* ORDOSYN_TITLE_NEXT_ROW_22PX_V1_END */
+/* CATALOG_TITLE_NEXT_ROW_22PX_V1_END */
 
-/* ORDOSYN_STATIC_TITLE_GAP_22_V1
+/* CATALOG_STATIC_TITLE_GAP_22_V1
    Static heading spacing; no observers or transforms.
 */
 
 /* Consistent title typography */
-#app.wrap > .page.ordosyn-explore-sections
+#app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2,
 #app.wrap > .page#cats > h1,
 #app.wrap > .page > h1 {
@@ -1019,11 +1019,11 @@ select[name*="sort" i]:focus-visible {
 }
 
 /* Explore landing: title to category row */
-#app.wrap > .page.ordosyn-explore-sections
+#app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2 {
   margin-bottom: 22px !important;
 }
-#app.wrap > .page.ordosyn-explore-sections
+#app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2 + .chips {
   margin-top: 0 !important;
 }
@@ -1052,7 +1052,7 @@ select[name*="sort" i]:focus-visible {
   margin-top: 0 !important;
 }
 
-/* ORDOSYN_STATIC_TITLE_GAP_22_V1_END */
+/* CATALOG_STATIC_TITLE_GAP_22_V1_END */
 
 /* ORDOWORLD_FIVE_PAGE_SEARCH_ALIGNMENT_V2
    Desktop layout adjustment based on five screenshots.
@@ -1060,7 +1060,7 @@ select[name*="sort" i]:focus-visible {
 */
 
 /* Hide the obsolete mast only on these directory pages. */
-body:has(#app > .page.ordosyn-explore-sections) #mast,
+body:has(#app > .page.catalog-explore-sections) #mast,
 body:has(#app > .page#cats) #mast,
 body:has(#app > .page:has(#sort)) #mast,
 body:has(#app > .page:has(#sub)) #mast {
@@ -1070,7 +1070,7 @@ body:has(#app > .page:has(#sub)) #mast {
 @media (min-width: 1024px) {
 
   /* Explore: raise its content area by approximately 60px. */
-  #app.wrap > .page.ordosyn-explore-sections {
+  #app.wrap > .page.catalog-explore-sections {
     margin-top: -60px !important;
     padding-top: 24px !important;
     min-height: 0 !important;
@@ -1099,7 +1099,7 @@ body:has(#app > .page:has(#sub)) #mast {
   }
 
   /* Prevent the first Explore section from adding extra space. */
-  #app.wrap > .page.ordosyn-explore-sections
+  #app.wrap > .page.catalog-explore-sections
     > section:first-of-type {
     margin-top: 0 !important;
     padding-top: 0 !important;
@@ -1107,7 +1107,7 @@ body:has(#app > .page:has(#sub)) #mast {
   }
 
   /* One typography rule for the five page headings. */
-  #app.wrap > .page.ordosyn-explore-sections
+  #app.wrap > .page.catalog-explore-sections
     > section:first-of-type > h2,
   #app.wrap > .page#cats > h1,
   #app.wrap > .page:has(#sort) > h1,
@@ -1123,7 +1123,7 @@ body:has(#app > .page:has(#sub)) #mast {
   }
 
   /* Ensure the next row does not add another top margin. */
-  #app.wrap > .page.ordosyn-explore-sections
+  #app.wrap > .page.catalog-explore-sections
     > section:first-of-type > h2 + *,
   #app.wrap > .page#cats > h1 + *,
   #app.wrap > .page:has(#sort) > h1 + *,
@@ -1135,7 +1135,7 @@ body:has(#app > .page:has(#sub)) #mast {
 
 /* ORDOWORLD_FIVE_PAGE_SEARCH_ALIGNMENT_V2_END */
 
-/* ORDOSYN_UNIFIED_BLUE_RING_PAGER_V2
+/* CATALOG_UNIFIED_BLUE_RING_PAGER_V2
    One border + a soft glow, for category and section pagination.
    Disabled page links have no href; disabled section buttons remain native disabled.
 */
@@ -1152,8 +1152,8 @@ body:has(#app > .page:has(#sub)) #mast {
 }
 
 #cats .pg.pg-pill .pg-btn,
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev],
-#app.wrap .ordosyn-section button[data-ordosyn-section-next] {
+#app.wrap .catalog-section button[data-catalog-section-prev],
+#app.wrap .catalog-section button[data-catalog-section-next] {
   position: relative !important;
   box-sizing: border-box !important;
   display: inline-flex !important;
@@ -1189,8 +1189,8 @@ body:has(#app > .page:has(#sub)) #mast {
   opacity: .72 !important;
   pointer-events: auto !important;
 }
-#app.wrap .ordosyn-section button:disabled[data-ordosyn-section-prev],
-#app.wrap .ordosyn-section button:disabled[data-ordosyn-section-next] {
+#app.wrap .catalog-section button:disabled[data-catalog-section-prev],
+#app.wrap .catalog-section button:disabled[data-catalog-section-next] {
   cursor: default !important;
   opacity: .72 !important;
 }
@@ -1203,12 +1203,12 @@ body:has(#app > .page:has(#sub)) #mast {
   line-height: 1 !important;
 }
 /* Section arrows already contain glyphs. Hide the originals, animate ::after. */
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev],
-#app.wrap .ordosyn-section button[data-ordosyn-section-next] {
+#app.wrap .catalog-section button[data-catalog-section-prev],
+#app.wrap .catalog-section button[data-catalog-section-next] {
   font-size: 0 !important;
 }
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev]::after,
-#app.wrap .ordosyn-section button[data-ordosyn-section-next]::after {
+#app.wrap .catalog-section button[data-catalog-section-prev]::after,
+#app.wrap .catalog-section button[data-catalog-section-next]::after {
   display: block;
   font-family: Inter, system-ui, sans-serif;
   font-size: 22px;
@@ -1216,42 +1216,42 @@ body:has(#app > .page:has(#sub)) #mast {
   line-height: 1;
   color: #526987;
 }
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev]::after { content: '鈥?; }
-#app.wrap .ordosyn-section button[data-ordosyn-section-next]::after { content: '鈥?; }
+#app.wrap .catalog-section button[data-catalog-section-prev]::after { content: '\2039'; }
+#app.wrap .catalog-section button[data-catalog-section-next]::after { content: '\203a'; }
 
 /* A single animated blue-to-violet border, plus a soft non-solid blue halo. */
 #cats .pg.pg-pill .pg-btn:hover,
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev]:hover,
-#app.wrap .ordosyn-section button[data-ordosyn-section-next]:hover {
+#app.wrap .catalog-section button[data-catalog-section-prev]:hover,
+#app.wrap .catalog-section button[data-catalog-section-next]:hover {
   border: 2px solid transparent !important;
   background:
     linear-gradient(#fff, #fff) padding-box,
     linear-gradient(120deg, #619af4, #9dbbff, #8b85ee, #619af4) border-box !important;
   background-size: 100% 100%, 260% 260% !important;
   box-shadow: 0 0 0 5px rgba(98, 158, 249, .13) !important;
-  animation: ordosyn-blue-ring-flow 2.5s ease-in-out infinite alternate;
+  animation: catalog-blue-ring-flow 2.5s ease-in-out infinite alternate;
   color: #415e86 !important;
   opacity: 1 !important;
 }
 
 #cats .pg.pg-pill .pg-prev .pg-arrow,
-#app.wrap .ordosyn-section button[data-ordosyn-section-prev]::after {
-  animation: ordosyn-blue-nudge-left 1.7s ease-in-out infinite;
+#app.wrap .catalog-section button[data-catalog-section-prev]::after {
+  animation: catalog-blue-nudge-left 1.7s ease-in-out infinite;
 }
 #cats .pg.pg-pill .pg-next .pg-arrow,
-#app.wrap .ordosyn-section button[data-ordosyn-section-next]::after {
-  animation: ordosyn-blue-nudge-right 1.7s ease-in-out infinite;
+#app.wrap .catalog-section button[data-catalog-section-next]::after {
+  animation: catalog-blue-nudge-right 1.7s ease-in-out infinite;
 }
 
-@keyframes ordosyn-blue-ring-flow {
+@keyframes catalog-blue-ring-flow {
   from { background-position: center, 0% 50%; }
   to { background-position: center, 100% 50%; }
 }
-@keyframes ordosyn-blue-nudge-left {
+@keyframes catalog-blue-nudge-left {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(-2px); }
 }
-@keyframes ordosyn-blue-nudge-right {
+@keyframes catalog-blue-nudge-right {
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(2px); }
 }
@@ -1259,15 +1259,15 @@ body:has(#app > .page:has(#sub)) #mast {
 @media (prefers-reduced-motion: reduce) {
   #cats .pg.pg-pill .pg-btn,
   #cats .pg.pg-pill .pg-arrow,
-  #app.wrap .ordosyn-section button[data-ordosyn-section-prev],
-  #app.wrap .ordosyn-section button[data-ordosyn-section-next],
-  #app.wrap .ordosyn-section button[data-ordosyn-section-prev]::after,
-  #app.wrap .ordosyn-section button[data-ordosyn-section-next]::after {
+  #app.wrap .catalog-section button[data-catalog-section-prev],
+  #app.wrap .catalog-section button[data-catalog-section-next],
+  #app.wrap .catalog-section button[data-catalog-section-prev]::after,
+  #app.wrap .catalog-section button[data-catalog-section-next]::after {
     animation: none !important;
     transition: none !important;
   }
 }
-/* ORDOSYN_UNIFIED_BLUE_RING_PAGER_V2_END */
+/* CATALOG_UNIFIED_BLUE_RING_PAGER_V2_END */
 
 /* ORDOWORLD_SNS_NUMBER_PAGER_V2 */
 .sns-number-pager{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:28px auto 0}
@@ -1387,7 +1387,7 @@ body:has(#app > .page:has(#sub)) #mast {
 }
 
 /* ORDOWORLD_HOME_SECTION_SNS_NUMBER_PAGER_V1 */
-.ordosyn-section .ordosyn-section-number-pager {
+.catalog-section .catalog-section-number-pager {
  width: auto !important;
  max-width: 100% !important;
  min-height: 34px !important;
@@ -1396,7 +1396,7 @@ body:has(#app > .page:has(#sub)) #mast {
  justify-content: flex-end !important;
  gap: 8px !important;
 }
-.ordosyn-section .ordosyn-section-number-pager button:disabled {
+.catalog-section .catalog-section-number-pager button:disabled {
  opacity: .3;
  cursor: default;
  pointer-events: none;
@@ -1405,9 +1405,9 @@ body:has(#app > .page:has(#sub)) #mast {
 /* ORDOWORLD_HOME_PAGER_INLINE_LAYOUT_V14
    Layout is set on the generated controls so unrelated global rules cannot
    stretch the page input or stack the arrows. */
-.ordosyn-section .ordosyn-page-input::-webkit-inner-spin-button,
-.ordosyn-section .ordosyn-page-input::-webkit-outer-spin-button {
+.catalog-section .catalog-page-input::-webkit-inner-spin-button,
+.catalog-section .catalog-page-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.ordosyn-section .ordosyn-page-arrow:disabled { opacity: .35 !important; cursor: default !important; }
+.catalog-section .catalog-page-arrow:disabled { opacity: .35 !important; cursor: default !important; }

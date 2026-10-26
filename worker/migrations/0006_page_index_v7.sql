@@ -1,4 +1,4 @@
--- ORDOSYN V7.0: additive page-level index.
+-- CATALOG V7.0: additive page-level index.
 -- Keep all existing V3-V6 objects unchanged.
 
 CREATE TABLE IF NOT EXISTS search_pages_v7 (

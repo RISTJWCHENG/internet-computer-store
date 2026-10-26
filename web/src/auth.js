@@ -1,4 +1,4 @@
-// Internet Identity authentication for Ordosyn.
+// Internet Identity authentication for Catalog.
 // A Principal is obtained from an Identity, NOT directly from AuthClient.
 import { AuthClient } from '@icp-sdk/auth/client'
 import { initFavorites } from './favorites.js'
@@ -12,7 +12,7 @@ let principal = ''
 let busy = false
 let lastError = ''
 
-const notify = () => window.dispatchEvent(new Event('ordovician:auth-changed'))
+const notify = () => window.dispatchEvent(new Event('catalog:auth-changed'))
 
 const appsIcon = `<svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="1.65"/><circle cx="12" cy="5" r="1.65"/><circle cx="19" cy="5" r="1.65"/><circle cx="5" cy="12" r="1.65"/><circle cx="12" cy="12" r="1.65"/><circle cx="19" cy="12" r="1.65"/><circle cx="5" cy="19" r="1.65"/><circle cx="12" cy="19" r="1.65"/><circle cx="19" cy="19" r="1.65"/></svg>`
 const userIcon = `<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19c.5-3.3 3-5 6.5-5s6 1.7 6.5 5"/></svg>`
@@ -20,15 +20,15 @@ const userIcon = `<svg viewBox="0 0 24 24" width="19" height="19" fill="none" st
 function render() {
   const el = root()
   if (!el) return
-  const apps = `<a class="ow-top-icon ow-apps-btn" href="#/explore" aria-label="Explore applications" title="Explore applications">${appsIcon}</a>`
+  const apps = `<a class="account-top-icon account-apps-btn" href="#/explore" aria-label="Explore applications" title="Explore applications">${appsIcon}</a>`
   if (principal) {
     const name = getProfileName(principal)
-    const displayName = name || 'Ordosyn User'
+    const displayName = name || 'Member'
     const menuUserIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19c.5-3.3 3-5 6.5-5s6 1.7 6.5 5"/></svg>`
     const menuLogoutIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`
-    el.innerHTML = `<div class="ow-topbar-actions">${apps}<div class="ow-account-slot"><button type="button" class="ow-top-icon ow-avatar-btn" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu" title="My Profile">${userIcon}</button><div class="ow-account-menu ordosyn-profile-clean" hidden><div class="ordosyn-profile-heading"><span class="ordosyn-profile-avatar">${menuUserIcon}</span><span class="ordosyn-profile-identity"><strong title="${safeLabel(displayName)}">${safeLabel(displayName)}</strong><small>Internet Identity</small></span><span class="ordosyn-profile-check" title="Signed in" aria-label="Signed in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16.5 9"/></svg></span></div><div class="ordosyn-profile-actions"><a class="ow-menu-item" href="#/profile">${menuUserIcon}<span>My Profile</span></a><button type="button" class="ow-menu-item ow-menu-logout" data-act="out">${menuLogoutIcon}<span>Log out</span></button></div></div></div></div>`
+    el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu" title="My Profile">${userIcon}</button><div class="account-account-menu catalog-profile-clean" hidden><div class="catalog-profile-heading"><span class="catalog-profile-avatar">${menuUserIcon}</span><span class="catalog-profile-identity"><strong title="${safeLabel(displayName)}">${safeLabel(displayName)}</strong><small>Internet Identity</small></span><span class="catalog-profile-check" title="Signed in" aria-label="Signed in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16.5 9"/></svg></span></div><div class="catalog-profile-actions"><a class="account-menu-item" href="#/profile">${menuUserIcon}<span>My Profile</span></a><button type="button" class="account-menu-item account-menu-logout" data-act="out">${menuLogoutIcon}<span>Log out</span></button></div></div></div></div>`
   } else {
-    el.innerHTML = `<div class="ow-topbar-actions">${apps}<div class="ow-account-slot"><button type="button" class="ow-top-icon ow-avatar-btn" data-act="in" aria-label="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" title="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" ${busy ? 'disabled' : ''}>${userIcon}</button></div></div>${lastError ? `<span class="ow-auth-error" role="alert">${safeLabel(lastError)}</span>` : ''}`
+    el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="in" aria-label="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" title="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" ${busy ? 'disabled' : ''}>${userIcon}</button></div></div>${lastError ? `<span class="account-auth-error" role="alert">${safeLabel(lastError)}</span>` : ''}`
   }
 }
 async function refreshIdentity() {
@@ -60,11 +60,11 @@ export async function initAuth() {
     render()
     return
   }
-  window.addEventListener('ordovician:profile-updated', render)
+  window.addEventListener('catalog:profile-updated', render)
   root()?.addEventListener('click', async event => {
     const action = event.target.closest('[data-act]')?.dataset.act
     if (action === 'menu') {
-      const menu = root()?.querySelector('.ow-account-menu')
+      const menu = root()?.querySelector('.account-account-menu')
       if (!menu) return
       const isOpening = menu.hidden
       menu.hidden = !isOpening
@@ -102,7 +102,7 @@ export async function initAuth() {
 
 // Close the profile dropdown when clicking outside, navigating, or pressing Escape.
 function closeAccountMenu() {
-  const menu = root()?.querySelector('.ow-account-menu')
+  const menu = root()?.querySelector('.account-account-menu')
   if (menu) menu.hidden = true
   root()?.querySelector('[data-act="menu"]')?.setAttribute('aria-expanded', 'false')
 }
@@ -115,4 +115,4 @@ document.addEventListener('keydown', event => {
 window.addEventListener('hashchange', closeAccountMenu)
 export const currentPrincipal = () => principal
 
-window.ordosynCurrentPrincipal = () => principal
+window.catalogCurrentPrincipal = () => principal

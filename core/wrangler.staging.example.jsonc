@@ -1,0 +1,35 @@
+{
+  "name": "catalog-core-staging",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "catalog-core-staging-db",
+      "database_id": "REPLACE_WITH_NEW_STAGING_DATABASE_ID"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "FILES",
+      "bucket_name": "catalog-core-staging-files"
+    }
+  ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "INGEST_QUEUE",
+        "queue": "catalog-core-staging-ingest"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "catalog-core-staging-ingest",
+        "max_batch_size": 5,
+        "max_retries": 3,
+        "dead_letter_queue": "catalog-core-staging-deadletter"
+      }
+    ]
+  }
+}

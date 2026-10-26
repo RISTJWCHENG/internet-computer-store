@@ -1,4 +1,4 @@
-# ORDOVIWORLD Search V3
+# CATALOG Search V3
 
 Architecture: GitHub Pages -> Cloudflare Worker `/api/search` -> D1 `search_fts_v3`.
 Source of truth: R2 `imports/v3/*.json` -> R2 event (object-create) -> Cloudflare Queue -> Worker `queue` handler -> D1.

@@ -20,7 +20,7 @@ export default {
     try {
       if(url.pathname==='/api/health') {
         const result=await env.DB.prepare('SELECT 1 AS ok').first();
-        return json({ok:result?.ok===1,service:'ordoviworld-api',storage:'D1 + R2',version:1});
+        return json({ok:result?.ok===1,service:'catalog-api',storage:'D1 + R2',version:1});
       }
       if(url.pathname==='/api/search') return handleSearch(request,env);
       if(url.pathname==='/api/projects') {

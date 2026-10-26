@@ -25,7 +25,7 @@ for(const r of payload.records){
   if(reasons.length){blocked.push({id:r.id,name:r.name,reasons});continue}
   allowed.push(r);
 }
-const sql=['-- ORDOVIWORLD V2: strict official SNS automated indexing.','-- No deletes. Manually rejected/archived index rows are not overwritten.'];
+const sql=['-- CATALOG V2: strict official SNS automated indexing.','-- No deletes. Manually rejected/archived index rows are not overwritten.'];
 for(const r of allowed){
   const cols=['id','slug','name','description','website_url','github_url','category','tags_json','status','source'];
   const vals=[r.id,r.slug||r.id,String(r.name).slice(0,250),String(r.description||'').slice(0,4000),web(r.websiteUrl),web(r.githubUrl),String(r.categories?.[0]||'DAO').slice(0,80),JSON.stringify(Array.isArray(r.tags)?r.tags.slice(0,40):[]),'published','sns-auto-v2'];

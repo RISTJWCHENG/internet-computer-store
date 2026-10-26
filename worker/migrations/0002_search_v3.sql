@@ -1,4 +1,4 @@
--- ORDOVIWORLD V3. Additive only. Does not alter or delete existing profiles/projects/project_index.
+-- CATALOG V3. Additive only. Does not alter or delete existing profiles/projects/project_index.
 CREATE TABLE IF NOT EXISTS search_entities_v3 (
  id TEXT PRIMARY KEY, entity_type TEXT NOT NULL DEFAULT 'project',
  canonical_name TEXT NOT NULL, description TEXT NOT NULL DEFAULT '',

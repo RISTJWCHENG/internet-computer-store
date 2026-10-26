@@ -41,7 +41,7 @@ async function fetchPage(url){
  for(let n=0;n<4;n++){
   await checkHost(current);
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),9000);
-  let res;try{res=await fetch(current,{redirect:'manual',signal:controller.signal,headers:{'User-Agent':'OrdosynDiscoveryBot/1.0 (public metadata; respectful crawler)','Accept':'text/html'}})}finally{clearTimeout(timer)}
+  let res;try{res=await fetch(current,{redirect:'manual',signal:controller.signal,headers:{'User-Agent':'CatalogDiscoveryBot/1.0 (public metadata; respectful crawler)','Accept':'text/html'}})}finally{clearTimeout(timer)}
   if([301,302,303,307,308].includes(res.status)){
    const next=publicHttps(new URL(res.headers.get('location')||'',current).href);if(!next)throw new Error('Unsafe redirect');current=next;continue;
   }

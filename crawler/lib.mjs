@@ -44,7 +44,7 @@ export function mergeCandidates(list) {
 
 export async function fetchJson(url, opts = {}) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    const res = await fetch(url, { ...opts, headers: { 'User-Agent': 'OrdovicianSearchBot/0.1', Accept: 'application/json', ...(opts.headers || {}) }, signal: AbortSignal.timeout(20000) })
+    const res = await fetch(url, { ...opts, headers: { 'User-Agent': 'CatalogSearchBot/0.1', Accept: 'application/json', ...(opts.headers || {}) }, signal: AbortSignal.timeout(20000) })
     if (res.ok) return res.json()
     if (res.status === 403 || res.status === 429) throw new Error(`${url} -> ${res.status} (rate limited; set a token or retry later)`)
     if (attempt) throw new Error(`${url} -> ${res.status}`)
@@ -54,7 +54,7 @@ export async function fetchJson(url, opts = {}) {
 /** One polite GET to a project's own homepage; headers only, body is discarded. */
 export async function checkSite(url) {
   try {
-    const res = await fetch(url, { redirect: 'follow', headers: { 'User-Agent': 'OrdovicianSearchBot/0.1' }, signal: AbortSignal.timeout(8000) })
+    const res = await fetch(url, { redirect: 'follow', headers: { 'User-Agent': 'CatalogSearchBot/0.1' }, signal: AbortSignal.timeout(8000) })
     res.body?.cancel?.()
     return res.status < 400 ? 'up' : 'down'
   } catch { return 'down' }

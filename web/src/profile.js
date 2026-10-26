@@ -1,3 +1,4 @@
+import { compatibility } from '../../config/compatibility.js'
 // Local prototype only. Production profiles require authenticated canister storage.
 import { currentPrincipal } from './auth.js'
 
@@ -6,11 +7,11 @@ const avatars = ['🪐','🦕','🌌','🚀','🧑‍🚀','🌿','🎮','💎']
 const defaults = { name:'', bio:'', role:'Explorer', website:'', github:'', avatar:'🪐', interests:[] }
 const roles = ['Explorer','Developer','Creator','Community Builder']
 const topics = ['DeFi','Games','AI','Infrastructure','SNS','NFTs','Developer Tools','Community']
-const storageKey = principal => `ordovician:profile:v1:${principal}`
+const storageKey = principal => `catalog:profile:v1:${principal}`
 
 function load(principal) {
   try {
-    const data = JSON.parse(localStorage.getItem(storageKey(principal)) || '{}')
+    const data = JSON.parse(localStorage.getItem(storageKey(principal)) ?? localStorage.getItem(compatibility.profileStoragePrefix + principal) ?? '{}')
     if (!data || typeof data !== 'object' || Array.isArray(data)) return { ...defaults }
     return { ...defaults, ...data, interests: Array.isArray(data.interests) ? data.interests.filter(x => topics.includes(x)) : [] }
   } catch { return { ...defaults } }
@@ -18,21 +19,21 @@ function load(principal) {
 
 export function renderProfile() {
   const principal = currentPrincipal()
-  if (!principal) return `<div class="page profile-page"><div class="profile-intro"><span class="profile-eyebrow">YOUR IDENTITY ON ICP</span><h1>Make your mark in the ecosystem.</h1><p class="mute">Sign in with Internet Identity to create and personalize your Ordosyn profile.</p><p class="note" style="margin-top:24px">Use the Login button in the top-right corner to get started.</p></div></div>`
+  if (!principal) return `<div class="page profile-page"><div class="profile-intro"><span class="profile-eyebrow">YOUR IDENTITY ON ICP</span><h1>Make your mark in the ecosystem.</h1><p class="mute">Sign in with Internet Identity to create and personalize your profile.</p><p class="note" style="margin-top:24px">Use the Login button in the top-right corner to get started.</p></div></div>`
   const data = load(principal)
   const avatar = avatars.includes(data.avatar) ? data.avatar : avatars[0]
   const role = roles.includes(data.role) ? data.role : roles[0]
   return `<div class="page profile-page">
-    <div class="profile-heading"><div><span class="profile-eyebrow">ORDOVICIAN IDENTITY</span><h1>My Profile</h1><p class="mute">A little about you and what you're building on ICP.</p></div><span class="profile-status">● Connected with Internet Identity</span></div>
+    <div class="profile-heading"><div><span class="profile-eyebrow">CATALOG IDENTITY</span><h1>My Profile</h1><p class="mute">A little about you and what you're building on ICP.</p></div><span class="profile-status">● Connected with Internet Identity</span></div>
     <div class="profile-layout">
       <aside class="profile-preview glass">
         <div class="profile-banner"></div><div class="profile-avatar" id="profile-avatar-preview">${avatar}</div>
-        <div class="profile-preview-body"><h2 id="profile-name-preview">${escapeHTML(data.name.trim() || 'Ordosyn User')}</h2><span class="profile-role" id="profile-role-preview">${escapeHTML(role)}</span><p id="profile-bio-preview" class="mute">${escapeHTML(data.bio.trim() || 'Your story starts here.')}</p><div class="profile-pid-heading">INTERNET IDENTITY PRINCIPAL</div><div class="profile-principal">${escapeHTML(principal)}</div><button class="btn" type="button" id="copy-principal">Copy Principal</button></div>
+        <div class="profile-preview-body"><h2 id="profile-name-preview">${escapeHTML(data.name.trim() || 'Member')}</h2><span class="profile-role" id="profile-role-preview">${escapeHTML(role)}</span><p id="profile-bio-preview" class="mute">${escapeHTML(data.bio.trim() || 'Your story starts here.')}</p><div class="profile-pid-heading">INTERNET IDENTITY PRINCIPAL</div><div class="profile-principal">${escapeHTML(principal)}</div><button class="btn" type="button" id="copy-principal">Copy Principal</button></div>
       </aside>
-      <div class="profile-editor"><h2>Personal information</h2><p class="mute" style="margin-bottom:24px">Choose how you appear to the Ordovician community.</p>
+      <div class="profile-editor"><h2>Personal information</h2><p class="mute" style="margin-bottom:24px">Choose how you appear to the community.</p>
       <form id="profile-form" class="f" novalidate>
         <div><label>Choose an avatar</label><div class="profile-avatars" role="group" aria-label="Choose avatar">${avatars.map(a=>`<button type="button" class="profile-avatar-option ${a===avatar?'selected':''}" aria-pressed="${a===avatar}" data-avatar="${a}">${a}</button>`).join('')}</div><input type="hidden" name="avatar" value="${avatar}"></div>
-        <div><label for="profile-name">Display name <span class="mute">(optional)</span></label><input id="profile-name" name="name" maxlength="40" placeholder="Ordosyn User" value="${escapeHTML(data.name)}"></div>
+        <div><label for="profile-name">Display name <span class="mute">(optional)</span></label><input id="profile-name" name="name" maxlength="40" placeholder="Member" value="${escapeHTML(data.name)}"></div>
         <div><label for="profile-role">I am a...</label><select id="profile-role" name="role">${roles.map(r=>`<option value="${r}" ${r===role?'selected':''}>${r}</option>`).join('')}</select></div>
         <div><label for="profile-bio">Bio</label><textarea id="profile-bio" name="bio" rows="4" maxlength="280" placeholder="Tell the community what you love building or exploring...">${escapeHTML(data.bio)}</textarea><p class="profile-hint">Up to 280 characters</p></div>
         <div><label for="profile-website">Website <span class="mute">(optional)</span></label><input id="profile-website" name="website" type="url" maxlength="200" placeholder="https://yourwebsite.com" value="${escapeHTML(data.website)}"></div>
@@ -68,7 +69,7 @@ export function initProfile() {
   app.addEventListener('input', e => {
     if (!e.target.closest('#profile-form')) return
     const form = document.getElementById('profile-form')
-    document.getElementById('profile-name-preview').textContent = form.elements.name.value.trim() || 'Ordosyn User'
+    document.getElementById('profile-name-preview').textContent = form.elements.name.value.trim() || 'Member'
     document.getElementById('profile-bio-preview').textContent = form.elements.bio.value.trim() || 'Your story starts here.'
     document.getElementById('profile-role-preview').textContent = form.elements.role.value
   })
@@ -79,7 +80,7 @@ export function initProfile() {
     if (e.target.id !== 'profile-form') return
     e.preventDefault()
     const principal = currentPrincipal()
-    if (!principal) { window.dispatchEvent(new Event('ordovician:auth-changed')); return }
+    if (!principal) { window.dispatchEvent(new Event('catalog:auth-changed')); return }
     const data = new FormData(e.target)
     const profile = {
       name: String(data.get('name') || '').trim(), role: String(data.get('role') || ''),
@@ -91,7 +92,7 @@ export function initProfile() {
     if (profile.name.length > 40) { feedback.textContent = 'Please enter a display name (1–40 characters).'; return }
     if (profile.bio.length > 280 || !roles.includes(profile.role) || !avatars.includes(profile.avatar)) { feedback.textContent = 'Please check your profile fields.'; return }
     if (!validOptionalURL(profile.website) || !validOptionalURL(profile.github)) { feedback.textContent = 'Links must be valid https:// URLs.'; return }
-    try { localStorage.setItem(storageKey(principal), JSON.stringify(profile)); feedback.textContent = '✓ Saved in this browser'; window.dispatchEvent(new Event('ordovician:profile-updated')) }
+    try { localStorage.setItem(storageKey(principal), JSON.stringify(profile)); feedback.textContent = '✓ Saved in this browser'; window.dispatchEvent(new Event('catalog:profile-updated')) }
     catch { feedback.textContent = 'Could not save. Check browser storage settings.' }
   })
 }
