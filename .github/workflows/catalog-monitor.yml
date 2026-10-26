@@ -94,13 +94,13 @@ jobs:
       - name: Discover, crawl and classify real projects
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          GPT_API_KEY_CATALOGSEARCH: ${{ secrets.GPT_API_KEY_ORDOSYNSEARCH }}
+          GPT_API_KEY_CATALOGSEARCH: ${{ secrets.CATALOG_AI_API_KEY || secrets.GPT_API_KEY_ORDOSYNSEARCH }}
         run: |
           test -n "$GPT_API_KEY_CATALOGSEARCH"
           node core/cloud-v1/native-stage1.mjs --sources github --max 3 --scan 40 --out "$RUNNER_TEMP/catalog-classified.json"
       - name: Persist verified artifacts to isolated Staging D1/R2
         env:
-          CATALOG_NATIVE_INGEST_TOKEN: ${{ secrets.ORDOSYN_NATIVE_INGEST_TOKEN }}
+          CATALOG_NATIVE_INGEST_TOKEN: ${{ secrets.CATALOG_NATIVE_INGEST_TOKEN || secrets.ORDOSYN_NATIVE_INGEST_TOKEN }}
         run: |
           test -n "$CATALOG_NATIVE_INGEST_TOKEN"
           node core/cloud-v1/native-submit-cli.mjs --in "$RUNNER_TEMP/catalog-classified.json"

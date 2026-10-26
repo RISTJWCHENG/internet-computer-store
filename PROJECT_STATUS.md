@@ -155,3 +155,13 @@ until the new resources and frontend cutover are verified.
 Local verification: 211 Node tests passed, Vite production build passed,
 `git diff --check` passed, and the fresh schema was executed twice in SQLite
 with a successful FTS query. The new schema has not been applied to D1.
+
+
+## GitHub secret names
+
+The user requested neutral GitHub secret names. The staging workflow now
+prefers `CATALOG_AI_API_KEY` and `CATALOG_NATIVE_INGEST_TOKEN`, while retaining
+fallbacks to the existing secrets until the user sets and verifies replacements.
+`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` already use neutral names.
+The screenshot shows names, not secret values or permission scopes. This
+session did not create, rename, reveal, or delete any GitHub secret.

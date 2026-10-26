@@ -121,3 +121,13 @@ Verification: `TMPDIR=/workspace/scratch/bb57084deab3 npm test` reported
 211 passed, 0 failed; `npm run build` and `git diff --check` exited 0.
 SQLite locally accepted the supplied schema twice and returned the expected
 FTS match. Cloudflare deployment and the real crawler remain unverified.
+
+
+## 2026-10-27 — prepare neutral GitHub secret names
+
+The user supplied a GitHub Actions secrets screenshot and requested neutral
+names. Updated the existing staging workflow to prefer `CATALOG_AI_API_KEY`
+and `CATALOG_NATIVE_INGEST_TOKEN`, retaining fallback references to the existing
+secrets until their values can be configured and validated by the user. No
+secret values were read or modified. The fresh production workflow continues to
+use `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`.
