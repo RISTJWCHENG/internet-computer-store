@@ -12,3 +12,5 @@
 
 - [x] Deploy a separate owner-private review site and provide its live URL.
 - [ ] User acceptance review of the deployed rename before merging PR #1.
+
+- [x] Repair preview-origin dApp loading and verify live published records.

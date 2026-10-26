@@ -70,3 +70,22 @@ the verified production build, and the existing API configuration. The original
 site and GitHub main are unchanged. The managed preview daemon was unavailable;
 no browser visual QA was performed. The hosting service confirmed succeeded
 with the URL above.
+
+
+## dApp loading repair
+
+The original API allows browser CORS only from the GitHub Pages origin. The
+review frontend now uses an opt-in same-origin API, with a fixed GET/HEAD-only
+upstream proxy. Catalog loading has timeout and error states and renders each
+page progressively instead of showing a failed request as an empty section.
+The Cloudflare runtime requires redirect:manual; redirects are explicitly
+rejected. An initial proxy deployment using redirect:error failed at runtime;
+production logs identified it and the corrected deployment succeeded.
+
+Current review source: 8b9b0534324bb1f921bdb99bcf114ed3f15d520c.
+Deployment: appgdep_6adf85bc4d148191b6cb66cd5dc1ecc7.
+Live authenticated checks: /api-config.json returns sameOriginApi:true (200),
+and /api/search?page=1&limit=2 returns 200, count:32, with real records including
+Yuku AI and Waifu.ai. The test suite now passes 203 tests; the Vite build passes.
+No fake or static substitute listings were inserted. Visual browser QA remains
+unverified because the managed preview daemon is unavailable.

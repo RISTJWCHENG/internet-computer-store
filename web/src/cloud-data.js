@@ -1,10 +1,10 @@
-export async function loadPublishedProjects() {
-  const base = import.meta.env.BASE_URL;
+import { resolveApiBase } from './api-config.js';
+export async function loadPublishedProjects({ base = import.meta.env?.BASE_URL || '/', fetcher = fetch, onProgress = () => {} } = {}) {
 
   try {
-    const configResponse = await fetch(
+    const configResponse = await fetcher(
       base + "api-config.json",
-      { cache: "no-store" }
+      { cache: "no-store", signal: AbortSignal.timeout(20000) }
     );
 
     if (!configResponse.ok) {
@@ -12,11 +12,7 @@ export async function loadPublishedProjects() {
     }
 
     const config = await configResponse.json();
-    const api = String(config.apiBaseUrl || "").replace(/\/$/, "");
-
-    if (!/^https:\/\/[a-z0-9.-]+\.workers\.dev$/i.test(api)) {
-      throw new Error("Invalid Worker API URL");
-    }
+    const api = resolveApiBase(config);
 
     const records = [];
     const seen = new Set();
@@ -29,7 +25,7 @@ export async function loadPublishedProjects() {
       url.searchParams.set("page", String(page));
       url.searchParams.set("limit", String(limit));
 
-      const response = await fetch(url, { cache: "no-store" });
+      const response = await fetcher(url, { cache: "no-store", signal: AbortSignal.timeout(20000) });
 
       if (!response.ok) {
         throw new Error("Search API HTTP " + response.status);
@@ -54,6 +50,8 @@ export async function loadPublishedProjects() {
         seen.add(record.id);
         records.push(record);
       }
+
+      onProgress({ records: [...records], count: expectedCount });
 
       if (records.length >= expectedCount) {
         return { records, count: expectedCount };

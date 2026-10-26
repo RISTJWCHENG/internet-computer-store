@@ -87,3 +87,17 @@ requires repository administration permission and has not been performed.
 
 Run `npm ci`, `npm test`, and `npm run build` before publishing. See
 `PROJECT_STATUS.md` for the exact verification and remote-save status.
+
+
+## Private review hosting
+
+For a Sites review origin, `hosting/build-review.mjs` packages the Vite frontend
+into a Worker with an opt-in same-origin API config. Run `npm run build` and then
+`node hosting/build-review.mjs` inside the selected Site checkout containing its
+`.openai/hosting.json` with no `static` field. The Worker serves built assets and
+forwards only GET/HEAD search and health requests to the fixed existing backend;
+it does not forward user cookies or authorization headers. The upstream API's
+GitHub Pages CORS restriction therefore does not block the review frontend.
+
+The regular GitHub Pages configuration keeps its direct API URL. Do not change
+it to same-origin unless the host supplies the corresponding API proxy.

@@ -7,6 +7,12 @@ import { renderProfile, initProfile } from './profile.js'
 const CATS=['Games','DeFi','AI','Social','NFT','DAO','Developer Tools','Infrastructure','Websites','Other'],GENRES=['Casual','Strategy','Puzzle','Multiplayer','Adventure','Other'];
 // Published records only. Never initialize the live UI with fictitious projects.
 let P=[];
+let catalogState='loading';
+const emptyCatalogMessage=()=>catalogState==='loading'
+ ? '<p class="mute" role="status">Loading dApps...</p>'
+ : catalogState==='error'
+ ? '<p class="mute" role="alert">The dApp catalog could not be loaded. Please refresh to try again.</p>'
+ : '<p class="mute">No projects in this section yet.</p>';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const IDN={discovered:'Automatically discovered',claimed:'Developer claimed',verified:'Verified identity'};
 const safe=u=>{try{return new URL(u).protocol==='https:'}catch(e){return false}};
@@ -64,7 +70,7 @@ const catalogPagedSection=(key,title)=>{
  <h2 style="margin:0">${title}</h2>
  ${pages>1?`<div data-catalog-section-controls="${key}">${catalogSectionPager(key,page,pages)}</div>`:""}
  </div>
- <div data-catalog-section-grid="${key}">${items.length?grid(items.slice(page*4,page*4+4)):'<p class="mute">No projects in this section yet.</p>'}</div>
+ <div data-catalog-section-grid="${key}">${items.length?grid(items.slice(page*4,page*4+4)):emptyCatalogMessage()}</div>
  </section>`;
 };
 // ORDOWORLD_SNS_NUMBER_PAGER_V2
@@ -261,5 +267,12 @@ async function remoteSearch(q, startedHash) {
 }
 // Real data: only records you approved (web/public/projects.json). Falls back to labeled demo data when none exist.
 const fromRecord=r=>({name:String(r.name||'').slice(0,80),desc:String(r.description||''),cats:r.categories&&r.categories.length?r.categories.filter(c=>CATS.includes(c)):['Other'],tags:(r.tags||[]).slice(0,5).map(String),slug:String(r.slug||'').replace(/[^a-z0-9-]/g,''),url:safe(r.websiteUrl)?r.websiteUrl:'',play:'',gh:safe(r.githubUrl)?r.githubUrl:'',genre:'',idn:['claimed','verified'].includes(r.identity)?r.identity:'discovered',ver:r.lastVerifiedAt||'',websiteStatus:r.websiteStatus||'unchecked',logoUrl:safe(r.logoUrl)?r.logoUrl:(()=>{try{const u=new URL(r.websiteUrl);return u.protocol==='https:' && u.hostname.toLowerCase().endsWith('.caffeine.xyz') && u.hostname.toLowerCase()!=='caffeine.xyz'?u.origin+'/favicon.ico':''}catch{return ''}})(),upd:String(r.updatedAt||'').slice(0,10),demo:false,cans:(r.canisters||[]).map(c=>({id:String(c.canisterId),role:String(c.role)})),srcs:(r.sources||[]).map(x=>({t:String(x.sourceType),u:x.sourceUrl,at:String(x.collectedAt)}))});
-loadPublishedProjects().then(data => data).then(j=>{const l=((j&&j.records)||[]).filter(r=>r.status==='published'&&r.slug).map(fromRecord);if(l.length)P=l}).catch(()=>{}).finally(route);
+const applyCatalog = data => {
+ const records=(data?.records || []).filter(r=>r.status==='published' && r.slug).map(fromRecord);
+ if(records.length)P=records;
+};
+route();
+loadPublishedProjects({onProgress: data => {applyCatalog(data);route();}})
+ .then(data=>{applyCatalog(data);catalogState=data.loadError?'error':'ready';})
+ .catch(()=>{catalogState='error';}).finally(route);
 addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){const i=document.querySelector('.sbar input');if(i){e.preventDefault();i.focus()}}});

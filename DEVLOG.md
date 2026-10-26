@@ -46,3 +46,22 @@ https://internet-computer-store-review.famouslime257.chatgpt.site and deployment
 appgdep_6adf830ca0a88191a24b4ddf38339b44. No GitHub merge or original-site
 replacement occurred. Browser preview infrastructure was unavailable
 (sites-previewd mailbox missing); visual QA remains unverified.
+
+
+## 2026-10-26 — restore dApp data on the review origin
+
+Confirmed original API CORS is limited to the GitHub Pages origin. Added an
+opt-in same-origin API resolver and a fixed read-only proxy for /api/search and
+/api/health; browser credentials are not sent upstream. Added timeouts, progressive
+catalog updates and explicit load-error messages. Added regression tests for
+pagination, credential isolation, same-origin config and redirect handling.
+
+Ran npm test with a writable TMPDIR: 203 passed, 0 failed, exit 0. npm run build
+passed. Packaging from the GitHub checkout initially failed because that checkout
+has no Sites manifest; packaging in the selected Site checkout succeeded. One
+helper packaging run failed on missing /tmp; rerunning with TMPDIR succeeded.
+An initial proxy used redirect:error, unsupported by Cloudflare; logs identified
+the exact TypeError. Replaced it with redirect:manual and explicit 3xx rejection,
+then republished successfully as appgdep_6adf85bc4d148191b6cb66cd5dc1ecc7.
+Live authenticated API verification returned HTTP 200, total count 32, and real
+published records. Browser visual verification remains unavailable.
