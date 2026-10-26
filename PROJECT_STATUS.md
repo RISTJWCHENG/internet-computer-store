@@ -188,3 +188,18 @@ overwrite conflicting notification rules. It has no delete operations.
 No old resources, old Workers or data are deleted by this module. The user
 previously chose to run the production crawler manually. Frontend cutover and
 legacy resource cleanup remain dependent on successful new-API and data checks.
+
+
+## Cloudflare provisioning attempt
+
+User authorized preparation of the new catalog and requested eventual cleanup
+of the identified old R2, D1 and Worker resources. GitHub Actions run
+40421589976 ran 214 tests successfully, then failed before any create operation:
+GET of `icpstore-catalog-files-prod` returned Cloudflare HTTP 403, code 10000.
+The existing GitHub `CLOUDFLARE_API_TOKEN` either lacks R2 access or has an
+incorrect account scope. New queue creation, R2 event setup and Worker deployment
+were not reached. No old resources were deleted. The workflow can be retried
+after the user securely updates the GitHub secret with appropriate permissions.
+The old website continues to use its existing API; the new D1 schema was already
+initialized by workflow run 40420692910. The one-time setup job does not start a
+crawl; the user requested manual crawling after setup.

@@ -36,3 +36,6 @@
 - [ ] Verify the one-time Cloudflare provisioning job and the new API health.
 - [ ] Run the requested crawl manually and validate the new catalog before cutover.
 - [ ] After successful cutover, review the exact legacy Cloudflare resources for removal.
+
+- [ ] Resolve Cloudflare API token/account scope: new R2 read failed with HTTP 403 code 10000 in run 40421589976.
+- [ ] Rerun the failed provisioning job after the token is updated securely.

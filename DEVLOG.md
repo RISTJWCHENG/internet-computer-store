@@ -151,3 +151,14 @@ the specific import notification when safe, and deploys the new Worker. It
 does not delete resources or automatically crawl. Mock tests cover provisioning,
 idempotent queue reuse, conflicting notification protection and token-safe
 permission failures. Live results must be recorded after the job runs.
+
+
+## 2026-10-27 — Cloudflare provisioning blocked by authorization
+
+Created and pushed a guarded one-time workflow and safe provisioning module.
+In Actions run 40421589976 the test step succeeded; the first Cloudflare read
+of the new R2 bucket failed with HTTP 403 code 10000. No queue, R2 notification
+or Worker deployment was reached; no old resources were deleted.
+The GitHub token's exact permissions and account scope cannot be read here.
+User must securely configure an account-scoped Cloudflare API token with needed
+R2, D1, Queues and Workers permissions, then the failed job can be rerun.
