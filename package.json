@@ -1,16 +1,22 @@
 {
-  "name": "ordovician-search",
+  "name": "catalog-search",
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "crawl": "node crawler/run.mjs",
     "review": "node crawler/review.mjs",
-    "test": "node --test crawler/lib.test.mjs"
+    "test": "node --test config/*.test.mjs crawler/*.test.mjs core/tests/*.test.mjs core/cloud-v1/*.test.mjs worker/v3/*.test.mjs worker/v5/*.test.mjs"
   },
-  "dependencies": { "@icp-sdk/auth": "^10.0.2" },
-  "devDependencies": { "vite": "^7.0.0" }
+  "dependencies": {
+    "@icp-sdk/auth": "^10.0.2"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
 }

@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {deploymentValue} from './deployment.js';
+import {compatibility} from './compatibility.js';
+import {artifactKey, validateArtifact} from '../core/cloud-v1/cloud-contract.mjs';
+
+test('rebranding can still read an existing persisted artifact', () => {
+ const projectId='sample',contentHash='a'.repeat(64);
+ const stored={schema:'ordosyn.cloud.v1',projectId,contentHash,createdAt:'2026-10-26T00:00:00Z',payload:{}};
+ assert.equal(validateArtifact(stored),stored);
+ assert.equal(artifactKey(projectId,contentHash),`ordosyn/v1/artifacts/${projectId}/${contentHash}.json`);
+});
+test('existing deployment secret remains usable and neutral binding takes priority', () => {
+ assert.equal(deploymentValue({ORDOSYN_NATIVE_INGEST_TOKEN:'existing'},'CATALOG_NATIVE_INGEST_TOKEN'),'existing');
+ assert.equal(deploymentValue({ORDOSYN_NATIVE_INGEST_TOKEN:'existing',CATALOG_NATIVE_INGEST_TOKEN:'new'},'CATALOG_NATIVE_INGEST_TOKEN'),'new');
+});
+test('browser compatibility refers to the actual previously shipped storage keys', () => {
+ assert.equal(compatibility.profileStoragePrefix,'ordovician:profile:v1:');
+ assert.equal(compatibility.favoritesStoragePrefix,'ordoviworld:favorites:v1:');
+});

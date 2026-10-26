@@ -65,7 +65,7 @@ export async function queueHandler(batch,env){
  for(const message of batch.messages){
   try{
    const event=message.body;
-   if(event?.bucket!=='ordoviworld'||!['PutObject','CopyObject','CompleteMultipartUpload'].includes(event?.action)){message.ack();continue}
+   if(event?.bucket!=='catalog'||!['PutObject','CopyObject','CompleteMultipartUpload'].includes(event?.action)){message.ack();continue}
    const key=event.object?.key;
    if(typeof key!=='string'||!key.startsWith(PREFIX)||!key.endsWith('.json')){message.ack();continue}
    const result=await importObject(env,key,event.object.eTag);

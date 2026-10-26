@@ -1,4 +1,4 @@
-# Ordovician Search
+# Internet Computer Store
 
 A search engine and directory for the Internet Computer (ICP) ecosystem.
 Static frontend + a discovery crawler + Internet Identity login.
@@ -61,3 +61,29 @@ Run the crawler on a schedule elsewhere (cron / CI), run `review`, commit `web/p
 After Internet Identity sign-in, click **My Profile** in the header (or visit `#/profile`).
 You can choose an avatar, display name, role, bio, website, GitHub and interests.
 The data is saved to the browser's `localStorage`, keyed by the authenticated Principal. This is **not** an ICP canister and does **not** sync to other devices. No profile is published to other users. For production, add a backend canister that uses its authenticated `caller` rather than accepting an arbitrary Principal from the browser, and configure stable Internet Identity derivation origins.
+
+
+## Display name and neutral code names
+
+Edit `config/site.json` to change the displayed site name. It is shared by the
+HTML shell and the client-side page titles. The package is `catalog-search`,
+the backend directory is `core`, UI assets use `catalog-*`, and image assets use
+`site-*`. GitHub Pages derives its base path from `GITHUB_REPOSITORY`; set
+`PUBLIC_BASE_PATH` to override it for another host.
+
+Historical wire schemas, object paths and browser storage keys are isolated in
+`config/compatibility.js`. Existing profile and favorites data remain readable.
+`config/deployment.js` accepts existing secret bindings while preferring the
+neutral replacements. These external identities are deliberately preserved;
+changing them requires a separate data/resource migration.
+
+Existing Cloudflare resource names, API hostnames, GitHub environment and secret
+references, and the repository URL remain deployment identities. No cloud
+resources were created, renamed or deployed. Set the API URL in
+`web/public/api-config.json` when moving the backend. Update the Wrangler
+resource bindings and workflow environment references only after provisioning
+and validating replacement resources. Renaming the GitHub repository itself
+requires repository administration permission and has not been performed.
+
+Run `npm ci`, `npm test`, and `npm run build` before publishing. See
+`PROJECT_STATUS.md` for the exact verification and remote-save status.

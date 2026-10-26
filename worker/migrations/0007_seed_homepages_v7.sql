@@ -1,4 +1,4 @@
--- ORDOSYN V7.1: seed existing published project homepages.
+-- CATALOG V7.1: seed existing published project homepages.
 -- Page IDs are stable and derived from existing project IDs.
 -- URLs here are provisional canonical candidates.
 -- Real crawling and canonical verification happen later.
