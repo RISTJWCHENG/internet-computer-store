@@ -139,3 +139,15 @@ Updated the staging workflow to prefer `GPT_API_KEY` and
 `NATIVE_INGEST_TOKEN`, with previous-name fallbacks. Confirmed from the source
 that the ingest token is exactly 64 lowercase hexadecimal characters; the
 value is not recoverable from the repository. No credential was accessed.
+
+
+## 2026-10-27 — one-time new Cloudflare setup
+
+The user requested help completing new Cloudflare services and ultimately
+removing old resources. Prepared a provisioning module and a one-time guarded Actions job.
+The workflow update is pending. The module uses environment credentials without printing their values,
+checks the specific new D1/R2 resources, creates missing named queues, adds only
+the specific import notification when safe, and deploys the new Worker. It
+does not delete resources or automatically crawl. Mock tests cover provisioning,
+idempotent queue reuse, conflicting notification protection and token-safe
+permission failures. Live results must be recorded after the job runs.

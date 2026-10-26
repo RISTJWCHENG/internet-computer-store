@@ -32,3 +32,7 @@
 - [ ] Set and verify the neutral staging secrets in GitHub, then remove the old secret references and old secrets.
 
 - [ ] Verify the selected GitHub secret names against the staging Worker before removing legacy fallback references.
+
+- [ ] Verify the one-time Cloudflare provisioning job and the new API health.
+- [ ] Run the requested crawl manually and validate the new catalog before cutover.
+- [ ] After successful cutover, review the exact legacy Cloudflare resources for removal.

@@ -175,3 +175,16 @@ fallbacks until verified. The ingest token is 64 lowercase hexadecimal
 characters and must match the staging Worker's configured token; its value is
 unknown to this session. The fresh production crawl workflow does not use that
 staging token. No secret value was read, changed or stored in the repository.
+
+
+## New catalog provisioning request
+
+The user asked to complete Cloudflare setup and later remove the old R2 buckets,
+D1 databases and old Workers. The new D1 initialization workflow succeeded.
+A provisioning module is prepared to create the named new R2 notification
+and queues; the associated workflow update is still pending. It checks
+the target bucket and D1 IDs first, reuses matching queues, and refuses to
+overwrite conflicting notification rules. It has no delete operations.
+No old resources, old Workers or data are deleted by this module. The user
+previously chose to run the production crawler manually. Frontend cutover and
+legacy resource cleanup remain dependent on successful new-API and data checks.
