@@ -101,3 +101,33 @@ GitHub Pages CORS restriction therefore does not block the review frontend.
 
 The regular GitHub Pages configuration keeps its direct API URL. Do not change
 it to same-origin unless the host supplies the corresponding API proxy.
+
+
+## Fresh production catalog setup
+
+The new D1 and R2 resources are `icpstore-catalog-db-prod` and
+`icpstore-catalog-files-prod`. Their target Worker is `icpstore-catalog-api-prod`.
+`worker/schema-fresh.sql` creates the application tables and FTS index without
+importing old data; `worker/wrangler.jsonc` binds the new resources. The current
+website keeps its existing API until the new Worker and crawl are verified.
+
+Before running the manual `Fresh production catalog` workflow, configure the
+GitHub Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` using
+Cloudflare's supported CI authentication. The Cloudflare token needs the scoped
+permissions for the selected operation; an R2 S3 credential alone is not assumed
+to grant D1 or Worker access. Never put credentials in source files.
+
+Create the Queues `icpstore-catalog-ingest-prod` and
+`icpstore-catalog-ingest-dlq-prod`, then configure an R2 object-create notification
+on the new bucket for prefix `imports/v3/` and suffix `.json`, targeting the
+first queue. Queue availability and charges depend on the Cloudflare account.
+
+On the Actions page, run `Fresh production catalog` on `main` in order:
+`initialize`, then `deploy`. Obtain the Worker URL shown by deployment, create
+repository variable `CATALOG_API_BASE_URL` with that HTTPS origin, and run
+`crawl`. The crawl uses the SNS adapter and the curated Caffeine seeds; it does
+not guarantee every previously published project can be rediscovered. It uploads
+only validated batches; R2 notifications and the Queue must be functioning for
+D1 to receive the data. The workflow verifies that published results appear.
+After independent verification, update the frontend API endpoint and deploy it.
+No production API cutover is performed by this workflow.

@@ -20,3 +20,11 @@
 
 - [x] Verify formal GitHub Pages release and automatic removal of the merged task branch.
 - [ ] Remove task-local source duplicates and archives after remote verification.
+
+
+- [x] Prepare fresh production D1 schema and new R2/D1 Worker bindings.
+- [x] Prepare manually dispatched initialization, deployment and discovery workflow.
+- [ ] Configure scoped Cloudflare Actions credentials, Queues and R2 notification.
+- [ ] Run initialization, deploy the new Worker and record its URL.
+- [ ] Run one crawl and verify D1 contents, R2 events and website behavior.
+- [ ] Switch the frontend to the verified new API, then retire old Cloudflare resources and legacy identifiers after explicit verification.

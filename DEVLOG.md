@@ -102,3 +102,22 @@ after successful use. No unrelated cloud resources or Git history were deleted.
 User requested removing local patch/archive outputs and duplicate checkouts.
 The earlier Library ZIP and Sites review publication require user-side deletion;
 current authorized tools cannot delete those remote items.
+
+
+## 2026-10-27 — prepare a fresh production catalog
+
+The user requested a new empty database and R2 bucket, then a manual crawl,
+instead of migrating existing data. Created a schema from the user's schema
+export, excluding Cloudflare internal tables and FTS shadow tables; locally
+verified repeated initialization and an FTS query. Configured a separate new
+Worker identity and bindings, replaced a hard-coded queue bucket check with a
+required configured bucket, and added a manually dispatched workflow for schema
+initialization, Worker deployment and validated SNS/Caffeine batches. The
+workflow includes a post-ingest API check. It does not switch the live frontend.
+No Cloudflare resources were changed or crawler invoked in this session. Cloud
+credentials, Queues, notification and Worker URL still require user setup.
+
+Verification: `TMPDIR=/workspace/scratch/bb57084deab3 npm test` reported
+211 passed, 0 failed; `npm run build` and `git diff --check` exited 0.
+SQLite locally accepted the supplied schema twice and returned the expected
+FTS match. Cloudflare deployment and the real crawler remain unverified.

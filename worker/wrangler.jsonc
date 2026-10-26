@@ -1,30 +1,20 @@
 {
-    "name":  "ordoviworld-api",
-    "compatibility_date":  "2026-10-01",
-    "d1_databases":  [
-                         {
-                             "database_name":  "ordoviworld-db",
-                             "database_id":  "f3058ba6-04d2-49a5-b9e0-68b2eeb15273",
-                             "binding":  "DB"
-                         }
-                     ],
-    "workers_dev":  true,
-    "r2_buckets":  [
-                       {
-                           "binding":  "FILES",
-                           "bucket_name":  "ordoviworld"
-                       }
-                   ],
-    "main":  "index.js",
-    "queues":  {
-                   "consumers":  [
-                                     {
-                                         "queue":  "ordoviworld-ingest-v3",
-                                         "max_batch_size":  2,
-                                         "max_batch_timeout":  10,
-                                         "max_retries":  3,
-                                         "dead_letter_queue":  "ordoviworld-ingest-dlq-v3"
-                                     }
-                                 ]
-               }
+  "name": "icpstore-catalog-api-prod",
+  "main": "index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "vars": { "INGEST_BUCKET_NAME": "icpstore-catalog-files-prod" },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "icpstore-catalog-db-prod",
+    "database_id": "4f4ad80c-0df9-4b9e-a080-01708e472bae"
+  }],
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "icpstore-catalog-files-prod" }],
+  "queues": { "consumers": [{
+    "queue": "icpstore-catalog-ingest-prod",
+    "max_batch_size": 2,
+    "max_batch_timeout": 10,
+    "max_retries": 3,
+    "dead_letter_queue": "icpstore-catalog-ingest-dlq-prod"
+  }] }
 }

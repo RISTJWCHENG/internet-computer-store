@@ -131,3 +131,27 @@ Task-local archives and duplicate source checkouts are being removed as requeste
 The previously exported Library ZIP needs manual deletion because this session
 is not permitted to delete Library files. The Sites review publication has not
 been deleted; available Sites tools do not expose site deletion.
+
+
+## Fresh production resources — preparation
+
+The user chose a fresh catalog rather than migrating old Cloudflare data. The
+new D1 database is `icpstore-catalog-db-prod` with ID
+`4f4ad80c-0df9-4b9e-a080-01708e472bae`; the new R2 bucket is
+`icpstore-catalog-files-prod`. The existing Worker remains the active website
+API until a new deployment is verified. Old records, rejection decisions and
+R2 files are not copied by the new workflow.
+
+Prepared `worker/schema-fresh.sql` from the user-supplied old schema, creating
+17 application tables including FTS5 and 10 indexes, without importing rows.
+Prepared a new Worker configuration, queue routing checks, and a manual GitHub
+Actions workflow with initialize/deploy/crawl operations. The crawler covers
+SNS and the maintained Caffeine seed list, and cannot promise full recovery of
+old listings. Queue resources, notification, Cloudflare API token/account ID,
+and the new Worker URL require user setup. No live Cloudflare operation was
+performed from this session. Old API names and compatibility identities remain
+until the new resources and frontend cutover are verified.
+
+Local verification: 211 Node tests passed, Vite production build passed,
+`git diff --check` passed, and the fresh schema was executed twice in SQLite
+with a successful FTS query. The new schema has not been applied to D1.
