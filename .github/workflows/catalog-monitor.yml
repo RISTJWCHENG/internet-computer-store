@@ -1,5 +1,5 @@
-name: Catalog Monitor
-run-name: Catalog Monitor - ${{ github.event_name }} - ${{ github.ref_name }}
+name: Internet Computer Store Monitor
+run-name: Internet Computer Store Monitor - ${{ github.event_name }} - ${{ github.ref_name }}
 
 on:
   push:
