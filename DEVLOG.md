@@ -35,3 +35,14 @@ Created https://github.com/RISTJWCHENG/ORDOVIWORLD/pull/1.
 Updated project records only after remote verification. No code changed after
 the recorded tests; no additional test run was needed for this status update.
 The PR remains unmerged and no live deployment was performed.
+
+
+## 2026-10-26 — private review deployment
+
+Deployed the PR frontend snapshot as a separate owner-private Sites static site,
+using the already verified production build. Source synchronization and archive
+packaging exited 0. Native deployment returned succeeded with URL
+https://internet-computer-store-review.famouslime257.chatgpt.site and deployment
+appgdep_6adf830ca0a88191a24b4ddf38339b44. No GitHub merge or original-site
+replacement occurred. Browser preview infrastructure was unavailable
+(sites-previewd mailbox missing); visual QA remains unverified.

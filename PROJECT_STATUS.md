@@ -53,5 +53,20 @@ After selecting the newly authorized owner account, push:true was confirmed.
 Terminal git push lacked a Git credential; saving was performed through the
 GitHub Git data API, not a successful terminal git push.
 
-The PR remains unmerged. No repository rename or production deployment occurred.
+The PR remains unmerged. No repository rename or original-site deployment occurred.
 Cross-chat recovery and browser visual QA have not been tested.
+
+
+## Private review deployment
+
+On 2026-10-26 the user requested a live page to review the rename.
+A separate owner-private Sites review deployment succeeded:
+https://internet-computer-store-review.famouslime257.chatgpt.site
+Site: appgprj_6adf82d28c9481918c3c3f37009ee86c
+Deployment: appgdep_6adf830ca0a88191a24b4ddf38339b44
+Site source commit: 71d695f89757ac268bb0f7a98f076fd9ee72f933.
+The review site uses the PR source snapshot with separate static hosting metadata,
+the verified production build, and the existing API configuration. The original
+site and GitHub main are unchanged. The managed preview daemon was unavailable;
+no browser visual QA was performed. The hosting service confirmed succeeded
+with the URL above.

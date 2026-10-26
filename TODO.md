@@ -9,3 +9,6 @@
 - [ ] Perform browser visual QA before publishing.
 - [ ] Optional separate migration: provision neutral Cloudflare resource names, migrate data and switch endpoints with rollback validation.
 - [ ] Optional repository administration: rename the GitHub repository after reviewing URL and hosting implications.
+
+- [x] Deploy a separate owner-private review site and provide its live URL.
+- [ ] User acceptance review of the deployed rename before merging PR #1.
