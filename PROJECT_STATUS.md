@@ -115,3 +115,19 @@ history are outside this cleanup. Final Actions/deployment results must be
 verified before reporting completion. The private review login-page long-domain
 layout remains unverified on the formal host. The previously exported Library
 ZIP cannot be deleted by this conversation's restricted Library tools.
+
+
+## Formal deployment verified
+
+PR #1 was squash-merged to main as b23cfbebdf7cb9a09f523fe993a8df942ad56394.
+GitHub Actions run 40365938464 completed successfully: full tests/build, Pages
+publication and review-branch cleanup all succeeded. Formal website:
+https://ristjwcheng.github.io/ORDOVIWORLD/
+Remote branch enumeration after deployment showed only main. The one-time
+cleanup step and its contents:write permission are removed after that verification.
+The 205-test suite passed during the release build. Review-origin login layout
+is not verified as resolved by this formal deployment.
+Task-local archives and duplicate source checkouts are being removed as requested.
+The previously exported Library ZIP needs manual deletion because this session
+is not permitted to delete Library files. The Sites review publication has not
+been deleted; available Sites tools do not expose site deletion.

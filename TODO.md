@@ -18,5 +18,5 @@
 - [x] Restore original 16-dot hover animation, dimensions and favorites interaction.
 - [ ] User visual acceptance of the repaired launcher on the private review site.
 
-- [ ] Verify formal GitHub Pages release and automatic removal of the merged task branch.
+- [x] Verify formal GitHub Pages release and automatic removal of the merged task branch.
 - [ ] Remove task-local source duplicates and archives after remote verification.

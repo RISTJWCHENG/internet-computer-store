@@ -89,3 +89,16 @@ with contents:write on that deployment job only. It retains the branch on failed
 deployment or an unmerged PR and treats a missing branch as a no-op. No other
 branches, Git history or cloud data are selected for deletion. Release status
 will be checked through Actions and the deployed URL.
+
+
+## 2026-10-26 — formal publication and verified branch cleanup
+
+Merged PR #1 with expected-head protection. Main release SHA:
+b23cfbebdf7cb9a09f523fe993a8df942ad56394. Actions run 40365938464 reported
+success for build, Pages deploy and task-branch deletion. Deployment job logs
+confirmed https://ristjwcheng.github.io/ORDOVIWORLD/ and branch enumeration
+showed only main. Removed the one-time deletion step and its write permission
+after successful use. No unrelated cloud resources or Git history were deleted.
+User requested removing local patch/archive outputs and duplicate checkouts.
+The earlier Library ZIP and Sites review publication require user-side deletion;
+current authorized tools cannot delete those remote items.
