@@ -165,3 +165,13 @@ fallbacks to the existing secrets until the user sets and verifies replacements.
 `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` already use neutral names.
 The screenshot shows names, not secret values or permission scopes. This
 session did not create, rename, reveal, or delete any GitHub secret.
+
+
+## Staging secret name preference
+
+The user selected `GPT_API_KEY` and `NATIVE_INGEST_TOKEN` as GitHub Actions
+secret names. The staging workflow now prefers those names and retains previous
+fallbacks until verified. The ingest token is 64 lowercase hexadecimal
+characters and must match the staging Worker's configured token; its value is
+unknown to this session. The fresh production crawl workflow does not use that
+staging token. No secret value was read, changed or stored in the repository.

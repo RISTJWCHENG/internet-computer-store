@@ -131,3 +131,11 @@ and `CATALOG_NATIVE_INGEST_TOKEN`, retaining fallback references to the existing
 secrets until their values can be configured and validated by the user. No
 secret values were read or modified. The fresh production workflow continues to
 use `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`.
+
+
+## 2026-10-27 — honor user-selected secret names
+
+Updated the staging workflow to prefer `GPT_API_KEY` and
+`NATIVE_INGEST_TOKEN`, with previous-name fallbacks. Confirmed from the source
+that the ingest token is exactly 64 lowercase hexadecimal characters; the
+value is not recoverable from the repository. No credential was accessed.

@@ -134,7 +134,7 @@ No production API cutover is performed by this workflow.
 
 
 Existing staging automation accepts the neutral repository secret names
-`CATALOG_AI_API_KEY` and `CATALOG_NATIVE_INGEST_TOKEN`, and temporarily falls
+`GPT_API_KEY` and `NATIVE_INGEST_TOKEN`, and temporarily falls
 back to the previously configured names until the replacements are installed
 and verified. These are distinct from the Cloudflare API credentials used by
 the fresh production workflow. Configure secret values directly in GitHub; do
