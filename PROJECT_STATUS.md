@@ -41,9 +41,17 @@ Read README.md and TODO.md, then inspect git status and the current remote SHA.
 
 ## Remote saving and limitations
 
-The user authorized saving this rename to the repository. The current GitHub
-connection nevertheless reports push:false. Attempting to create the review
-branch returned HTTP 403, Resource not accessible by integration.
-Remote saving and PR creation are blocked. No repository rename, merge or
-production deployment occurred. The local commit/archive is a reviewable
-backup, not a verified GitHub backup. Cross-chat recovery has not been tested.
+Remote saving is now verified using the RISTJWCHENG account connection.
+Code commit: 557b04f84378176146757704607c2397afc4143b.
+Verified remote source tree: 1f15f88b33b07d1034f5f1b7342aefe2549584c3,
+exactly matching the locally tested source tree.
+Branch: refactor/neutral-catalog-names.
+PR: https://github.com/RISTJWCHENG/ORDOVIWORLD/pull/1
+
+Earlier calls on the previous connection returned push:false and HTTP 403.
+After selecting the newly authorized owner account, push:true was confirmed.
+Terminal git push lacked a Git credential; saving was performed through the
+GitHub Git data API, not a successful terminal git push.
+
+The PR remains unmerged. No repository rename or production deployment occurred.
+Cross-chat recovery and browser visual QA have not been tested.
