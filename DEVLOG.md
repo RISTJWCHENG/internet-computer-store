@@ -79,3 +79,13 @@ Compared the complete enhancer with the original source commit: identical apart
 from neutral names. Functional hover and favorites-dialog regression tests pass.
 Actual validation: 205 tests passed; production build passed. Original-site
 publication, merging to main and cleanup remain paused at the user's request.
+
+
+## 2026-10-26 — authorized formal release and task-branch cleanup
+
+User requested formal deployment and removal of the task branch and backup code.
+Added a post-deployment cleanup step scoped to the merged PR #1 review branch,
+with contents:write on that deployment job only. It retains the branch on failed
+deployment or an unmerged PR and treats a missing branch as a no-op. No other
+branches, Git history or cloud data are selected for deletion. Release status
+will be checked through Actions and the deployed URL.

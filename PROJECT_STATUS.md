@@ -103,3 +103,15 @@ Compared the complete enhancer with the original source commit: identical apart
 from neutral names. Functional hover and favorites-dialog regression tests pass.
 Actual validation: 205 tests passed; production build passed. Original-site
 publication, merging to main and cleanup remain paused at the user's request.
+
+
+## Formal deployment approval
+
+On 2026-10-26 the user explicitly approved formal deployment and requested no
+remaining task branch or backup code. PR #1 will be merged into main and use the
+existing GitHub Pages workflow. Its successful deployment job now removes only
+the merged refactor/neutral-catalog-names branch. Earlier unrelated branches and
+history are outside this cleanup. Final Actions/deployment results must be
+verified before reporting completion. The private review login-page long-domain
+layout remains unverified on the formal host. The previously exported Library
+ZIP cannot be deleted by this conversation's restricted Library tools.
