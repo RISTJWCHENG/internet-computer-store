@@ -65,3 +65,17 @@ the exact TypeError. Replaced it with redirect:manual and explicit 3xx rejection
 then republished successfully as appgdep_6adf85bc4d148191b6cb66cd5dc1ecc7.
 Live authenticated API verification returned HTTP 200, total count 32, and real
 published records. Browser visual verification remains unavailable.
+
+
+## 2026-10-26 — restore original launcher behavior
+
+Fixed a rename regression: authentication markup used account-* while the
+16-dot enhancer, favorites click handler and a UI script still selected ow-*.
+Unified these selectors, restoring the original 40px button, 36px 4x4 icon,
+100ms randomized 1–3-dot hover animation and gray reset on pointer leave.
+Clicking the launcher opens/closes My Favorites and preserves the sign-in prompt.
+Corrected accidental overflaccount-* CSS properties back to overflow-*.
+Compared the complete enhancer with the original source commit: identical apart
+from neutral names. Functional hover and favorites-dialog regression tests pass.
+Actual validation: 205 tests passed; production build passed. Original-site
+publication, merging to main and cleanup remain paused at the user's request.

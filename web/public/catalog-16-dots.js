@@ -11,11 +11,11 @@
   const style = document.createElement("style");
   style.textContent = `
     /* Keep the original icon button size */
-    .ow-apps-btn,
-    .ow-apps-btn:hover,
-    .ow-apps-btn:active,
-    .ow-apps-btn:focus,
-    .ow-apps-btn:focus-visible {
+    .account-apps-btn,
+    .account-apps-btn:hover,
+    .account-apps-btn:active,
+    .account-apps-btn:focus,
+    .account-apps-btn:focus-visible {
       width: 40px !important;
       height: 40px !important;
       min-width: 40px !important;
@@ -31,19 +31,19 @@
       justify-content: center !important;
     }
 
-    .ow-apps-btn:focus-visible {
+    .account-apps-btn:focus-visible {
       outline: 2px solid #9bb7ff !important;
       outline-offset: 2px;
       border-radius: 8px !important;
     }
 
-    .ow-apps-btn::before,
-    .ow-apps-btn::after {
+    .account-apps-btn::before,
+    .account-apps-btn::after {
       background: transparent !important;
       box-shadow: none !important;
     }
 
-    .ow-apps-btn svg.catalog-dots16 {
+    .account-apps-btn svg.catalog-dots16 {
       width: 36px !important;
       height: 36px !important;
       min-width: 36px !important;
@@ -154,7 +154,7 @@
   }
 
   function scan() {
-    document.querySelectorAll(".ow-apps-btn")
+    document.querySelectorAll(".account-apps-btn")
       .forEach(enhance);
   }
 

@@ -99,7 +99,7 @@ export function initFavorites(getPrincipal) {
   }
   function closePanel() {
     panel.hidden=true;
-    document.querySelector('.ow-apps-btn')?.setAttribute('aria-expanded','false');
+    document.querySelector('.account-apps-btn')?.setAttribute('aria-expanded','false');
   }
   function openPanel(button) {
     renderPanel(); panel.hidden=false;
@@ -147,11 +147,11 @@ export function initFavorites(getPrincipal) {
       addSave(card);
     });
     syncButtons();
-    document.querySelectorAll('.ow-apps-btn').forEach(b=>{b.setAttribute('aria-haspopup','dialog'); b.setAttribute('aria-controls',panel.id);});
+    document.querySelectorAll('.account-apps-btn').forEach(b=>{b.setAttribute('aria-haspopup','dialog'); b.setAttribute('aria-controls',panel.id);});
   }
   function schedule() { if(queued) return; queued=true; requestAnimationFrame(scan); }
   document.addEventListener('click',event=>{
-    const launcher=event.target.closest('.ow-apps-btn');
+    const launcher=event.target.closest('.account-apps-btn');
     if(launcher) {event.preventDefault(); event.stopPropagation(); if(panel.hidden) openPanel(launcher); else closePanel(); return;}
     if(event.target.closest('.catalog-fav-x')) {closePanel();return;}
     if(event.target.closest('.catalog-login-cancel')) {closeLogin();return;}
@@ -172,7 +172,7 @@ export function initFavorites(getPrincipal) {
     syncButtons();if(!panel.hidden) renderPanel();schedule();
   });
   new MutationObserver(records=>{
-    if(records.some(r=>Array.from(r.addedNodes).some(n=>n.nodeType===1 && (n.matches?.('.card, .catalog-vote-panel, .ow-apps-btn') || n.querySelector?.('.card, .catalog-vote-panel, .ow-apps-btn'))))) schedule();
+    if(records.some(r=>Array.from(r.addedNodes).some(n=>n.nodeType===1 && (n.matches?.('.card, .catalog-vote-panel, .account-apps-btn') || n.querySelector?.('.card, .catalog-vote-panel, .account-apps-btn'))))) schedule();
   }).observe(document.body,{subtree:true,childList:true});
   schedule();
 }

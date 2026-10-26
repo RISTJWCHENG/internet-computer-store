@@ -89,3 +89,17 @@ and /api/search?page=1&limit=2 returns 200, count:32, with real records includin
 Yuku AI and Waifu.ai. The test suite now passes 203 tests; the Vite build passes.
 No fake or static substitute listings were inserted. Visual browser QA remains
 unverified because the managed preview daemon is unavailable.
+
+
+## 2026-10-26 — restore original launcher behavior
+
+Fixed a rename regression: authentication markup used account-* while the
+16-dot enhancer, favorites click handler and a UI script still selected ow-*.
+Unified these selectors, restoring the original 40px button, 36px 4x4 icon,
+100ms randomized 1–3-dot hover animation and gray reset on pointer leave.
+Clicking the launcher opens/closes My Favorites and preserves the sign-in prompt.
+Corrected accidental overflaccount-* CSS properties back to overflow-*.
+Compared the complete enhancer with the original source commit: identical apart
+from neutral names. Functional hover and favorites-dialog regression tests pass.
+Actual validation: 205 tests passed; production build passed. Original-site
+publication, merging to main and cleanup remain paused at the user's request.

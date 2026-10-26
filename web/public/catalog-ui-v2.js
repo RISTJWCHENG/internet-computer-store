@@ -10,7 +10,7 @@
 
   const css = document.createElement("style");
   css.textContent = `
-    .ow-apps-btn.catalog-grid-ready {
+    .account-apps-btn.catalog-grid-ready {
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -364,7 +364,7 @@
   }
 
   function scan() {
-    document.querySelectorAll(".ow-apps-btn").forEach(enhanceGrid);
+    document.querySelectorAll(".account-apps-btn").forEach(enhanceGrid);
     const sort = findSortSelect();
     if (sort) enhanceSort(sort);
   }

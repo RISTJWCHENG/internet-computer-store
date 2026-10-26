@@ -14,3 +14,6 @@
 - [ ] User acceptance review of the deployed rename before merging PR #1.
 
 - [x] Repair preview-origin dApp loading and verify live published records.
+
+- [x] Restore original 16-dot hover animation, dimensions and favorites interaction.
+- [ ] User visual acceptance of the repaired launcher on the private review site.
