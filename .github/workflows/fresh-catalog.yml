@@ -160,3 +160,17 @@ jobs:
       - name: Verify deployed website configuration
         run: |
           curl --fail --silent --show-error --max-time 20 "https://ristjwcheng.github.io/internet-computer-store/api-config.json" | node -e "let t='';process.stdin.on('data',c=>t+=c);process.stdin.on('end',()=>{const d=JSON.parse(t);if(d.apiBaseUrl!==process.env.CATALOG_API_BASE_URL)process.exit(1);console.log('Deployed website uses new catalog API')})"
+
+      - name: Inventory legacy resource names
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const root = 'https://api.cloudflare.com/client/v4/accounts/' + process.env.CLOUDFLARE_ACCOUNT_ID;
+          for (const [kind, path] of [['R2', '/r2/buckets'], ['D1', '/d1/database'], ['Workers', '/workers/scripts']]) {
+            const response = await fetch(root + path, {headers: {Authorization: 'Bearer ' + process.env.CLOUDFLARE_API_TOKEN}});
+            const data = await response.json();
+            if (!response.ok || !data.success) { console.log(kind + ': unavailable (' + response.status + ')'); continue; }
+            const rows = Array.isArray(data.result) ? data.result : data.result?.buckets ?? [];
+            console.log(kind + ': ' + rows.map(x => x.name || x.id || x.script_name).filter(Boolean).join(', '));
+          }
+          NODE
