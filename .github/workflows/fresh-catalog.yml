@@ -1,28 +1,15 @@
-name: Catalog Operations
-run-name: Catalog Operations - ${{ inputs.operation }}
+name: Internet Computer Store Crawler
+run-name: Internet Computer Store Crawler - manual
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/fresh-catalog.yml']
   workflow_dispatch:
-    inputs:
-      operation:
-        description: Select one operation. Run initialize, then deploy, then crawl.
-        type: choice
-        required: true
-        options:
-          - initialize
-          - provision
-          - deploy
-          - crawl
 permissions:
   contents: read
 concurrency:
-  group: fresh-production-catalog
+  group: catalog-crawler
   cancel-in-progress: false
 jobs:
-  execute:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.operation != 'provision'
+  crawl:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -46,17 +33,9 @@ jobs:
         run: |
           test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Missing CLOUDFLARE_ICPSTORE_API_TOKEN secret' >&2; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'Missing CLOUDFLARE_ICPSTORE_ACCOUNT_ID secret' >&2; exit 1; }
-      - name: Initialize schema in the new D1 database
-        if: inputs.operation == 'initialize'
-        run: npx --yes wrangler@4 d1 execute icpstore-catalog-db-prod --remote --file=worker/schema-fresh.sql --config=worker/wrangler.jsonc --yes
-      - name: Deploy new API Worker
-        if: inputs.operation == 'deploy'
-        run: npx --yes wrangler@4 deploy --config=worker/wrangler.jsonc
       - name: Resolve the new API URL
-        if: inputs.operation == 'crawl'
         run: node worker/api-origin.mjs
       - name: Verify the new API URL and health
-        if: inputs.operation == 'crawl'
         run: |
           if [[ ! "$CATALOG_API_BASE_URL" =~ ^https://icpstore-catalog-api-prod\.[a-zA-Z0-9-]+\.workers\.dev$ ]]; then
             echo 'Set CATALOG_API_BASE_URL to the new Worker origin before crawling.' >&2
@@ -65,13 +44,11 @@ jobs:
           curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/health" > "$RUNNER_TEMP/catalog-health.json"
           node -e "const d=require(process.argv[1]);if(d.ok!==true)process.exit(1)" "$RUNNER_TEMP/catalog-health.json"
       - name: Discover SNS and Caffeine projects
-        if: inputs.operation == 'crawl'
         run: |
           node crawler/run.mjs --only=sns
           node crawler/caffeine-discover.mjs data/caffeine-seeds.txt "$RUNNER_TEMP/caffeine-candidates.json"
           node crawler/fresh-batches.mjs data/projects.json "$RUNNER_TEMP/caffeine-candidates.json" "$RUNNER_TEMP/catalog-imports"
       - name: Upload batches to the new R2 bucket
-        if: inputs.operation == 'crawl'
         run: |
           set -eu
           for file in "$RUNNER_TEMP"/catalog-imports/*.json; do
@@ -80,7 +57,6 @@ jobs:
           done
           echo 'Uploaded batches. The configured R2 notification and Queue must process them into D1.'
       - name: Verify published projects appear in the new API
-        if: inputs.operation == 'crawl'
         run: |
           set -eu
           for attempt in $(seq 1 15); do
@@ -91,39 +67,4 @@ jobs:
           done
           echo 'No published projects appeared. Check the R2 notification, Queue and Worker logs.' >&2
           exit 1
-
-  provision-new-catalog:
-    if: github.ref == 'refs/heads/main' && ((github.event_name == 'push' && github.event.head_commit.message == 'Provision fresh catalog services') || (github.event_name == 'workflow_dispatch' && inputs.operation == 'provision'))
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ICPSTORE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ICPSTORE_ACCOUNT_ID }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-      - name: Install and verify
-        run: |
-          npm ci
-          npm test
-      - name: Prepare only new queue and R2 notification
-        run: node worker/provision-catalog.mjs
-      - name: Deploy new catalog API
-        run: npx --yes wrangler@4 deploy --config=worker/wrangler.jsonc
-      - name: Resolve deployed API URL
-        run: node worker/api-origin.mjs
-      - name: Verify new API health and empty catalog access
-        run: |
-          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/health" > "$RUNNER_TEMP/catalog-health.json"
-          node -e "const d=require(process.argv[1]);if(d.ok!==true)process.exit(1);console.log('New API health check passed')" "$RUNNER_TEMP/catalog-health.json"
-          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/search?page=1&limit=1" > "$RUNNER_TEMP/catalog-result.json"
-          node -e "const d=require(process.argv[1]);if(!Array.isArray(d.records)||!Number.isInteger(d.count))process.exit(1);console.log('New API published count:',d.count)" "$RUNNER_TEMP/catalog-result.json"
-
 
