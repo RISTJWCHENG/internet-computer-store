@@ -213,3 +213,13 @@ manual `provision` option can retry setup from current main after credentials
 are configured; rerunning an old failed run would use the old workflow snapshot.
 The user's R2 credential screenshot is not sufficient evidence of an account
 API token with D1, Queues and Worker permissions. No token value was accessed.
+
+
+## Cloudflare account secret name selected by the user
+
+The user changed the GitHub Secret name to `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`.
+The fresh-catalog workflow now reads it first, with fallback to the previous
+name. The screenshot confirms secret names only; token value and permissions
+are not visible. A guarded provisioning retry may check permissions without
+printing secrets. No old resource may be removed until the new API and catalog
+are verified.

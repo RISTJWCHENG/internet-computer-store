@@ -171,3 +171,10 @@ and added a manually dispatched `provision` operation for retrying setup using
 the current workflow. Existing fallback remains until verified. The screenshot
 showed R2-specific credentials; the multi-service account API token remains to
 be configured securely by the user. No credential values were read or saved.
+
+
+## 2026-10-27 — accept selected Cloudflare account secret name
+
+Updated both fresh-catalog jobs to read `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`,
+falling back to the earlier GitHub Secret name. Updated diagnostic messages
+and checked workflow YAML. No account ID or token value was inspected.

@@ -150,3 +150,9 @@ the prepared new-resource setup, manually dispatch operation `provision` on
 `main` after configuring the account token. This creates or reuses only the
 new queues and event notification and deploys the new Worker; it does not
 delete legacy resources, run a crawl, or switch the public frontend.
+
+
+The fresh catalog workflow also accepts `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`
+as the GitHub Secret name for the Cloudflare account ID. It takes precedence
+over the legacy `CLOUDFLARE_ACCOUNT_ID` secret. The account ID is distinct from
+the D1 database UUID. The actual values are supplied only through GitHub Secrets.
