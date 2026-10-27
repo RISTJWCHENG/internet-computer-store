@@ -6,7 +6,12 @@ const hexBytes = text => {
   if (typeof text !== 'string' || text.length === 0 || text.length > 65536 || text.length % 2 || !/^[a-f0-9]+$/i.test(text)) throw Error('Invalid proof encoding');
   return Uint8Array.from(text.match(/../g), pair => Number.parseInt(pair, 16));
 };
-const rootKey = hexBytes(IC_ROOT_KEY);
+// The SDK root key is DER encoded; the standalone verifier takes the raw
+// 96-byte BLS key. Check the complete DER prefix before extracting it.
+const rootDer = hexBytes(IC_ROOT_KEY);
+const rootPrefix = '308182301d060d2b0601040182dc7c0503010201060c2b0601040182dc7c05030201036100';
+if (rootDer.length !== 133 || IC_ROOT_KEY.slice(0, rootPrefix.length).toLowerCase() !== rootPrefix) throw Error('Invalid IC root key');
+const rootKey = rootDer.slice(37);
 
 // A verifier is injected so the same logic can be tested in Node and bound to
 // the pinned IC verifier WebAssembly module in the Worker runtime.

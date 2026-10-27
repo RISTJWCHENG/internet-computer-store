@@ -29,3 +29,15 @@ test('expired and scoped delegations are refused',async()=>{
  const expired=await fixture(new Date(Date.now()-1000));assert.throws(()=>verifyAdministratorProof(expired));
  const p=await fixture();p.chain.delegations[0].delegation.targets=[];assert.throws(()=>verifyAdministratorProof(p));
 });
+test('a historical Internet Identity canister delegation uses the raw IC root key',async()=>{
+ const v=JSON.parse(await readFile(new URL('./test-vectors/ii-2024.json',import.meta.url),'utf8'));
+ const chain={publicKey:v.rootPublicKey,delegations:[{delegation:{pubkey:v.pubkey,expiration:BigInt(v.expiration).toString(16)},signature:v.signature}]};
+ let verified=false;
+ const verifySignature=(message,signature,key,root)=>{
+   assert.equal(root.length,96);
+   if(!verified){verifyIcSignature(message,signature,key,root);verified=true;return;}
+   throw Error('No session key in historical fixture');
+ };
+ assert.throws(()=>verifyAdministratorProof({chain,signature:'00',message:new Uint8Array(32),expectedPrincipal:Principal.selfAuthenticating(Buffer.from(v.rootPublicKey,'hex')).toText(),verifySignature,now:1708468000000}));
+ assert.equal(verified,true);
+});
