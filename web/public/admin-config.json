@@ -1,5 +1,7 @@
 {
   "enabled": false,
-  "principals": [],
+  "principals": [
+    "cvzgo-accjr-4oizt-pkxsb-ijvj7-oqdwh-eur3g-q67oq-sr354-5fehi-2qe"
+  ],
   "dashboardUrl": ""
 }
