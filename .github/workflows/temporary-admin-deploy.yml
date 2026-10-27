@@ -1,0 +1,42 @@
+name: Temporary administrator deployment
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/temporary-admin-deploy.yml']
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    concurrency:
+      group: catalog-cloud-operations
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ICPSTORE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ICPSTORE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install and verify
+        run: |
+          npm ci
+          npm test
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+      - name: Add administrator tables
+        run: npx --yes wrangler@4 d1 execute icpstore-catalog-db-prod --remote --file=worker/admin/schema.sql --config=worker/admin/wrangler.ii.jsonc --yes
+      - name: Deploy with administrator writes disabled
+        run: npx --yes wrangler@4 deploy --config=worker/admin/wrangler.ii.jsonc
+      - name: Configure administrator session secret
+        run: |
+          set -eu
+          secret_file="$RUNNER_TEMP/admin-auth-secret"
+          trap 'rm -f "$secret_file"' EXIT
+          openssl rand -hex 32 > "$secret_file"
+          npx --yes wrangler@4 secret put ADMIN_AUTH_SECRET --config=worker/admin/wrangler.ii.jsonc < "$secret_file"
