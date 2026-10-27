@@ -48,4 +48,4 @@
 
 - Migrate the workers.dev account subdomain or use a custom domain without interrupting the new Worker. Keep browser legacy storage fallbacks until an explicit user-data migration strategy is in place.
 
-- Verify the next manual crawler run and monitor deployment after workflow separation.
+- Verify the next user-initiated crawler run after workflow separation.

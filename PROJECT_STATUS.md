@@ -251,3 +251,6 @@ Legacy production and staging buckets, D1 databases, Workers and queues were rem
 
 ## Workflow separation
 The manual crawler and deployment workflows are separate. The crawler has no schedule. Monitor deploys GitHub Pages on main pushes and supports manual Worker, provision and initialization operations. The workflow files were parsed locally; deployed Actions runs are being verified.
+
+
+Workflow verification: GitHub Pages build and deployment completed successfully on main; 12 crawler and API-origin tests passed locally using TMPDIR in the workspace. The renamed crawler has not been dispatched; it remains manual. Crawler and Cloudflare deployment jobs share a concurrency group.

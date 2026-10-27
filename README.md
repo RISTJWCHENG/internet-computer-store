@@ -73,9 +73,7 @@ the backend directory is `core`, UI assets use `catalog-*`, and image assets use
 
 Historical wire schemas, object paths and browser storage keys are isolated in
 `config/compatibility.js`. Existing profile and favorites data remain readable.
-`config/deployment.js` accepts existing secret bindings while preferring the
-neutral replacements. These external identities are deliberately preserved;
-changing them requires a separate data/resource migration.
+`config/deployment.js` reads neutral secret bindings. Legacy browser storage keys remain readable to preserve profiles and favorites.
 
 The production site uses the new catalog Worker and Cloudflare resources. Configure the public API origin in `web/public/api-config.json`; GitHub Actions credentials remain in GitHub Secrets.
 
@@ -108,4 +106,4 @@ The production D1 database is `icpstore-catalog-db-prod`, the R2 bucket is
 Cloudflare operations use GitHub Secrets `CLOUDFLARE_ICPSTORE_API_TOKEN` and
 `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`. The crawler discovers the Worker origin
 automatically; the optional `CATALOG_API_BASE_URL` variable can override it.
-Crawler coverage is limited to its configured sources.
+Crawler coverage is limited to its configured sources. Crawl and Cloudflare deployment operations share a concurrency group.

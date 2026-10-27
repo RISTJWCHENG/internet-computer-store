@@ -212,3 +212,6 @@ public frontend has not been cut over.
 ## Separate crawler and deployment workflows
 - Dedicated manual crawler retains discovery, ingestion and API checks. Monitor owns Pages and manually selected Cloudflare deployment/setup operations.
 - Both workflow files parsed successfully with PyYAML. The crawler was not triggered automatically, per the existing manual-run preference.
+
+
+Workflow verification: GitHub Pages build and deployment passed on main. `TMPDIR=/workspace/scratch/bb57084deab3 node --test worker/v3/api-origin.test.mjs crawler/*.test.mjs` passed 12 tests. An initial run without TMPDIR failed because /tmp was unavailable. Added a shared concurrency group for crawler and Cloudflare deployment jobs. Manual crawler has not been dispatched.
