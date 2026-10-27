@@ -9,6 +9,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   crawl:
+    concurrency:
+      group: catalog-cloud-operations
+      cancel-in-progress: false
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
