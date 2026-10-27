@@ -111,7 +111,7 @@ document.addEventListener('click',event=>{
 const V={
 profile(){return renderProfile()},
 home(){return`<div style="max-width:760px;margin:0 auto">${noteHTML()}</div>`+
-sec('Explore the Internet Computer Ecosystem',`<div class="chips"><a class="btn on" href="#/explore" aria-current="page">All</a>${CATS.map(c=>`<a class="btn" href="#/explore?cat=${encodeURIComponent(c)}">${esc(catalogCategoryLabel(c))}</a>`).join('')}</div>`)+
+sec('Explore the Internet Computer Ecosystem',`<div class="chips"><a class="btn on" href="#/explore" aria-current="page">All</a>${CATS.filter(category=>category!=='Infrastructure').map(c=>`<a class="btn" href="#/explore?cat=${encodeURIComponent(c)}">${esc(catalogCategoryLabel(c))}</a>`).join('')}</div>`)+
 catalogPagedSection('featured','Featured Projects')+
 catalogPagedSection('more','More Projects')+
 catalogPagedSection('recent','Recently Discovered')+
