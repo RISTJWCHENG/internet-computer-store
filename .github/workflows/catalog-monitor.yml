@@ -13,7 +13,6 @@ on:
         default: build
         options:
           - build
-          - crawl
           - deploy
           - provision
           - initialize
@@ -120,7 +119,7 @@ jobs:
 
 
   execute:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.operation != 'provision' && inputs.operation != 'build'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.operation == 'deploy' || inputs.operation == 'initialize')
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -150,45 +149,7 @@ jobs:
       - name: Deploy new API Worker
         if: inputs.operation == 'deploy'
         run: npx --yes wrangler@4 deploy --config=worker/wrangler.jsonc
-      - name: Resolve the new API URL
-        if: inputs.operation == 'crawl'
-        run: node worker/api-origin.mjs
-      - name: Verify the new API URL and health
-        if: inputs.operation == 'crawl'
-        run: |
-          if [[ ! "$CATALOG_API_BASE_URL" =~ ^https://icpstore-catalog-api-prod\.[a-zA-Z0-9-]+\.workers\.dev$ ]]; then
-            echo 'Set CATALOG_API_BASE_URL to the new Worker origin before crawling.' >&2
-            exit 1
-          fi
-          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/health" > "$RUNNER_TEMP/catalog-health.json"
-          node -e "const d=require(process.argv[1]);if(d.ok!==true)process.exit(1)" "$RUNNER_TEMP/catalog-health.json"
-      - name: Discover SNS and Caffeine projects
-        if: inputs.operation == 'crawl'
-        run: |
-          node crawler/run.mjs --only=sns
-          node crawler/caffeine-discover.mjs data/caffeine-seeds.txt "$RUNNER_TEMP/caffeine-candidates.json"
-          node crawler/fresh-batches.mjs data/projects.json "$RUNNER_TEMP/caffeine-candidates.json" "$RUNNER_TEMP/catalog-imports"
-      - name: Upload batches to the new R2 bucket
-        if: inputs.operation == 'crawl'
-        run: |
-          set -eu
-          for file in "$RUNNER_TEMP"/catalog-imports/*.json; do
-            test -f "$file"
-            npx --yes wrangler@4 r2 object put "icpstore-catalog-files-prod/imports/v3/$(basename "$file")" --file="$file" --remote --content-type=application/json
-          done
-          echo 'Uploaded batches. The configured R2 notification and Queue must process them into D1.'
-      - name: Verify published projects appear in the new API
-        if: inputs.operation == 'crawl'
-        run: |
-          set -eu
-          for attempt in $(seq 1 15); do
-            if curl --fail --silent --show-error --max-time 15 "$CATALOG_API_BASE_URL/api/search?page=1&limit=1" > "$RUNNER_TEMP/catalog-result.json" && node -e "const d=require(process.argv[1]);if(!Array.isArray(d.records)||d.count<1)process.exit(1);console.log('Published projects:',d.count)" "$RUNNER_TEMP/catalog-result.json"; then
-              exit 0
-            fi
-            sleep 4
-          done
-          echo 'No published projects appeared. Check the R2 notification, Queue and Worker logs.' >&2
-          exit 1
+
 
   provision-new-catalog:
     if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.operation == 'provision'
