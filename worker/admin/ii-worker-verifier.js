@@ -3,7 +3,12 @@ import wasmModule from '@dfinity/standalone-sig-verifier-web/standalone_sig_veri
 import { verifyAdministratorProof } from './ii-proof.js';
 let initialized;
 export async function verifyInternetIdentityProof(input) {
-  initialized ||= initVerifier(wasmModule);
-  await initialized;
+  try {
+    initialized ||= initVerifier(wasmModule);
+    await initialized;
+  } catch {
+    initialized = undefined;
+    throw Object.assign(new Error('Verifier initialization failed'), {diagnostic: 'verifier initialization'});
+  }
   return verifyAdministratorProof({...input, verifySignature: verifyIcSignature});
 }

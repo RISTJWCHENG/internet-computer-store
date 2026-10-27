@@ -27,10 +27,12 @@ export function verifyAdministratorProof({chain, signature, message, expectedPri
   for (const item of parsed.delegations) {
     if (item.delegation.expiration <= BigInt(Math.floor(now)) * 1_000_000n) throw Error('Delegation expired');
     const payload = new Uint8Array([...IC_REQUEST_AUTH_DELEGATION_DOMAIN_SEPARATOR, ...requestIdOf({...item.delegation})]);
-    verifySignature(payload, new Uint8Array(item.signature), key, rootKey);
+    try { verifySignature(payload, new Uint8Array(item.signature), key, rootKey); }
+    catch { throw Object.assign(new Error('Invalid delegation signature'), {diagnostic: 'delegation signature'}); }
     key = new Uint8Array(item.delegation.pubkey);
   }
   const signedChallenge = new Uint8Array([...IC_REQUEST_DOMAIN_SEPARATOR, ...requestIdOf({challenge:message})]);
-  verifySignature(signedChallenge, hexBytes(signature), key, rootKey);
+  try { verifySignature(signedChallenge, hexBytes(signature), key, rootKey); }
+  catch { throw Object.assign(new Error('Invalid session signature'), {diagnostic: 'session signature'}); }
   return expectedPrincipal;
 }

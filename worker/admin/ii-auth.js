@@ -15,17 +15,24 @@ export function createInternetIdentityAuth({verifyProof}) {
     },
     async login(request,env){
       if(!validSetup(env)||!origin(request))return json({error:'Not authorized'},403);
+      let stage='challenge';
       try{
         const input=await readJson(request,65536);
         const message=await validateChallenge({secret:env.ADMIN_AUTH_SECRET,origin:approvedOrigin,challenge:input.challenge});
+        stage='identity verification';
         await verifyProof({chain:input.chain,signature:input.signature,message,expectedPrincipal:env.ADMIN_II_PRINCIPAL});
+        stage='session storage';
         const now=Date.now();
         await env.DB.batch([
           env.DB.prepare('DELETE FROM catalog_admin_used_challenges WHERE expires_at <= ?').bind(now),
           env.DB.prepare('INSERT INTO catalog_admin_used_challenges(nonce,expires_at) VALUES(?,?)').bind(input.challenge.nonce,input.challenge.expires)
         ]);
         return json({token:await issueSession({secret:env.ADMIN_AUTH_SECRET,origin:approvedOrigin,principal:env.ADMIN_II_PRINCIPAL,now})});
-      }catch{return json({error:'Authentication failed'},401);}
+      }catch(error){
+        const allowed=['verifier initialization','delegation signature','session signature'];
+        const detail=allowed.includes(error?.diagnostic) ? error.diagnostic : stage;
+        return json({error:`Authentication failed (${detail}).`},401);
+      }
     },
     async authorize(request,env){
       if(!validSetup(env)||!origin(request))return null;

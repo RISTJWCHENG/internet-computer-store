@@ -19,3 +19,10 @@ test('wrong origin, missing configuration and invalid proofs are denied',async()
  assert.equal((await auth.challenge(req('/api/ii/challenge',{}),{})).status,403);
  const challenge=await (await auth.challenge(req('/api/ii/challenge',{}),env)).json();assert.equal((await auth.login(req('/api/ii/session',{challenge}),env)).status,401);database.close();
 });
+test('failed verification reports only a predefined diagnostic category',async()=>{
+ const database=db(),env={ADMIN_II_PRINCIPAL:principal,ADMIN_AUTH_SECRET:secret,DB:database};
+ const auth=createInternetIdentityAuth({verifyProof:async()=>{throw Object.assign(Error('private error detail'),{diagnostic:'delegation signature'})}});
+ const challenge=await (await auth.challenge(req('/api/ii/challenge',{}),env)).json();
+ const result=await auth.login(req('/api/ii/session',{challenge}),env);
+ assert.equal(result.status,401);assert.deepEqual(await result.json(),{error:'Authentication failed (delegation signature).'});database.close();
+});
