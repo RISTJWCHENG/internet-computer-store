@@ -14,6 +14,7 @@
     "test": "node --test config/*.test.mjs crawler/*.test.mjs core/tests/*.test.mjs core/cloud-v1/*.test.mjs worker/v3/*.test.mjs worker/v5/*.test.mjs worker/admin/*.test.mjs"
   },
   "dependencies": {
+    "@dfinity/standalone-sig-verifier-web": "1.0.0",
     "@icp-sdk/auth": "^10.0.2"
   },
   "devDependencies": {

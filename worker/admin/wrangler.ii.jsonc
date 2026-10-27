@@ -1,0 +1,15 @@
+{
+  "name": "icpstore-catalog-admin-prod",
+  "main": "ii-entry.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "vars": {
+    "ADMIN_WRITES_ENABLED": "false",
+    "ADMIN_II_PRINCIPAL": "cvzgo-accjr-4oizt-pkxsb-ijvj7-oqdwh-eur3g-q67oq-sr354-5fehi-2qe"
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "icpstore-catalog-db-prod",
+    "database_id": "4f4ad80c-0df9-4b9e-a080-01708e472bae"
+  }]
+}

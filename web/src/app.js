@@ -4,6 +4,8 @@ const SITE_NAME = site.name;
 import {searchProjectsV3} from './cloud-search.js';
 import { loadPublishedProjects } from './cloud-data.js'
 import { renderProfile, initProfile } from './profile.js'
+import { getAdministratorAccess } from './auth.js'
+import { startAdminDashboard } from './admin-dashboard.js'
 
 const CATS=['Games','DeFi','AI','Social','NFT','DAO','Developer Tools','Infrastructure','Websites','Other'],GENRES=['Casual','Strategy','Puzzle','Multiplayer','Adventure','Other'];
 // Published records only. Never initialize the live UI with fictitious projects.
@@ -126,7 +128,7 @@ return`<div class="page"><div class="cover" style="height:110px" aria-hidden="tr
 submit(){return`<div class="page"><h1>Submit Your Project to the ICP Ecosystem</h1><p class="mute" style="margin-bottom:24px">Submissions go to a review queue. Nothing is published automatically.</p><form class="f" id="sub" novalidate>${[['name','Project name'],['website','Official website','url'],['description','Description','area'],['category','Category','sel'],['logo','Logo URL','url',1],['github','GitHub URL','url',1],['canister','Canister ID','text',1],['contact','Contact email (private)','email']].map(([n,l,t='text',o])=>`<div><label for="${n}">${l}${o?' <span class="mute">(optional)</span>':''}</label>${t==='area'?`<textarea id="${n}" name="${n}" rows="4"></textarea>`:t==='sel'?`<select id="${n}" name="${n}">${CATS.map(c=>`<option>${c}</option>`).join('')}</select>`:`<input id="${n}" name="${n}" type="${t}">`}<p class="err" id="e-${n}" role="alert"></p></div>`).join('')}<input name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none"><button class="btn p" style="justify-content:center">Submit for review</button><p id="res" role="status" class="glass card" hidden></p></form></div>`},
 categories(){return`<div class="page"><h1>Categories</h1><div class="grid">${CATS.map(c=>`<a class="card" href="#/explore?cat=${encodeURIComponent(c)}"><h3>${c}</h3><p class="mute">${P.filter(p=>p.cats.includes(c)).length} listing${P.filter(p=>p.cats.includes(c)).length===1?'':'s'}</p></a>`).join('')}</div></div>`},
 about(){return`<div class="page" style="max-width:760px"><h1>About ${SITE_NAME}</h1><p style="font-size:18px">Making the Internet Computer ecosystem easier to discover, explore, and grow.</p><h2 style="margin-top:32px;font-size:20px">Discovery is not endorsement</h2><p class="mute" style="margin-top:8px">Some listings are found automatically from public sources, with the source and collection time recorded. Others are claimed by developers, and a few have a verified identity. None of these labels means a project is safe or audited.</p></div>`},
-admin(){return`<div class="page"><h1>Admin</h1><p class="note">Administrative moderation is unavailable on this public website.</p><div class="grid">${['Pending submissions','Discovered project queue','Duplicate review','Developer claims','Broken link monitor','Source sync status'].map(t=>`<div class="glass card"><h2 style="font-size:16px">${t}</h2><p class="mute" style="font-size:14px">Backend not connected</p><button class="btn" disabled>Approve / reject (disabled)</button></div>`).join('')}</div></div>`}};
+admin(){return `<div class="page" id="admin-dashboard"><p class="mute">Checking administrator access…</p></div>`}};
 const app=document.getElementById('app');
 const mast=document.getElementById('mast');
 (()=>{const C=['#2F6BFF','#E5484D','#E8920C','#12A594','#8E4EC6','#E93D82','#3E63DD','#30A46C','#F76B15','#0091FF','#D6409F','#5B5BD6','#E54D2E','#00A2C7','#46A758','#CE2C31'];let k=0;
@@ -134,6 +136,7 @@ mast.innerHTML=`<h1 class="catalog-store-title"><a href="#/" aria-label="${SITE_
 
 function route(){const h=location.hash.slice(1)||'/',path=h.split('?')[0],q=query(h),seg=path.split('/')[1]||'home';
 const mi=mast.querySelector('input');if(mi)mi.value=seg==='search'?(q.q||''):'';app.innerHTML=(seg==='app'?V.app(path.split('/')[2]):(V[seg]||(()=>'<p style="padding:80px 0;text-align:center">Nothing here. <a href="#/" style="text-decoration:underline">Back home</a></p>'))(q));
+if(seg==='admin') { const target=document.getElementById('admin-dashboard'); void getAdministratorAccess().then(access=>startAdminDashboard(target,access)).catch(()=>{if(target?.isConnected)target.textContent='Administrator access is unavailable.'}); }
 if(seg==='search') void remoteSearch(q,location.hash);
 if(seg==='games') void remoteGames(location.hash);
 document.title=seg==='home'?`${SITE_NAME} — ${site.tagline}`:SITE_NAME+' · '+seg;window.scrollTo({top:0,left:0,behavior:'instant'});
@@ -207,7 +210,7 @@ if(d.github&&!safe(d.github))x.github='Enter a full https:// URL.';if(d.logo&&!s
 const r=document.getElementById('res');if(Object.keys(x).length){r.hidden=true;return}
 r.hidden=false;r.textContent='Submission is not connected yet. Nothing was saved. Please do not assume your project was submitted.'}});
 addEventListener('hashchange',route);
-addEventListener('catalog:auth-changed', () => { if (location.hash.startsWith('#/profile')) route() });
+addEventListener('catalog:auth-changed', () => { if (location.hash.startsWith('#/profile') || location.hash.startsWith('#/admin')) route() });
 initProfile();
 async function remoteGames(startedHash) {
   const target = document.getElementById('catalog-live-games');

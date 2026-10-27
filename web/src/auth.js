@@ -27,7 +27,7 @@ function render() {
     const name = getProfileName(principal)
     const displayName = name || 'Member'
     const adminUrl = administratorDashboardUrl(principal, adminConfig)
-    const adminLink = adminUrl ? `<a class="account-menu-item" href="${safeLabel(adminUrl)}">Admin Dashboard</a>` : ''
+    const adminLink = adminUrl ? `<a class="account-menu-item" href="#/admin">Admin Dashboard</a>` : ''
     const menuUserIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19c.5-3.3 3-5 6.5-5s6 1.7 6.5 5"/></svg>`
     const menuLogoutIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`
     el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu" title="My Profile">${userIcon}</button><div class="account-account-menu catalog-profile-clean" hidden><div class="catalog-profile-heading"><span class="catalog-profile-avatar">${menuUserIcon}</span><span class="catalog-profile-identity"><strong title="${safeLabel(displayName)}">${safeLabel(displayName)}</strong><small>Internet Identity</small></span><span class="catalog-profile-check" title="Signed in" aria-label="Signed in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16.5 9"/></svg></span></div><div class="catalog-profile-actions"><a class="account-menu-item" href="#/profile">${menuUserIcon}<span>My Profile</span></a>${adminLink}<button type="button" class="account-menu-item account-menu-logout" data-act="out">${menuLogoutIcon}<span>Log out</span></button></div></div></div></div>`
@@ -124,3 +124,11 @@ window.addEventListener('hashchange', closeAccountMenu)
 export const currentPrincipal = () => principal
 
 window.catalogCurrentPrincipal = () => principal
+
+export async function getAdministratorAccess() {
+  const url = administratorDashboardUrl(principal, adminConfig);
+  if (!url || !client || !client.isAuthenticated()) return null;
+  const identity = await client.getIdentity();
+  if (identity.getPrincipal().toText() !== principal) return null;
+  return {url, identity};
+}

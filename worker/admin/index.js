@@ -36,7 +36,7 @@ function sameOrigin(request) {
   const origin=request.headers.get('Origin');
   return origin === new URL(request.url).origin && request.headers.get('Sec-Fetch-Site') !== 'cross-site';
 }
-async function saveProject(db, input, actor) {
+export async function saveProject(db, input, actor) {
   const existing = await db.prepare('SELECT source_type FROM search_entities_v3 WHERE id=?').bind(input.id).first();
   if (existing && existing.source_type !== 'manual') return response({error:'Project ID belongs to another source'},409);
   const indexed = await db.prepare('SELECT source FROM project_index WHERE id=?').bind(input.id).first();

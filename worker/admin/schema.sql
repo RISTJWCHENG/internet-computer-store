@@ -16,3 +16,7 @@ CREATE TABLE IF NOT EXISTS catalog_admin_write_guard (
   entity_id TEXT PRIMARY KEY,
   allowed INTEGER NOT NULL CHECK (allowed = 1)
 );
+CREATE TABLE IF NOT EXISTS catalog_admin_used_challenges (
+  nonce TEXT PRIMARY KEY,
+  expires_at INTEGER NOT NULL
+);
