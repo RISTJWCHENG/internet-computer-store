@@ -53,3 +53,5 @@
 - Verify Caffeine Apps navigation on the deployed website after the frontend fix.
 
 - Review inclusion criteria and ingestion for infrastructure projects such as OpenCloud; the navigation link uses existing indexed records.
+
+- Enable and configure Cloudflare Access for the separate admin Worker with the owner's chosen identity; set ADMIN_EMAIL securely and supply the owner's Internet Identity principal for the disabled menu. Review the source, apply the additive admin schema, deploy, and run authenticated and unauthorized end-to-end tests before enabling the menu.

@@ -264,3 +264,7 @@ Caffeine Apps navigation: preserve the API category during frontend normalizatio
 
 
 Infrastructure navigation is available after Explore and links to the existing Infrastructure category. GitHub Pages run 40436309145 and review Site deployment succeeded. New entries such as OpenCloud are not automatically added by this UI change.
+
+
+## Administrator dashboard in progress
+A separate, default-deny admin Worker and disabled frontend menu were prepared. Local test suite passed 231 tests, including Access fail-closed behavior, SQLite draft/publication, CSRF rejection, and concurrent source protection. The Cloudflare API returned Access-not-enabled errors and a permission error for organization lookup; no Access configuration, production admin deployment, schema migration, or real authenticated browser testing has been performed. Administrator email and Internet Identity principal still require owner selection.

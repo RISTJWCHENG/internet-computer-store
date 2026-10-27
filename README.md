@@ -107,3 +107,8 @@ Cloudflare operations use GitHub Secrets `CLOUDFLARE_ICPSTORE_API_TOKEN` and
 `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`. The crawler discovers the Worker origin
 automatically; the optional `CATALOG_API_BASE_URL` variable can override it.
 Crawler coverage is limited to its configured sources. Crawl and Cloudflare deployment operations share a concurrency group.
+
+
+## Administrator dashboard (disabled)
+
+The separate `worker/admin` service contains a draft Infrastructure editor and requires Cloudflare Access plus an exact `ADMIN_EMAIL` Worker secret. The frontend menu remains disabled in `web/public/admin-config.json`. Do not deploy the admin Worker or enable its menu until Access has been enabled, the Access policy and administrator identity configured, the additive admin schema applied, and authenticated end-to-end testing has succeeded. The existing public catalog remains read-only.

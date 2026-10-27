@@ -227,3 +227,7 @@ Preserve the Caffeine Apps category when transforming API records; previously th
 
 ## Infrastructure navigation
 Added an Infrastructure entry after Explore and corrected active-link selection. GitHub Pages run 40436309145 succeeded; review Site build and deployment succeeded. This only exposes the existing category and does not ingest new projects.
+
+
+## Administrator dashboard preparation
+Built a default-deny separate admin Worker, protected manual-project writes, audit table, draft/publish form, and disabled administrator menu. `TMPDIR=/workspace/scratch/bb57084deab3 npm test`: 231 passed; local build passed. Read-only Cloudflare Access inspection returned Access not enabled and organization lookup 403. No admin Worker deployment or production database change performed; real Access browser testing remains pending.

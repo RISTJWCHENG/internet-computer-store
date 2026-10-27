@@ -1,0 +1,11 @@
+{
+  "name": "icpstore-catalog-admin-prod",
+  "main": "index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "icpstore-catalog-db-prod",
+    "database_id": "4f4ad80c-0df9-4b9e-a080-01708e472bae"
+  }]
+}

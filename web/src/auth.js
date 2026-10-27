@@ -3,6 +3,7 @@
 import { AuthClient } from '@icp-sdk/auth/client'
 import { initFavorites } from './favorites.js'
 import { getProfileName } from './profile.js'
+import { administratorDashboardUrl } from './admin-menu.js'
 
 const safeLabel = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const short = t => t.length > 17 ? `${t.slice(0, 5)}…${t.slice(-5)}` : t
@@ -11,6 +12,7 @@ let client
 let principal = ''
 let busy = false
 let lastError = ''
+let adminConfig = null
 
 const notify = () => window.dispatchEvent(new Event('catalog:auth-changed'))
 
@@ -24,9 +26,11 @@ function render() {
   if (principal) {
     const name = getProfileName(principal)
     const displayName = name || 'Member'
+    const adminUrl = administratorDashboardUrl(principal, adminConfig)
+    const adminLink = adminUrl ? `<a class="account-menu-item" href="${safeLabel(adminUrl)}">Admin Dashboard</a>` : ''
     const menuUserIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19c.5-3.3 3-5 6.5-5s6 1.7 6.5 5"/></svg>`
     const menuLogoutIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`
-    el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu" title="My Profile">${userIcon}</button><div class="account-account-menu catalog-profile-clean" hidden><div class="catalog-profile-heading"><span class="catalog-profile-avatar">${menuUserIcon}</span><span class="catalog-profile-identity"><strong title="${safeLabel(displayName)}">${safeLabel(displayName)}</strong><small>Internet Identity</small></span><span class="catalog-profile-check" title="Signed in" aria-label="Signed in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16.5 9"/></svg></span></div><div class="catalog-profile-actions"><a class="account-menu-item" href="#/profile">${menuUserIcon}<span>My Profile</span></a><button type="button" class="account-menu-item account-menu-logout" data-act="out">${menuLogoutIcon}<span>Log out</span></button></div></div></div></div>`
+    el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu" title="My Profile">${userIcon}</button><div class="account-account-menu catalog-profile-clean" hidden><div class="catalog-profile-heading"><span class="catalog-profile-avatar">${menuUserIcon}</span><span class="catalog-profile-identity"><strong title="${safeLabel(displayName)}">${safeLabel(displayName)}</strong><small>Internet Identity</small></span><span class="catalog-profile-check" title="Signed in" aria-label="Signed in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16.5 9"/></svg></span></div><div class="catalog-profile-actions"><a class="account-menu-item" href="#/profile">${menuUserIcon}<span>My Profile</span></a>${adminLink}<button type="button" class="account-menu-item account-menu-logout" data-act="out">${menuLogoutIcon}<span>Log out</span></button></div></div></div></div>`
   } else {
     el.innerHTML = `<div class="account-topbar-actions">${apps}<div class="account-account-slot"><button type="button" class="account-top-icon account-avatar-btn" data-act="in" aria-label="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" title="${busy ? 'Connecting' : lastError ? 'Retry login' : 'Login'}" ${busy ? 'disabled' : ''}>${userIcon}</button></div></div>${lastError ? `<span class="account-auth-error" role="alert">${safeLabel(lastError)}</span>` : ''}`
   }
@@ -50,6 +54,10 @@ async function refreshIdentity() {
 
 export async function initAuth() {
   initFavorites(() => principal)
+  try {
+    const configResponse = await fetch(`${import.meta.env.BASE_URL}admin-config.json`, {cache:'no-store', signal:AbortSignal.timeout(3000)});
+    adminConfig = configResponse.ok ? await configResponse.json() : null;
+  } catch { adminConfig = null; }
   try {
     client = new AuthClient()
     client.subscribe(() => { void refreshIdentity() })
