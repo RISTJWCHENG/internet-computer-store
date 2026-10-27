@@ -195,3 +195,9 @@ public frontend has not been cut over.
 - Read-only GitHub Actions diagnostics: both fresh R2 batches completed (29 SNS, 3 Caffeine, zero rejected); new API returned 32 records, same count as old API, and allowed the Pages origin.
 - Switched Pages API configuration to the new Worker; build, tests, deployment, and deployed api-config.json verification passed.
 - Legacy staging workflow still uses old resources; no old resources were deleted. The workers.dev subdomain retains the old name.
+
+
+## 2026-10-27: Legacy cleanup started
+- Retired the old daily staging job and removed legacy Cloudflare credential fallbacks from the fresh catalog workflow.
+- GitHub Actions Pages build and deployment succeeded after retiring the schedule. Read-only inventory and fresh catalog diagnostics succeeded.
+- Old R2 buckets, D1 databases and Workers remain; legacy persisted identifiers and staging source still require review. No resources were deleted.

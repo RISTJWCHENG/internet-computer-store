@@ -43,3 +43,5 @@
 - [ ] Configure the multi-service account API token as `CLOUDFLARE_ICPSTORE_API_TOKEN`; run current `provision` operation and verify.
 
 - Review and replace the legacy staging schedule and its old Cloudflare resource dependencies before retiring old resources. Validate ongoing ingestion and website features.
+
+- Remove or migrate legacy staging implementation and compatibility identifiers only after checking data and behavior dependencies. Retire the inventoried legacy Cloudflare resources after verifying their remaining users. New catalog ingestion remains manual.
