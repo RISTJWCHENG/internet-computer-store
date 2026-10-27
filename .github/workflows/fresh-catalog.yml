@@ -154,6 +154,15 @@ jobs:
           curl --fail --silent --show-error --max-time 20 "https://ristjwcheng.github.io/internet-computer-store/api-config.json" | node -e "let t='';process.stdin.on('data',c=>t+=c);process.stdin.on('end',()=>{const d=JSON.parse(t);if(d.apiBaseUrl!==process.env.CATALOG_API_BASE_URL)process.exit(1);console.log('Deployed website uses new catalog API')})"
 
 
-      - name: Verify review proxy
+
+      - name: Verify catalog resources
+        shell: bash
         run: |
-          curl --fail --silent --show-error --max-time 20 "https://internet-computer-store-review.famouslime257.chatgpt.site/api/search?page=1&limit=1" | node -e "let t='';process.stdin.on('data',c=>t+=c);process.stdin.on('end',()=>{const d=JSON.parse(t);if(!Array.isArray(d.records)||d.count<1)process.exit(1);console.log('Review site published count:',d.count)})"
+          node --input-type=module <<'NODE'
+          const root='https://api.cloudflare.com/client/v4/accounts/'+process.env.CLOUDFLARE_ACCOUNT_ID;
+          async function get(path){const r=await fetch(root+path,{headers:{Authorization:'Bearer '+process.env.CLOUDFLARE_API_TOKEN}});const d=await r.json();if(!r.ok||!d.success)throw Error('Inventory failed '+r.status);return d.result}
+          for(const [type,path] of [['R2','/r2/buckets'],['D1','/d1/database?per_page=100'],['Workers','/workers/scripts'],['Queues','/queues?per_page=100']]){
+            const result=await get(path);const rows=Array.isArray(result)?result:result.buckets||[];
+            console.log(type+': '+rows.map(x=>x.name||x.id||x.queue_name).filter(Boolean).join(', '));
+          }
+          NODE
