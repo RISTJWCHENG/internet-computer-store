@@ -45,3 +45,5 @@
 - Review and replace the legacy staging schedule and its old Cloudflare resource dependencies before retiring old resources. Validate ongoing ingestion and website features.
 
 - Remove or migrate legacy staging implementation and compatibility identifiers only after checking data and behavior dependencies. Retire the inventoried legacy Cloudflare resources after verifying their remaining users. New catalog ingestion remains manual.
+
+- Migrate the workers.dev account subdomain or use a custom domain without interrupting the new Worker. Keep browser legacy storage fallbacks until an explicit user-data migration strategy is in place.

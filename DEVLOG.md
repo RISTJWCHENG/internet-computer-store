@@ -201,3 +201,9 @@ public frontend has not been cut over.
 - Retired the old daily staging job and removed legacy Cloudflare credential fallbacks from the fresh catalog workflow.
 - GitHub Actions Pages build and deployment succeeded after retiring the schedule. Read-only inventory and fresh catalog diagnostics succeeded.
 - Old R2 buckets, D1 databases and Workers remain; legacy persisted identifiers and staging source still require review. No resources were deleted.
+
+
+## Legacy Cloudflare retirement
+- Removed the three old R2 buckets, three old D1 databases, three old Workers, and four old queues. New catalog health and Pages configuration were checked during cleanup.
+- Updated the review proxy and deployed the review Site. Removed obsolete staging deployment configuration and legacy secret aliases; changed inactive artifact namespaces to catalog. Browser fallbacks retained to preserve data.
+- Local npm test: 217 passed, 0 failed. Workers.dev subdomain migration remains outstanding.

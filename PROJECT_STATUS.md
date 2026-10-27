@@ -243,3 +243,7 @@ GitHub Pages now uses the new catalog API. Fresh crawl accepted 29 SNS and 3 Caf
 
 ## 2026-10-27 legacy cleanup
 Legacy daily staging schedule was removed. Fresh catalog workflow now requires the selected ICPSTORE Cloudflare secrets. Read-only inventory confirmed three legacy R2 buckets, three legacy D1 databases, and three legacy Workers remain; no resources were deleted. Persisted compatibility identifiers and staging code require further review.
+
+
+## Retired catalog cleanup
+Legacy production and staging buckets, D1 databases, Workers and queues were removed after cutover. Review proxy was deployed to the new catalog. Browser storage fallback identifiers remain to preserve existing profiles and favorites. The Cloudflare workers.dev account subdomain still carries the historical name.
