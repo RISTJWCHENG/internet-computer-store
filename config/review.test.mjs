@@ -8,7 +8,7 @@ test('review data proxy reads the fixed upstream without forwarding browser cred
  const worker=createReviewWorker({},async(url,options)=>{seen={url:String(url),options};return Response.json({records:[{id:'real-project'}],count:1},{headers:{'access-control-allow-origin':'https://ristjwcheng.github.io'}});});
  const r=await worker.fetch(new Request('https://review.example/api/search?page=2&limit=30',{headers:{Cookie:'private-session',Authorization:'private'}}));
  assert.equal((await r.json()).count,1);
- assert.equal(seen.url,'https://ordoviworld-api.ordoviworld.workers.dev/api/search?page=2&limit=30');
+ assert.equal(seen.url,'https://icpstore-catalog-api-prod.ordoviworld.workers.dev/api/search?page=2&limit=30');
  assert.deepEqual(seen.options.headers,{Accept:'application/json'});
  assert.equal(r.headers.get('access-control-allow-origin'),null);
  assert.equal((await worker.fetch(new Request('https://review.example/api/admin'))).status,404);

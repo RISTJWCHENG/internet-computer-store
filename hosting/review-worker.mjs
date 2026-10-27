@@ -1,5 +1,5 @@
 // A fixed, read-only upstream keeps the review site independent of browser CORS.
-const UPSTREAM = 'https://ordoviworld-api.ordoviworld.workers.dev';
+const UPSTREAM = 'https://icpstore-catalog-api-prod.ordoviworld.workers.dev';
 export function createReviewWorker(assets = {}, fetcher = fetch) {
   return {
     async fetch(request) {
