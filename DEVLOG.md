@@ -178,3 +178,14 @@ be configured securely by the user. No credential values were read or saved.
 Updated both fresh-catalog jobs to read `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`,
 falling back to the earlier GitHub Secret name. Updated diagnostic messages
 and checked workflow YAML. No account ID or token value was inspected.
+
+
+## 2026-10-27 — new queues and Worker deployed
+
+User supplied updated GitHub account/token Secret names. Actions run
+40424314705 completed provisioning and deployment successfully. Logs confirmed
+the two new queues and R2 event notification were created and the new Worker
+was deployed. Added account-subdomain lookup for the new Worker URL and a
+health/search check to the provisioning workflow. User requested the production
+crawl be manual, so this change does not invoke it. Old resources remain and the
+public frontend has not been cut over.

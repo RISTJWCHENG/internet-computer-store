@@ -123,9 +123,9 @@ on the new bucket for prefix `imports/v3/` and suffix `.json`, targeting the
 first queue. Queue availability and charges depend on the Cloudflare account.
 
 On the Actions page, run `Fresh production catalog` on `main` in order:
-`initialize`, then `deploy`. Obtain the Worker URL shown by deployment, create
-repository variable `CATALOG_API_BASE_URL` with that HTTPS origin, and run
-`crawl`. The crawl uses the SNS adapter and the curated Caffeine seeds; it does
+`initialize`, then `deploy`. The workflow discovers the Worker URL from the Cloudflare account;
+run `crawl` after confirming the new API health check. An optional repository
+variable `CATALOG_API_BASE_URL` may override that discovered origin. The crawl uses the SNS adapter and the curated Caffeine seeds; it does
 not guarantee every previously published project can be rediscovered. It uploads
 only validated batches; R2 notifications and the Queue must be functioning for
 D1 to receive the data. The workflow verifies that published results appear.

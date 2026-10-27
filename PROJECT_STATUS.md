@@ -223,3 +223,15 @@ name. The screenshot confirms secret names only; token value and permissions
 are not visible. A guarded provisioning retry may check permissions without
 printing secrets. No old resource may be removed until the new API and catalog
 are verified.
+
+
+## New resources provisioned
+
+On 2026-10-27 GitHub Actions run 40424314705 succeeded using the user's new
+Cloudflare account token. It created `icpstore-catalog-ingest-prod`,
+`icpstore-catalog-ingest-dlq-prod`, the filtered R2 event notification, and
+deployed Worker `icpstore-catalog-api-prod` to the account's existing
+workers.dev subdomain. The user requested a manual crawl; no crawl was run.
+Added automatic account-subdomain discovery and an API health check to avoid
+requiring a manually populated GitHub URL variable. The current public frontend
+still uses the previous API pending validation and the manual crawl.

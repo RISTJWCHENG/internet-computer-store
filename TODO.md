@@ -33,7 +33,7 @@
 
 - [ ] Verify the selected GitHub secret names against the staging Worker before removing legacy fallback references.
 
-- [ ] Verify the one-time Cloudflare provisioning job and the new API health.
+- [ ] Verify the new API health after the successful provisioning job.
 - [ ] Run the requested crawl manually and validate the new catalog before cutover.
 - [ ] After successful cutover, review the exact legacy Cloudflare resources for removal.
 
