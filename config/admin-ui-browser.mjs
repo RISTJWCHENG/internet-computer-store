@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 const path=new URL('../web/admin-preview.html',import.meta.url);
 const html=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/src/style.css"><link rel="stylesheet" href="/src/admin-dashboard.css"></head><body><main class="wrap"><div id="admin-dashboard"></div></main><script type="module">import {startAdminDashboard} from '/src/admin-dashboard.js';window.fetch=async()=>new Response(JSON.stringify({error:'Authentication failed (delegation signature).'}),{status:401,headers:{'Content-Type':'application/json'}});startAdminDashboard(document.getElementById('admin-dashboard'),{identity:{},url:'https://admin.example'});</script></body></html>`;
 await writeFile(path,html);
-const vite=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','5173','--strictPort'],{stdio:'ignore'});
+const vite=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','5173','--strictPort'],{stdio:'inherit',env:{...process.env,PUBLIC_BASE_PATH:'/'}});
 let browser;
 try {
   for(let i=0;i<100;i++){try{const r=await fetch('http://127.0.0.1:5173/admin-preview.html');if(r.ok)break;}catch{}await new Promise(resolve=>setTimeout(resolve,100));if(i===99)throw Error('Vite did not start');}

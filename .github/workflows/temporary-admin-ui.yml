@@ -21,3 +21,5 @@ jobs:
       - run: npm install --no-save --no-audit --no-fund playwright@1.56.1
       - run: npx playwright install chromium
       - run: node config/admin-ui-browser.mjs
+
+# Test the root-path preview independently of the deployed site base.
