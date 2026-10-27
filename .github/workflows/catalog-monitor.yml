@@ -119,6 +119,9 @@ jobs:
 
 
   execute:
+    concurrency:
+      group: catalog-cloud-operations
+      cancel-in-progress: false
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.operation == 'deploy' || inputs.operation == 'initialize')
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -152,6 +155,9 @@ jobs:
 
 
   provision-new-catalog:
+    concurrency:
+      group: catalog-cloud-operations
+      cancel-in-progress: false
     if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.operation == 'provision'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
