@@ -268,3 +268,7 @@ Infrastructure navigation is available after Explore and links to the existing I
 
 ## Administrator dashboard in progress
 A separate, default-deny admin Worker and disabled frontend menu were prepared. Local test suite passed 231 tests, including Access fail-closed behavior, SQLite draft/publication, CSRF rejection, and concurrent source protection. The Cloudflare API returned Access-not-enabled errors and a permission error for organization lookup; no Access configuration, production admin deployment, schema migration, or real authenticated browser testing has been performed. Administrator email and Internet Identity principal still require owner selection.
+
+
+## Administrator workspace UI (2026-10-27)
+A responsive workspace with overview, project search and filtering, editor and explicit read-only/connection states is implemented. The administrator Worker is deployed with writes disabled; real Internet Identity canister-signature verification remains unresolved. The root-key correction committed earlier has not been deployed. The UI requires the Worker to explicitly report writes enabled before allowing editing. Local npm test passed 246 tests and npm run build passed. Browser checks run separately in a temporary CI workflow; authenticated production testing is pending.

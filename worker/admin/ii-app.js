@@ -16,7 +16,7 @@ export function createInternetIdentityAdmin(verifyProof) {
   if(request.method==='POST' && u.pathname==='/api/ii/challenge')return auth.challenge(request,env);
   if(request.method==='POST' && u.pathname==='/api/ii/session')return auth.login(request,env);
   const actor=await auth.authorize(request,env);if(!actor)return json({error:'Not authorized'},401);
-  if(request.method==='GET' && u.pathname==='/api/ii/session')return json({authenticated:true});
+  if(request.method==='GET' && u.pathname==='/api/ii/session')return json({authenticated:true,writesEnabled:env.ADMIN_WRITES_ENABLED==='true'});
   if(request.method==='GET' && u.pathname==='/api/projects'){
    try{const rows=await env.DB.prepare("SELECT e.id,e.canonical_name AS name,e.description,e.category,e.website_url AS websiteUrl,e.status,m.relationship,m.evidence_url AS evidenceUrl,COALESCE(d.logo_url,'') AS logoUrl FROM search_entities_v3 e JOIN catalog_admin_metadata m ON e.id=m.entity_id LEFT JOIN search_project_details_v4 d ON d.entity_id=e.id WHERE e.source_type='manual' ORDER BY e.updated_at DESC LIMIT 200").all();return json({projects:rows.results||[]});}catch{return json({error:'Unable to load projects'},500);}
   }

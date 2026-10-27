@@ -231,3 +231,7 @@ Added an Infrastructure entry after Explore and corrected active-link selection.
 
 ## Administrator dashboard preparation
 Built a default-deny separate admin Worker, protected manual-project writes, audit table, draft/publish form, and disabled administrator menu. `TMPDIR=/workspace/scratch/bb57084deab3 npm test`: 231 passed; local build passed. Read-only Cloudflare Access inspection returned Access not enabled and organization lookup 403. No admin Worker deployment or production database change performed; real Access browser testing remains pending.
+
+
+## 2026-10-27 — Administrator workspace UI
+Implemented responsive overview, manually managed project list and editor with search, filtering, connection and read-only states. Added explicit server-side writesEnabled capability and an API regression check. Local npm test: 246 passed; npm run build: passed. Production authentication remains unresolved and administrator writes remain disabled. Worker changes have not been deployed. Automated browser verification runs separately.
