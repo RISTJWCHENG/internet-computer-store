@@ -189,3 +189,9 @@ was deployed. Added account-subdomain lookup for the new Worker URL and a
 health/search check to the provisioning workflow. User requested the production
 crawl be manual, so this change does not invoke it. Old resources remain and the
 public frontend has not been cut over.
+
+
+## 2026-10-27: Fresh catalog cutover
+- Read-only GitHub Actions diagnostics: both fresh R2 batches completed (29 SNS, 3 Caffeine, zero rejected); new API returned 32 records, same count as old API, and allowed the Pages origin.
+- Switched Pages API configuration to the new Worker; build, tests, deployment, and deployed api-config.json verification passed.
+- Legacy staging workflow still uses old resources; no old resources were deleted. The workers.dev subdomain retains the old name.

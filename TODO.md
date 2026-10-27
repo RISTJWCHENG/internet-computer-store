@@ -41,3 +41,5 @@
 - [ ] Rerun the failed provisioning job after the token is updated securely.
 
 - [ ] Configure the multi-service account API token as `CLOUDFLARE_ICPSTORE_API_TOKEN`; run current `provision` operation and verify.
+
+- Review and replace the legacy staging schedule and its old Cloudflare resource dependencies before retiring old resources. Validate ongoing ingestion and website features.

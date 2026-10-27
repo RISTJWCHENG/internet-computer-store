@@ -235,3 +235,7 @@ workers.dev subdomain. The user requested a manual crawl; no crawl was run.
 Added automatic account-subdomain discovery and an API health check to avoid
 requiring a manually populated GitHub URL variable. The current public frontend
 still uses the previous API pending validation and the manual crawl.
+
+
+## 2026-10-27 catalog cutover
+GitHub Pages now uses the new catalog API. Fresh crawl accepted 29 SNS and 3 Caffeine records; both batches completed and the new API returned 32 published records. GitHub Pages deployment and live API configuration passed. Legacy staging schedules still reference old resources; removal remains pending.
