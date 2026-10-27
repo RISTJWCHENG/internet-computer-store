@@ -247,3 +247,7 @@ Legacy daily staging schedule was removed. Fresh catalog workflow now requires t
 
 ## Retired catalog cleanup
 Legacy production and staging buckets, D1 databases, Workers and queues were removed after cutover. Review proxy was deployed to the new catalog. Browser storage fallback identifiers remain to preserve existing profiles and favorites. The Cloudflare workers.dev account subdomain still carries the historical name.
+
+
+## Workflow separation
+The manual crawler and deployment workflows are separate. The crawler has no schedule. Monitor deploys GitHub Pages on main pushes and supports manual Worker, provision and initialization operations. The workflow files were parsed locally; deployed Actions runs are being verified.

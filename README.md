@@ -77,13 +77,7 @@ Historical wire schemas, object paths and browser storage keys are isolated in
 neutral replacements. These external identities are deliberately preserved;
 changing them requires a separate data/resource migration.
 
-Existing Cloudflare resource names, API hostnames, GitHub environment and secret
-references, and the repository URL remain deployment identities. No cloud
-resources were created, renamed or deployed. Set the API URL in
-`web/public/api-config.json` when moving the backend. Update the Wrangler
-resource bindings and workflow environment references only after provisioning
-and validating replacement resources. Renaming the GitHub repository itself
-requires repository administration permission and has not been performed.
+The production site uses the new catalog Worker and Cloudflare resources. Configure the public API origin in `web/public/api-config.json`; GitHub Actions credentials remain in GitHub Secrets.
 
 Run `npm ci`, `npm test`, and `npm run build` before publishing. See
 `PROJECT_STATUS.md` for the exact verification and remote-save status.
@@ -103,56 +97,15 @@ The regular GitHub Pages configuration keeps its direct API URL. Do not change
 it to same-origin unless the host supplies the corresponding API proxy.
 
 
-## Fresh production catalog setup
+## Production workflows
 
-The new D1 and R2 resources are `icpstore-catalog-db-prod` and
-`icpstore-catalog-files-prod`. Their target Worker is `icpstore-catalog-api-prod`.
-`worker/schema-fresh.sql` creates the application tables and FTS index without
-importing old data; `worker/wrangler.jsonc` binds the new resources. The current
-website keeps its existing API until the new Worker and crawl are verified.
+The production D1 database is `icpstore-catalog-db-prod`, the R2 bucket is
+`icpstore-catalog-files-prod`, and the Worker is `icpstore-catalog-api-prod`.
 
-Before running the manual `Fresh production catalog` workflow, configure the
-GitHub Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` using
-Cloudflare's supported CI authentication. The Cloudflare token needs the scoped
-permissions for the selected operation; an R2 S3 credential alone is not assumed
-to grant D1 or Worker access. Never put credentials in source files.
+- **Internet Computer Store Crawler**: run manually on `main` to discover SNS and curated Caffeine projects and ingest them via R2 and Queues. No scheduled crawl is configured.
+- **Internet Computer Store Monitor**: pushes to `main` test, build and deploy GitHub Pages. A manual run can choose `build`, `deploy` (Worker), `provision` (queues, notification and Worker) or `initialize` (D1 schema). Initialization is for a new or empty database.
 
-Create the Queues `icpstore-catalog-ingest-prod` and
-`icpstore-catalog-ingest-dlq-prod`, then configure an R2 object-create notification
-on the new bucket for prefix `imports/v3/` and suffix `.json`, targeting the
-first queue. Queue availability and charges depend on the Cloudflare account.
-
-On the Actions page, run `Fresh production catalog` on `main` in order:
-`initialize`, then `deploy`. The workflow discovers the Worker URL from the Cloudflare account;
-run `crawl` after confirming the new API health check. An optional repository
-variable `CATALOG_API_BASE_URL` may override that discovered origin. The crawl uses the SNS adapter and the curated Caffeine seeds; it does
-not guarantee every previously published project can be rediscovered. It uploads
-only validated batches; R2 notifications and the Queue must be functioning for
-D1 to receive the data. The workflow verifies that published results appear.
-After independent verification, update the frontend API endpoint and deploy it.
-No production API cutover is performed by this workflow.
-
-
-Existing staging automation accepts the neutral repository secret names
-`GPT_API_KEY` and `NATIVE_INGEST_TOKEN`, and temporarily falls
-back to the previously configured names until the replacements are installed
-and verified. These are distinct from the Cloudflare API credentials used by
-the fresh production workflow. Configure secret values directly in GitHub; do
-not store them in code or conversation.
-
-
-The fresh catalog workflow accepts the GitHub Secret
-`CLOUDFLARE_ICPSTORE_API_TOKEN` (falling back to `CLOUDFLARE_API_TOKEN`).
-Use a Cloudflare account API token with the D1, Workers R2 Storage, Queues and
-Workers permissions required for the selected operation. R2 S3 access-key
-credentials alone cannot deploy Workers or configure D1 and Queues. To retry
-the prepared new-resource setup, manually dispatch operation `provision` on
-`main` after configuring the account token. This creates or reuses only the
-new queues and event notification and deploys the new Worker; it does not
-delete legacy resources, run a crawl, or switch the public frontend.
-
-
-The fresh catalog workflow also accepts `CLOUDFLARE_ICPSTORE_ACCOUNT_ID`
-as the GitHub Secret name for the Cloudflare account ID. It takes precedence
-over the legacy `CLOUDFLARE_ACCOUNT_ID` secret. The account ID is distinct from
-the D1 database UUID. The actual values are supplied only through GitHub Secrets.
+Cloudflare operations use GitHub Secrets `CLOUDFLARE_ICPSTORE_API_TOKEN` and
+`CLOUDFLARE_ICPSTORE_ACCOUNT_ID`. The crawler discovers the Worker origin
+automatically; the optional `CATALOG_API_BASE_URL` variable can override it.
+Crawler coverage is limited to its configured sources.

@@ -207,3 +207,8 @@ public frontend has not been cut over.
 - Removed the three old R2 buckets, three old D1 databases, three old Workers, and four old queues. New catalog health and Pages configuration were checked during cleanup.
 - Updated the review proxy and deployed the review Site. Removed obsolete staging deployment configuration and legacy secret aliases; changed inactive artifact namespaces to catalog. Browser fallbacks retained to preserve data.
 - Local npm test: 217 passed, 0 failed. Workers.dev subdomain migration remains outstanding.
+
+
+## Separate crawler and deployment workflows
+- Dedicated manual crawler retains discovery, ingestion and API checks. Monitor owns Pages and manually selected Cloudflare deployment/setup operations.
+- Both workflow files parsed successfully with PyYAML. The crawler was not triggered automatically, per the existing manual-run preference.
