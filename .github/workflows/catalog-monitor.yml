@@ -4,15 +4,7 @@ run-name: Internet Computer Store Monitor - ${{ github.event_name }} - ${{ githu
 on:
   push:
     branches: [main, core17-staging-safe]
-  schedule:
-    - cron: '17 3 * * *'
   workflow_dispatch:
-    inputs:
-      run_daily_index:
-        description: 'Run real daily index now (Staging D1/R2)'
-        type: boolean
-        required: false
-        default: false
 
 permissions:
   contents: read
@@ -72,40 +64,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 3
 
-  native-daily-staging:
-    name: Daily Cloud v1 Staging Index
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_daily_index))
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    environment: ordosyn-staging
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout main Cloud v1 code
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Verify native Cloud v1
-        run: |
-          node --test core/cloud-v1/*.test.mjs
-      - name: Discover, crawl and classify real projects
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GPT_API_KEY_CATALOGSEARCH: ${{ secrets.GPT_API_KEY || secrets.CATALOG_AI_API_KEY || secrets.GPT_API_KEY_ORDOSYNSEARCH }}
-        run: |
-          test -n "$GPT_API_KEY_CATALOGSEARCH"
-          node core/cloud-v1/native-stage1.mjs --sources github --max 3 --scan 40 --out "$RUNNER_TEMP/catalog-classified.json"
-      - name: Persist verified artifacts to isolated Staging D1/R2
-        env:
-          CATALOG_NATIVE_INGEST_TOKEN: ${{ secrets.NATIVE_INGEST_TOKEN || secrets.CATALOG_NATIVE_INGEST_TOKEN || secrets.ORDOSYN_NATIVE_INGEST_TOKEN }}
-        run: |
-          test -n "$CATALOG_NATIVE_INGEST_TOKEN"
-          node core/cloud-v1/native-submit-cli.mjs --in "$RUNNER_TEMP/catalog-classified.json"
   pages-build:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule' && !(github.event_name == 'workflow_dispatch' && inputs.run_daily_index)
+    if: github.ref == 'refs/heads/main'
     name: Build GitHub Pages
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -130,7 +90,7 @@ jobs:
           path: dist
 
   pages-deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'schedule' && !(github.event_name == 'workflow_dispatch' && inputs.run_daily_index)
+    if: github.ref == 'refs/heads/main'
     name: Deploy GitHub Pages
     needs: pages-build
     runs-on: ubuntu-24.04
