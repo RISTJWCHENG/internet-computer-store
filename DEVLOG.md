@@ -223,3 +223,7 @@ Restored schedule `17 3 * * *` (UTC) and retained manual dispatch. A guarded one
 
 ## Caffeine navigation fix
 Preserve the Caffeine Apps category when transforming API records; previously the UI filtered it out. Added a category normalization test; 1 test passed locally. GitHub Pages verification is pending.
+
+
+## Infrastructure navigation
+Added an Infrastructure entry after Explore and corrected active-link selection. GitHub Pages run 40436309145 succeeded; review Site build and deployment succeeded. This only exposes the existing category and does not ingest new projects.

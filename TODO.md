@@ -51,3 +51,5 @@
 - Monitor the first scheduled crawler run at 03:17 UTC and investigate failed Caffeine seed fetches if they persist.
 
 - Verify Caffeine Apps navigation on the deployed website after the frontend fix.
+
+- Review inclusion criteria and ingestion for infrastructure projects such as OpenCloud; the navigation link uses existing indexed records.

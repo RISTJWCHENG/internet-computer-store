@@ -261,3 +261,6 @@ The crawler runs daily at 03:17 UTC and remains available for manual dispatch. G
 
 
 Caffeine Apps navigation: preserve the API category during frontend normalization. Targeted category test passed locally; deployment verification pending.
+
+
+Infrastructure navigation is available after Explore and links to the existing Infrastructure category. GitHub Pages run 40436309145 and review Site deployment succeeded. New entries such as OpenCloud are not automatically added by this UI change.
