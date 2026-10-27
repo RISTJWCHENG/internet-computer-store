@@ -235,3 +235,5 @@ Built a default-deny separate admin Worker, protected manual-project writes, aud
 
 ## 2026-10-27 — Administrator workspace UI
 Implemented responsive overview, manually managed project list and editor with search, filtering, connection and read-only states. Added explicit server-side writesEnabled capability and an API regression check. Local npm test: 246 passed; npm run build: passed. Production authentication remains unresolved and administrator writes remain disabled. Worker changes have not been deployed. Automated browser verification runs separately.
+
+The administrator UI browser check passed on GitHub Actions at desktop and 390px widths after correcting the CI base path. The initial run failed because the preview URL omitted the GitHub Pages base. No production administrator write was performed.

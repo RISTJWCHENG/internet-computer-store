@@ -272,3 +272,5 @@ A separate, default-deny admin Worker and disabled frontend menu were prepared. 
 
 ## Administrator workspace UI (2026-10-27)
 A responsive workspace with overview, project search and filtering, editor and explicit read-only/connection states is implemented. The administrator Worker is deployed with writes disabled; real Internet Identity canister-signature verification remains unresolved. The root-key correction committed earlier has not been deployed. The UI requires the Worker to explicitly report writes enabled before allowing editing. Local npm test passed 246 tests and npm run build passed. Browser checks run separately in a temporary CI workflow; authenticated production testing is pending.
+
+The administrator browser regression passed in GitHub Actions on desktop and 390px mobile widths, including navigation, locked editing and unavailable counts. Real authenticated production login and writes remain unverified and disabled.
