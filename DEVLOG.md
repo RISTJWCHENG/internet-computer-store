@@ -215,3 +215,7 @@ public frontend has not been cut over.
 
 
 Workflow verification: GitHub Pages build and deployment passed on main. `TMPDIR=/workspace/scratch/bb57084deab3 node --test worker/v3/api-origin.test.mjs crawler/*.test.mjs` passed 12 tests. An initial run without TMPDIR failed because /tmp was unavailable. Added a shared concurrency group for crawler and Cloudflare deployment jobs. Manual crawler has not been dispatched.
+
+
+## Restore daily crawler
+Restored schedule `17 3 * * *` (UTC) and retained manual dispatch. A guarded one-time push triggered GitHub Actions run 40433505191 successfully; 29 SNS and 3 Caffeine candidates were uploaded and the API returned 32 published projects. Two Caffeine seeds failed to fetch. Removed the one-time push trigger afterward. The first scheduled execution remains to be observed.

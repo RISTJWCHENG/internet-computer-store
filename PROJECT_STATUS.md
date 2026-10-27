@@ -254,3 +254,7 @@ The manual crawler and deployment workflows are separate. The crawler has no sch
 
 
 Workflow verification: GitHub Pages build and deployment completed successfully on main; 12 crawler and API-origin tests passed locally using TMPDIR in the workspace. The renamed crawler has not been dispatched; it remains manual. Crawler and Cloudflare deployment jobs share a concurrency group.
+
+
+## Daily crawler schedule
+The crawler runs daily at 03:17 UTC and remains available for manual dispatch. GitHub Actions run 40433505191 succeeded during verification: 29 SNS and 3 Caffeine eligible candidates were uploaded, and the API returned 32 published projects. Two Caffeine seed fetches failed during discovery. Scheduled execution at the next interval has not yet occurred.

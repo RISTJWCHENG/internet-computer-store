@@ -48,4 +48,4 @@
 
 - Migrate the workers.dev account subdomain or use a custom domain without interrupting the new Worker. Keep browser legacy storage fallbacks until an explicit user-data migration strategy is in place.
 
-- Verify the next user-initiated crawler run after workflow separation.
+- Monitor the first scheduled crawler run at 03:17 UTC and investigate failed Caffeine seed fetches if they persist.
