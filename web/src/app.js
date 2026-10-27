@@ -1,4 +1,5 @@
 import site from '../../config/site.json'
+import { normalizeCategories } from './catalog-categories.js'
 const SITE_NAME = site.name;
 import {searchProjectsV3} from './cloud-search.js';
 import { loadPublishedProjects } from './cloud-data.js'
@@ -266,7 +267,7 @@ async function remoteSearch(q, startedHash) {
   }
 }
 // Real data: only records you approved (web/public/projects.json). Falls back to labeled demo data when none exist.
-const fromRecord=r=>({name:String(r.name||'').slice(0,80),desc:String(r.description||''),cats:r.categories&&r.categories.length?r.categories.filter(c=>CATS.includes(c)):['Other'],tags:(r.tags||[]).slice(0,5).map(String),slug:String(r.slug||'').replace(/[^a-z0-9-]/g,''),url:safe(r.websiteUrl)?r.websiteUrl:'',play:'',gh:safe(r.githubUrl)?r.githubUrl:'',genre:'',idn:['claimed','verified'].includes(r.identity)?r.identity:'discovered',ver:r.lastVerifiedAt||'',websiteStatus:r.websiteStatus||'unchecked',logoUrl:safe(r.logoUrl)?r.logoUrl:(()=>{try{const u=new URL(r.websiteUrl);return u.protocol==='https:' && u.hostname.toLowerCase().endsWith('.caffeine.xyz') && u.hostname.toLowerCase()!=='caffeine.xyz'?u.origin+'/favicon.ico':''}catch{return ''}})(),upd:String(r.updatedAt||'').slice(0,10),demo:false,cans:(r.canisters||[]).map(c=>({id:String(c.canisterId),role:String(c.role)})),srcs:(r.sources||[]).map(x=>({t:String(x.sourceType),u:x.sourceUrl,at:String(x.collectedAt)}))});
+const fromRecord=r=>({name:String(r.name||'').slice(0,80),desc:String(r.description||''),cats:normalizeCategories(r.categories, CATS),tags:(r.tags||[]).slice(0,5).map(String),slug:String(r.slug||'').replace(/[^a-z0-9-]/g,''),url:safe(r.websiteUrl)?r.websiteUrl:'',play:'',gh:safe(r.githubUrl)?r.githubUrl:'',genre:'',idn:['claimed','verified'].includes(r.identity)?r.identity:'discovered',ver:r.lastVerifiedAt||'',websiteStatus:r.websiteStatus||'unchecked',logoUrl:safe(r.logoUrl)?r.logoUrl:(()=>{try{const u=new URL(r.websiteUrl);return u.protocol==='https:' && u.hostname.toLowerCase().endsWith('.caffeine.xyz') && u.hostname.toLowerCase()!=='caffeine.xyz'?u.origin+'/favicon.ico':''}catch{return ''}})(),upd:String(r.updatedAt||'').slice(0,10),demo:false,cans:(r.canisters||[]).map(c=>({id:String(c.canisterId),role:String(c.role)})),srcs:(r.sources||[]).map(x=>({t:String(x.sourceType),u:x.sourceUrl,at:String(x.collectedAt)}))});
 const applyCatalog = data => {
  const records=(data?.records || []).filter(r=>r.status==='published' && r.slug).map(fromRecord);
  if(records.length)P=records;

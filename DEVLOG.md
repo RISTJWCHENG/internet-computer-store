@@ -219,3 +219,7 @@ Workflow verification: GitHub Pages build and deployment passed on main. `TMPDIR
 
 ## Restore daily crawler
 Restored schedule `17 3 * * *` (UTC) and retained manual dispatch. A guarded one-time push triggered GitHub Actions run 40433505191 successfully; 29 SNS and 3 Caffeine candidates were uploaded and the API returned 32 published projects. Two Caffeine seeds failed to fetch. Removed the one-time push trigger afterward. The first scheduled execution remains to be observed.
+
+
+## Caffeine navigation fix
+Preserve the Caffeine Apps category when transforming API records; previously the UI filtered it out. Added a category normalization test; 1 test passed locally. GitHub Pages verification is pending.

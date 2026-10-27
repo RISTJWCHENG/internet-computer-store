@@ -258,3 +258,6 @@ Workflow verification: GitHub Pages build and deployment completed successfully 
 
 ## Daily crawler schedule
 The crawler runs daily at 03:17 UTC and remains available for manual dispatch. GitHub Actions run 40433505191 succeeded during verification: 29 SNS and 3 Caffeine eligible candidates were uploaded, and the API returned 32 published projects. Two Caffeine seed fetches failed during discovery. Scheduled execution at the next interval has not yet occurred.
+
+
+Caffeine Apps navigation: preserve the API category during frontend normalization. Targeted category test passed locally; deployment verification pending.
