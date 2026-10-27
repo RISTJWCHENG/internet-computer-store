@@ -39,3 +39,5 @@
 
 - [ ] Resolve Cloudflare API token/account scope: new R2 read failed with HTTP 403 code 10000 in run 40421589976.
 - [ ] Rerun the failed provisioning job after the token is updated securely.
+
+- [ ] Configure the multi-service account API token as `CLOUDFLARE_ICPSTORE_API_TOKEN`; run current `provision` operation and verify.

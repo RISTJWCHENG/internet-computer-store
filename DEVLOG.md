@@ -162,3 +162,12 @@ or Worker deployment was reached; no old resources were deleted.
 The GitHub token's exact permissions and account scope cannot be read here.
 User must securely configure an account-scoped Cloudflare API token with needed
 R2, D1, Queues and Workers permissions, then the failed job can be rerun.
+
+
+## 2026-10-27 — use the user-selected Cloudflare secret name
+
+Updated the fresh-catalog workflow to prefer `CLOUDFLARE_ICPSTORE_API_TOKEN`
+and added a manually dispatched `provision` operation for retrying setup using
+the current workflow. Existing fallback remains until verified. The screenshot
+showed R2-specific credentials; the multi-service account API token remains to
+be configured securely by the user. No credential values were read or saved.

@@ -203,3 +203,13 @@ after the user securely updates the GitHub secret with appropriate permissions.
 The old website continues to use its existing API; the new D1 schema was already
 initialized by workflow run 40420692910. The one-time setup job does not start a
 crawl; the user requested manual crawling after setup.
+
+
+## Cloudflare secret name selected by the user
+
+The user chose GitHub Secret `CLOUDFLARE_ICPSTORE_API_TOKEN`. The fresh-catalog
+workflow now prefers that name while temporarily accepting the prior name. Its
+manual `provision` option can retry setup from current main after credentials
+are configured; rerunning an old failed run would use the old workflow snapshot.
+The user's R2 credential screenshot is not sufficient evidence of an account
+API token with D1, Queues and Worker permissions. No token value was accessed.

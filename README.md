@@ -139,3 +139,14 @@ back to the previously configured names until the replacements are installed
 and verified. These are distinct from the Cloudflare API credentials used by
 the fresh production workflow. Configure secret values directly in GitHub; do
 not store them in code or conversation.
+
+
+The fresh catalog workflow accepts the GitHub Secret
+`CLOUDFLARE_ICPSTORE_API_TOKEN` (falling back to `CLOUDFLARE_API_TOKEN`).
+Use a Cloudflare account API token with the D1, Workers R2 Storage, Queues and
+Workers permissions required for the selected operation. R2 S3 access-key
+credentials alone cannot deploy Workers or configure D1 and Queues. To retry
+the prepared new-resource setup, manually dispatch operation `provision` on
+`main` after configuring the account token. This creates or reuses only the
+new queues and event notification and deploys the new Worker; it does not
+delete legacy resources, run a crawl, or switch the public frontend.
