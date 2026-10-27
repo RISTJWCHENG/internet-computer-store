@@ -187,8 +187,9 @@ jobs:
           for(const q of queues){const consumers=await get('/queues/'+q.queue_id+'/consumers');console.log(JSON.stringify({queue:q.queue_name,consumers}));}
           NODE
 
-  retire-old-production:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.head_commit.message == 'Finish retiring old catalog'
+
+  finish-old-cleanup:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.event.head_commit.message == 'Finish removing retired storage'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -196,7 +197,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ICPSTORE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ICPSTORE_ACCOUNT_ID }}
     steps:
-      - name: Remove only verified old catalog resources
+      - name: Remove old bucket notifications and database
         shell: bash
         run: |
           node --input-type=module <<'NODE'
@@ -204,29 +205,22 @@ jobs:
           if(account!=='3b73ffc752efbb00b5f65fa2ef0412ca')throw Error('Unexpected account');
           const fresh=await fetch('https://icpstore-catalog-api-prod.ordoviworld.workers.dev/api/search?page=1&limit=1').then(r=>r.json());
           if(!Array.isArray(fresh.records)||fresh.count<1)throw Error('New catalog unavailable');
-          const config=await fetch('https://ristjwcheng.github.io/internet-computer-store/api-config.json').then(r=>r.json());
-          if(config.apiBaseUrl!=='https://icpstore-catalog-api-prod.ordoviworld.workers.dev')throw Error('Site not switched');
           const root='https://api.cloudflare.com/client/v4/accounts/'+account;
           async function api(path,method='GET'){const r=await fetch(root+path,{method,headers:{Authorization:'Bearer '+process.env.CLOUDFLARE_API_TOKEN}});const d=await r.json();if(!r.ok||!d.success)throw Error(method+' '+path+' '+r.status+' '+JSON.stringify(d.errors));return d;}
-          const databases=await api('/d1/database?per_page=100');
-          const dbs=databases.result.filter(x=>x.name==='ordoviworld-db');
-          if(dbs.length!==1||!dbs[0].uuid||dbs[0].uuid==='4f4ad80c-0df9-4b9e-a080-01708e472bae')throw Error('Unexpected D1 targets');
-          const queues=await api('/queues?per_page=100');
-          const pairs=[['ordosyn-core-staging-ingest','ordosyn-core-staging'],['ordoviworld-ingest-v3','ordoviworld-api']];
-          for(const [name,script] of pairs){
-            const list=queues.result.filter(q=>q.queue_name===name);
-            if(list.length!==1)throw Error('Missing old queue '+name);
-            const q=list[0];const consumers=await api('/queues/'+q.queue_id+'/consumers');
-            const rows=consumers.result.filter(c=>c.script===script);
-            if(rows.length!==1||consumers.result.length!==1)throw Error('Unexpected queue consumers '+name);
-            await api('/queues/'+q.queue_id+'/consumers/'+rows[0].consumer_id,'DELETE');
-            console.log('Detached old consumer:',script);
+          const dbs=(await api('/d1/database?per_page=100')).result.filter(x=>x.name==='ordoviworld-db');
+          if(dbs.length!==1||!dbs[0].uuid||dbs[0].uuid==='4f4ad80c-0df9-4b9e-a080-01708e472bae')throw Error('Unexpected D1 target');
+          const q=(await api('/queues?per_page=100')).result;
+          const oldNames=['ordosyn-core-staging-ingest','ordosyn-core-staging-deadletter','ordoviworld-ingest-v3','ordoviworld-ingest-dlq-v3'];
+          const old=q.filter(x=>oldNames.includes(x.queue_name));
+          const config=await api('/event_notifications/r2/ordoviworld/configuration');
+          for(const rule of config.result.queues||[]){
+            if(!old.some(x=>x.queue_id===rule.queueId))throw Error('Unexpected bucket notification queue');
+            await api('/event_notifications/r2/ordoviworld/configuration/queues/'+rule.queueId,'DELETE');
+            console.log('Removed old bucket notification');
           }
-          for(const script of ['ordosyn-core-staging','ordoviworld-api']){
-            await api('/workers/scripts/'+script,'DELETE');console.log('Deleted old Worker:',script);
-          }
-          const bucket='/r2/buckets/ordoviworld';let n=0;
-          for(;;){const page=await api(bucket+'/objects?per_page=1000');if(!Array.isArray(page.result))throw Error('Invalid listing');if(!page.result.length)break;for(const obj of page.result){if(typeof obj.key!=='string'||!obj.key)throw Error('Invalid key');await api(bucket+'/objects/'+obj.key.split('/').map(encodeURIComponent).join('/'),'DELETE');n++;}}
-          await api(bucket,'DELETE');console.log('Deleted old bucket ordoviworld, objects:',n);
-          await api('/d1/database/'+dbs[0].uuid,'DELETE');console.log('Deleted old database ordoviworld-db');
+          const remaining=await api('/r2/buckets/ordoviworld/objects?per_page=1000');
+          if(!Array.isArray(remaining.result)||remaining.result.length)throw Error('Old bucket not empty');
+          await api('/r2/buckets/ordoviworld','DELETE');console.log('Deleted old R2 bucket');
+          await api('/d1/database/'+dbs[0].uuid,'DELETE');console.log('Deleted old D1 database');
+          for(const row of old){const consumers=await api('/queues/'+row.queue_id+'/consumers');if(consumers.result.length)throw Error('Queue still has consumer '+row.queue_name);await api('/queues/'+row.queue_id,'DELETE');console.log('Deleted old queue:',row.queue_name);}
           NODE
