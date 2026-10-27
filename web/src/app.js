@@ -30,7 +30,7 @@ const grid=(l,big)=>`<div class="grid">${l.map(p=>card(p,big)).join('')}</div>`;
   }[category]||category);
   const chips=(items,cur,key,extra='')=>`<div class="chips" role="group" aria-label="Filters"><a class="btn ${!cur?'on':''}" href="#${extra}" data-k="${key}" data-v="">All</a>${items.map(c=>`<a class="btn ${cur===c?'on':''}" href="#" data-k="${key}" data-v="${esc(c)}" aria-pressed="${cur===c}">${esc(catalogCategoryLabel(c))}</a>`).join('')}</div>`;
 const sbar=(v='')=>`<form class="sbar" role="search" id="sf"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input name="q" value="${esc(v)}" aria-label="Search projects" aria-keyshortcuts="/" placeholder="Quick Explore" autocomplete="off"><kbd aria-hidden="true">/</kbd></form>`;
-const NAV=[['/explore','Explore'],['/explore?source=sns','SNS'],['/explore?cat=Caffeine%20Apps','Caffeine Apps'],['/search?sort=updated','Newly Indexed'],['/submit','Submit Project']];
+const NAV=[['/explore','Explore'],['/explore?cat=Infrastructure','Infrastructure'],['/explore?source=sns','SNS'],['/explore?cat=Caffeine%20Apps','Caffeine Apps'],['/search?sort=updated','Newly Indexed'],['/submit','Submit Project']];
 const navRow=()=>`<nav class="navrow" aria-label="Main">${NAV.map(([h,t])=>`<a href="#${h}">${t}</a>`).join('')}</nav>`;
 const noteHTML=()=>'';
 const sec=(t,h)=>`<section><h2>${t}</h2>${h}</section>`;
@@ -143,7 +143,9 @@ document.querySelectorAll('.navrow a').forEach(a=>{
   const routePath=current.slice(1).split('?')[0];
   const routeQuery=query(current.slice(1));
   const active=target==='#/explore'
-    ? routePath==='/explore' && !routeQuery.source && routeQuery.cat!=='Caffeine Apps'
+    ? routePath==='/explore' && !routeQuery.source && !['Caffeine Apps','Infrastructure'].includes(routeQuery.cat)
+    : target==='#/explore?cat=Infrastructure'
+      ? routePath==='/explore' && routeQuery.cat==='Infrastructure' && !routeQuery.source
     : target==='#/explore?source=sns'
       ? routePath==='/explore' && routeQuery.source==='sns'
       : target==='#/explore?cat=Caffeine%20Apps'
