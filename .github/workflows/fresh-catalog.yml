@@ -52,6 +52,9 @@ jobs:
       - name: Deploy new API Worker
         if: inputs.operation == 'deploy'
         run: npx --yes wrangler@4 deploy --config=worker/wrangler.jsonc
+      - name: Resolve the new API URL
+        if: inputs.operation == 'crawl'
+        run: node worker/api-origin.mjs
       - name: Verify the new API URL and health
         if: inputs.operation == 'crawl'
         run: |
@@ -114,3 +117,11 @@ jobs:
         run: node worker/provision-catalog.mjs
       - name: Deploy new catalog API
         run: npx --yes wrangler@4 deploy --config=worker/wrangler.jsonc
+      - name: Resolve deployed API URL
+        run: node worker/api-origin.mjs
+      - name: Verify new API health and empty catalog access
+        run: |
+          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/health" > "$RUNNER_TEMP/catalog-health.json"
+          node -e "const d=require(process.argv[1]);if(d.ok!==true)process.exit(1);console.log('New API health check passed')" "$RUNNER_TEMP/catalog-health.json"
+          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/search?page=1&limit=1" > "$RUNNER_TEMP/catalog-result.json"
+          node -e "const d=require(process.argv[1]);if(!Array.isArray(d.records)||!Number.isInteger(d.count))process.exit(1);console.log('New API published count:',d.count)" "$RUNNER_TEMP/catalog-result.json"
