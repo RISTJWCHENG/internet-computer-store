@@ -61,3 +61,5 @@ jobs:
         env:
           NATIVE_INGEST_TOKEN: ${{ secrets.NATIVE_INGEST_TOKEN }}
         run: node icp/scripts/import-catalog.mjs --identity-only
+
+# Enhanced-persistence upgrades are explicitly tested with memory preservation.

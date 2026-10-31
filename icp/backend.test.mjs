@@ -33,7 +33,7 @@ test('ICP backend enforces caller permissions, isolates users and preserves data
   actor.setPrincipal(alice);const profile={name:'Alice',bio:'Private to Alice',role:'Explorer',website:'',github:'',avatar:'🪐',interests:['DeFi']};unwrap(await actor.save_my_profile(profile));unwrap(await actor.save_my_favorites([{href:'#/app/sns-one',name:'SNS one',logo:''}]));
   actor.setPrincipal(bob);assert.equal(unwrap(await actor.get_my_data()).profile.name,'');unwrap(await actor.delete_my_data());
   actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
-  await pic.upgradeCanister({canisterId,wasm,arg,sender:owner});
+  await pic.upgradeCanister({canisterId,wasm,arg,sender:owner,upgradeModeOptions:{skip_pre_upgrade:[],wasm_memory_persistence:[{keep:null}]}});
   assert.equal(unwrap(await actor.get_my_data()).favorites.length,1);assert.equal((await actor.search('','',0n,30n)).count,2n);
   unwrap(await actor.delete_my_data());assert.equal(unwrap(await actor.get_my_data()).profile.name,'');assert.equal(unwrap(await actor.get_my_data()).favorites.length,0);assert.equal((await actor.search('','',0n,30n)).count,2n);
   actor.setPrincipal(Principal.anonymous());assert.match((await actor.delete_my_data()).err,/Sign in/);
