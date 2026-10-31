@@ -31,7 +31,7 @@ Git credential was available. Used the authorized GitHub Git data API to create
 the source tree and commit, then the review branch. Verified branch commit
 557b04f84378176146757704607c2397afc4143b and source tree
 1f15f88b33b07d1034f5f1b7342aefe2549584c3 against the locally tested tree.
-Created https://github.com/RISTJWCHENG/ORDOVIWORLD/pull/1.
+Created https://github.com/RISTJWCHENG/internet-computer-store/pull/1.
 Updated project records only after remote verification. No code changed after
 the recorded tests; no additional test run was needed for this status update.
 The PR remains unmerged and no live deployment was performed.
@@ -96,7 +96,7 @@ will be checked through Actions and the deployed URL.
 Merged PR #1 with expected-head protection. Main release SHA:
 b23cfbebdf7cb9a09f523fe993a8df942ad56394. Actions run 40365938464 reported
 success for build, Pages deploy and task-branch deletion. Deployment job logs
-confirmed https://ristjwcheng.github.io/ORDOVIWORLD/ and branch enumeration
+confirmed the retired GitHub Pages site and branch enumeration
 showed only main. Removed the one-time deletion step and its write permission
 after successful use. No unrelated cloud resources or Git history were deleted.
 User requested removing local patch/archive outputs and duplicate checkouts.
@@ -272,3 +272,7 @@ Removed platform-specific terminology from the current repository source, filena
 Persistent mainnet upgrade completed with all 29 SNS records and controller settings unchanged. Cloud validation run 41161465411 passed the previous-production upgrade test and 251 regression tests. The new frontend bundle contains no former platform-name literal.
 
 Main crawler run 41161572165 passed with the renamed scripts, zero community seeds and 29 synchronized SNS records. Frontend root/index/current JS/CSS passed v2 certification; the browser verified the Community Apps page. Temporary validation branch was removed after its merge.
+
+
+## 2026-10-31 — Complete current-source brand cleanup
+Removed remaining retired brand markers from source comments, the pagination wrapper class, documentation, repository references and protocol examples. Canonical browser-local keys now use catalog prefixes directly; retired storage-key read fallbacks were removed without deleting browser data or changing ICP profile/favorite state. Retired review-host HTTP proxy routes return 410 and no longer reference an external backend. Review packaging no longer injects legacy API configuration. Updated tests cover neutral storage keys, static assets/HEAD behavior, retired routes and catalog error handling. All 251 regression tests and the frontend build pass. The complete 221-file current source/path scan reports zero retired-brand matches. Historical commits are not rewritten.

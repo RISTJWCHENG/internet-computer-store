@@ -195,7 +195,7 @@
     card.dataset.catalogCleanCard = '1';
     card.classList.add('catalog-clean-card');
     // Reuse the original external link, retaining its destination.
-    // ORDOWORLD_REMOVE_WEBSITE_LINK_V4: delete the original card Website anchor from the DOM.
+    // CATALOG_REMOVE_WEBSITE_LINK_V4: delete the original card Website anchor from the DOM.
     website.remove();
 
 

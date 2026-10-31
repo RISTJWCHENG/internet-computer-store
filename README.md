@@ -93,18 +93,14 @@ Run `npm ci`, `npm test`, and `npm run build` before publishing. See
 ## Private review hosting
 
 For a Sites review origin, `hosting/build-review.mjs` packages the Vite frontend
-into a Worker with an opt-in same-origin API config. Run `npm run build` and then
-`node hosting/build-review.mjs` inside the selected Site checkout containing its
-`.openai/hosting.json` with no `static` field. The Worker serves built assets and
-forwards only GET/HEAD search and health requests to the fixed existing backend;
-it does not forward user cookies or authorization headers. The upstream API's
-GitHub Pages CORS restriction therefore does not block the review frontend.
-
-The regular GitHub Pages configuration keeps its direct API URL. Do not change
-it to same-origin unless the host supplies the corresponding API proxy.
+as static Worker assets. The browser uses the same ICP catalog and identity
+clients as production. Legacy `/api/` endpoints return HTTP 410; the review
+host does not proxy to a retired service or inject an HTTP API configuration.
+Run `npm run build` and `node hosting/build-review.mjs` inside the selected Site
+checkout containing its `.openai/hosting.json` with no `static` field.
 
 
-## Production workflows
+## Earlier Cloudflare workflows (historical)
 
 The production D1 database is `icpstore-catalog-db-prod`, the R2 bucket is
 `icpstore-catalog-files-prod`, and the Worker is `icpstore-catalog-api-prod`.

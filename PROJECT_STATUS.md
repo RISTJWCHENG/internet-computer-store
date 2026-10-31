@@ -1,7 +1,7 @@
 # Internet Computer Store — project status
 
 - Date: 2026-10-26
-- Repository: https://github.com/RISTJWCHENG/ORDOVIWORLD
+- Repository: https://github.com/RISTJWCHENG/internet-computer-store
 - Source branch and commit: main, 6acd65d3fdaf8b3f4cc371d703f0e043a6e3d058
 - Work branch: refactor/neutral-catalog-names
 - Goal: separate the display brand from neutral implementation names.
@@ -9,7 +9,7 @@
 ## Completed
 
 - Centralized the display name in config/site.json.
-- Renamed ordosyn-core to core and UI scripts to catalog-*; updated imports, workflows, commands, selectors, events and global identifiers together.
+- Renamed the former core directory to core and UI scripts to catalog-*; updated imports, workflows, commands, selectors, events and global identifiers together.
 - Renamed image assets to site-logo.png and site-favicon.png.
 - Replaced the package name with catalog-search; derived Pages base path from repository metadata.
 - Isolated historical protocol and storage names in compatibility configuration; preserved existing browser data reads, artifact keys, schemas and provider secret fallback.
@@ -18,7 +18,7 @@
 
 ## Environment and validation
 
-Cloud workspace: /workspace/scratch/bb57084deab3/ORDOVIWORLD.
+Cloud workspace: the earlier project checkout.
 Node v24.22.1, npm 11.9.0, Python 3.12.14, Git 2.51.1.
 Dependencies installed with npm ci --ignore-scripts (exit 0).
 Full suite: 198 tests passed, 0 failed (exit 0).
@@ -46,7 +46,7 @@ Code commit: 557b04f84378176146757704607c2397afc4143b.
 Verified remote source tree: 1f15f88b33b07d1034f5f1b7342aefe2549584c3,
 exactly matching the locally tested source tree.
 Branch: refactor/neutral-catalog-names.
-PR: https://github.com/RISTJWCHENG/ORDOVIWORLD/pull/1
+PR: https://github.com/RISTJWCHENG/internet-computer-store/pull/1
 
 Earlier calls on the previous connection returned push:false and HTTP 403.
 After selecting the newly authorized owner account, push:true was confirmed.
@@ -122,7 +122,7 @@ ZIP cannot be deleted by this conversation's restricted Library tools.
 PR #1 was squash-merged to main as b23cfbebdf7cb9a09f523fe993a8df942ad56394.
 GitHub Actions run 40365938464 completed successfully: full tests/build, Pages
 publication and review-branch cleanup all succeeded. Formal website:
-https://ristjwcheng.github.io/ORDOVIWORLD/
+the retired GitHub Pages site
 Remote branch enumeration after deployment showed only main. The one-time
 cleanup step and its contents:write permission are removed after that verification.
 The 205-test suite passed during the release build. Review-origin login layout
@@ -309,3 +309,7 @@ Removed platform-specific terminology from the current repository source, filena
 Persistent mainnet upgrade completed with all 29 SNS records and controller settings unchanged. Cloud validation run 41161465411 passed the previous-production upgrade test and 251 regression tests. The new frontend bundle contains no former platform-name literal.
 
 Main crawler run 41161572165 passed with the renamed scripts, zero community seeds and 29 synchronized SNS records. Frontend root/index/current JS/CSS passed v2 certification; the browser verified the Community Apps page. Temporary validation branch was removed after its merge.
+
+
+## 2026-10-31 — Complete current-source brand cleanup
+Removed remaining retired brand markers from source comments, the pagination wrapper class, documentation, repository references and protocol examples. Canonical browser-local keys now use catalog prefixes directly; retired storage-key read fallbacks were removed without deleting browser data or changing ICP profile/favorite state. Retired review-host HTTP proxy routes return 410 and no longer reference an external backend. Review packaging no longer injects legacy API configuration. Updated tests cover neutral storage keys, static assets/HEAD behavior, retired routes and catalog error handling. All 251 regression tests and the frontend build pass. The complete 221-file current source/path scan reports zero retired-brand matches. Historical commits are not rewritten.

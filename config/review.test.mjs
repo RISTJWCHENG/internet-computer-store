@@ -3,20 +3,17 @@ import assert from 'node:assert/strict';
 import {createReviewWorker} from '../hosting/review-worker.mjs';
 import {resolveApiBase} from '../web/src/api-config.js';
 import {loadPublishedProjects} from '../web/src/cloud-data.js';
-test('review data proxy reads the fixed upstream without forwarding browser credentials',async()=>{
- let seen;
- const worker=createReviewWorker({},async(url,options)=>{seen={url:String(url),options};return Response.json({records:[{id:'real-project'}],count:1},{headers:{'access-control-allow-origin':'https://ristjwcheng.github.io'}});});
- const r=await worker.fetch(new Request('https://review.example/api/search?page=2&limit=30',{headers:{Cookie:'private-session',Authorization:'private'}}));
- assert.equal((await r.json()).count,1);
- assert.equal(seen.url,'https://icpstore-catalog-api-prod.ordoviworld.workers.dev/api/search?page=2&limit=30');
- assert.deepEqual(seen.options.headers,{Accept:'application/json'});
- assert.equal(r.headers.get('access-control-allow-origin'),null);
- assert.equal((await worker.fetch(new Request('https://review.example/api/admin'))).status,404);
+test('review hosting retires HTTP API routes instead of using an external catalog proxy',async()=>{
+ const worker=createReviewWorker();
+ for(const path of ['/api/search?page=2&limit=30','/api/health','/api/admin']){
+  const response=await worker.fetch(new Request('https://review.example'+path,{headers:{Cookie:'private-session',Authorization:'private'}}));
+  assert.equal(response.status,410);
+  assert.match((await response.json()).error,/ICP backend/);
+  assert.equal(response.headers.get('cache-control'),'no-store');
+ }
  assert.equal((await worker.fetch(new Request('https://review.example/api/search',{method:'POST'}))).status,405);
 });
-test('upstream failure is an error, not an empty successful catalog',async()=>{
- const worker=createReviewWorker({},async()=>{throw Error('network');});
- assert.equal((await worker.fetch(new Request('https://review.example/api/search'))).status,502);
+test('catalog failure is an error, not an empty successful catalog',async()=>{
  const result=await loadPublishedProjects({query:async()=>{throw Error('unavailable')}});
  assert.equal(result.loadError,true);
 });
@@ -31,10 +28,15 @@ test('same-origin configuration is opt-in and does not allow a custom external u
  assert.equal(resolveApiBase({sameOriginApi:true},'https://review.example/path'),'https://review.example');
  assert.throws(()=>resolveApiBase({apiBaseUrl:'https://arbitrary.example'}));
 });
-test('edge-compatible redirect handling does not follow an upstream redirect',async()=>{
- const worker=createReviewWorker({},async(_url,options)=>{
-  assert.equal(options.redirect,'manual');
-  return new Response(null,{status:302,headers:{Location:'https://untrusted.example'}});
- });
- assert.equal((await worker.fetch(new Request('https://review.example/api/search'))).status,502);
+test('static review assets retain content types and correct HEAD handling',async()=>{
+ const worker=createReviewWorker({'/index.html':{body:btoa('<h1>Catalog</h1>'),type:'text/html; charset=utf-8'}});
+ const page=await worker.fetch(new Request('https://review.example/'));
+ assert.equal(page.status,200);assert.equal(await page.text(),'<h1>Catalog</h1>');
+ assert.equal(page.headers.get('content-type'),'text/html; charset=utf-8');
+ assert.equal(page.headers.get('cache-control'),'no-store');
+ const head=await worker.fetch(new Request('https://review.example/',{method:'HEAD'}));
+ assert.equal(head.status,200);assert.equal(await head.text(),'');
+ const retired=await worker.fetch(new Request('https://review.example/api/search',{method:'HEAD'}));
+ assert.equal(retired.status,410);assert.equal(await retired.text(),'');
+ assert.equal((await worker.fetch(new Request('https://review.example/missing'))).status,404);
 });

@@ -61,11 +61,11 @@ const catalogSectionWindow=(key)=>{
  catalogSectionPages[key]=page;
  return {items,page,pages};
 };
-// ORDOWORLD_HOME_COMPACT_INPUT_V11
-// ORDOWORLD_HOME_PAGER_INLINE_LAYOUT_V14
+// CATALOG_HOME_COMPACT_INPUT_V11
+// CATALOG_HOME_PAGER_INLINE_LAYOUT_V14
 // Explicit inline layout prevents global input/button rules from breaking the control.
 const catalogSectionPager=(key,page,pages)=>{
- // ORDOWORLD_HIDE_SINGLE_PAGE_CONTROLS_V15
+ // CATALOG_HIDE_SINGLE_PAGE_CONTROLS_V15
  if(pages<=1)return '';
  const arrow=(dir,disabled)=>`<button type="button" class="catalog-page-arrow" data-catalog-section-${dir}="${key}" aria-label="${dir==='prev'?'Previous':'Next'} page" ${disabled?'disabled':''} style="box-sizing:border-box!important;display:inline-flex!important;position:static!important;float:none!important;flex:0 0 24px!important;align-items:center!important;justify-content:center!important;width:24px!important;min-width:24px!important;max-width:24px!important;height:28px!important;min-height:28px!important;max-height:28px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#34455d!important;font:400 22px/1 Arial,sans-serif!important;cursor:pointer">${dir==='prev'?'&#8249;':'&#8250;'}</button>`;
  return `<div class="catalog-section-page-controls" role="group" aria-label="Section pagination" style="box-sizing:border-box!important;display:inline-flex!important;position:static!important;float:none!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:center!important;gap:6px!important;width:max-content!important;min-width:0!important;max-width:none!important;height:28px!important;min-height:28px!important;margin:0!important;padding:0!important;white-space:nowrap!important">${arrow('prev',page===0)}<input class="catalog-page-input" type="number" inputmode="numeric" min="1" max="${pages}" value="${page+1}" data-catalog-section-input="${key}" aria-label="Page number" style="box-sizing:border-box!important;display:block!important;position:static!important;float:none!important;flex:0 0 36px!important;width:36px!important;min-width:36px!important;max-width:36px!important;height:28px!important;min-height:28px!important;max-height:28px!important;margin:0!important;padding:0 2px!important;border:1px solid #d9dee7!important;border-radius:8px!important;background:#fff!important;color:#111!important;text-align:center!important;text-indent:0!important;font:500 13px/26px Arial,sans-serif!important;appearance:textfield!important"><span class="catalog-page-total" style="display:inline-block!important;position:static!important;float:none!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;height:auto!important;margin:0!important;padding:0!important;color:#64748b!important;font:400 13px/28px Arial,sans-serif!important;white-space:nowrap!important">of ${pages}</span>${arrow('next',page===pages-1)}</div>`;
@@ -80,7 +80,7 @@ const catalogPagedSection=(key,title)=>{
  <div data-catalog-section-grid="${key}">${items.length?grid(items.slice(page*4,page*4+4)):emptyCatalogMessage()}</div>
  </section>`;
 };
-// ORDOWORLD_SNS_NUMBER_PAGER_V2
+// CATALOG_SNS_NUMBER_PAGER_V2
 function snsNumberPager(n,pg,size,base){
  const total=Math.ceil(n/size);
  if(total===0)return '';
@@ -92,8 +92,8 @@ function snsNumberPager(n,pg,size,base){
  const shown=[...new Set(numbers.filter(p=>p>=1&&p<=total))].sort((a,b)=>a-b);
  let contents='';
  shown.forEach((p,i)=>{if(i&&p-shown[i-1]>1)contents+=gap();contents+=pageLink(p)});
- /* ORDOWORLD_SNS_PAGER_WRAPPER_V5: a full-width layout row outside the pager itself. */
- return `<div class="ordoworld-sns-pager-row" style="display:flex;width:100%;max-width:100%;grid-column:1/-1;justify-content:center;align-items:center;box-sizing:border-box;margin:24px 0 36px;clear:both"><nav class="sns-number-pager" style="display:flex;width:100%;justify-content:center;align-items:center;margin:0;flex-wrap:wrap" data-total="${total}" data-base="${base}" aria-label="SNS pagination">${total>1?arrow('‹',current-1,current===1):''}${contents}${total>1?arrow('›',current+1,current===total):''}</nav></div>`;
+ /* CATALOG_SNS_PAGER_WRAPPER_V5: a full-width layout row outside the pager itself. */
+ return `<div class="catalog-sns-pager-row" style="display:flex;width:100%;max-width:100%;grid-column:1/-1;justify-content:center;align-items:center;box-sizing:border-box;margin:24px 0 36px;clear:both"><nav class="sns-number-pager" style="display:flex;width:100%;justify-content:center;align-items:center;margin:0;flex-wrap:wrap" data-total="${total}" data-base="${base}" aria-label="SNS pagination">${total>1?arrow('‹',current-1,current===1):''}${contents}${total>1?arrow('›',current+1,current===total):''}</nav></div>`;
 }
 document.addEventListener('click',event=>{
  const button=event.target.closest('.sns-number-gap');if(!button)return;

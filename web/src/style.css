@@ -1054,7 +1054,7 @@ select[name*="sort" i]:focus-visible {
 
 /* CATALOG_STATIC_TITLE_GAP_22_V1_END */
 
-/* ORDOWORLD_FIVE_PAGE_SEARCH_ALIGNMENT_V2
+/* CATALOG_FIVE_PAGE_SEARCH_ALIGNMENT_V2
    Desktop layout adjustment based on five screenshots.
    Static CSS only; no observers or scroll handlers.
 */
@@ -1133,7 +1133,7 @@ body:has(#app > .page:has(#sub)) #mast {
   }
 }
 
-/* ORDOWORLD_FIVE_PAGE_SEARCH_ALIGNMENT_V2_END */
+/* CATALOG_FIVE_PAGE_SEARCH_ALIGNMENT_V2_END */
 
 /* CATALOG_UNIFIED_BLUE_RING_PAGER_V2
    One border + a soft glow, for category and section pagination.
@@ -1269,7 +1269,7 @@ body:has(#app > .page:has(#sub)) #mast {
 }
 /* CATALOG_UNIFIED_BLUE_RING_PAGER_V2_END */
 
-/* ORDOWORLD_SNS_NUMBER_PAGER_V2 */
+/* CATALOG_SNS_NUMBER_PAGER_V2 */
 .sns-number-pager{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:28px auto 0}
 .sns-number-pager .sns-number-page,.sns-number-pager .sns-number-arrow,.sns-number-pager .sns-number-gap{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 34px;width:34px;min-width:34px;max-width:34px;height:34px;min-height:34px;max-height:34px;aspect-ratio:1/1;padding:0;border:0;border-radius:50%;background:transparent;color:#111;text-decoration:none;font:500 14px/1 Inter,system-ui,sans-serif;box-shadow:none;cursor:pointer}
 .sns-number-pager .sns-number-page.selected{background:#111;color:#fff;border-radius:50%;font-weight:650}
@@ -1279,7 +1279,7 @@ body:has(#app > .page:has(#sub)) #mast {
 .sns-number-pager .sns-number-input{box-sizing:border-box;flex:0 0 54px;width:54px;min-width:54px;height:34px;padding:0 3px;border:1px solid #9caac0;border-radius:8px;background:#fff;color:#111;text-align:center;font:500 13px Inter,system-ui,sans-serif}
 .sns-number-pager .sns-number-input::-webkit-inner-spin-button,.sns-number-pager .sns-number-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 
-/* ORDOWORLD_SNS_PAGER_CENTERED_V3_20261022
+/* CATALOG_SNS_PAGER_CENTERED_V3_20261022
    SNS only: center pagination under the card grid. */
 .page .sns-number-pager {
   display: flex !important;
@@ -1362,7 +1362,7 @@ body:has(#app > .page:has(#sub)) #mast {
     padding-bottom: 30px !important;
   }
 }
-/* ORDOWORLD_SNS_PAGER_FULL_WIDTH_CENTER_V4 */
+/* CATALOG_SNS_PAGER_FULL_WIDTH_CENTER_V4 */
 /* Center the entire pager below the SNS card grid, not within its own narrow width. */
 .page nav.sns-number-pager {
   box-sizing: border-box !important;
@@ -1386,7 +1386,7 @@ body:has(#app > .page:has(#sub)) #mast {
   text-align: center !important;
 }
 
-/* ORDOWORLD_HOME_SECTION_SNS_NUMBER_PAGER_V1 */
+/* CATALOG_HOME_SECTION_SNS_NUMBER_PAGER_V1 */
 .catalog-section .catalog-section-number-pager {
  width: auto !important;
  max-width: 100% !important;
@@ -1402,7 +1402,7 @@ body:has(#app > .page:has(#sub)) #mast {
  pointer-events: none;
 }
 
-/* ORDOWORLD_HOME_PAGER_INLINE_LAYOUT_V14
+/* CATALOG_HOME_PAGER_INLINE_LAYOUT_V14
    Layout is set on the generated controls so unrelated global rules cannot
    stretch the page input or stack the arrows. */
 .catalog-section .catalog-page-input::-webkit-inner-spin-button,

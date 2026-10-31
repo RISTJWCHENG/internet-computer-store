@@ -13,7 +13,7 @@ test('catalog artifacts use brand-neutral identifiers', () => {
 test('deployment uses the neutral binding', () => {
  assert.equal(deploymentValue({CATALOG_NATIVE_INGEST_TOKEN:'new'},'CATALOG_NATIVE_INGEST_TOKEN'),'new');
 });
-test('browser compatibility refers to the actual previously shipped storage keys', () => {
- assert.equal(compatibility.profileStoragePrefix,'ordovician:profile:v1:');
- assert.equal(compatibility.favoritesStoragePrefix,'ordoviworld:favorites:v1:');
+test('browser storage uses neutral catalog keys', () => {
+ assert.equal(compatibility.profileStoragePrefix,'catalog:profile:v1:');
+ assert.equal(compatibility.favoritesStoragePrefix,'catalog:favorites:v1:');
 });

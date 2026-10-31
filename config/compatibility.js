@@ -22,8 +22,8 @@ export const compatibility = {
   "cloud_v1_staging_smoke": "catalog/cloud-v1/staging/smoke/",
   "v0_artifacts_x_a_json": "catalog/v0/artifacts/x/a.json",
   "objectNamespace": "catalog",
-  "profileStoragePrefix": "ordovician:profile:v1:",
-  "favoritesStoragePrefix": "ordoviworld:favorites:v1:",
+  "profileStoragePrefix": "catalog:profile:v1:",
+  "favoritesStoragePrefix": "catalog:favorites:v1:",
   "native_v1_": "catalog-native-v1-",
   "cloud_v1_staging": "catalog-cloud-v1-staging"
 };

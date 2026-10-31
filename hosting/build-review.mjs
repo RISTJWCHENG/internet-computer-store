@@ -12,7 +12,6 @@ async function walk(dir){
  }
 }
 await walk(dist);
-assets['/api-config.json']={body:Buffer.from(JSON.stringify({sameOriginApi:true})).toString('base64'),type:types['.json']};
 await mkdir(join(dist,'server'),{recursive:true});
 await mkdir(join(dist,'.openai'),{recursive:true});
 const source=await readFile(join(root,'hosting/review-worker.mjs'),'utf8');

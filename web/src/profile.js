@@ -1,6 +1,6 @@
 import {usingIcp,readMyData,saveMyProfile,deleteMyData} from './icp-client.js'
 import { compatibility } from '../../config/compatibility.js'
-// ICP profiles are loaded into memory; legacy mode retains browser-local storage.
+// ICP profiles are loaded into memory; local development uses neutral browser keys.
 import { currentPrincipal } from './auth.js'
 
 const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
@@ -8,7 +8,7 @@ const avatars = ['🪐','🦕','🌌','🚀','🧑‍🚀','🌿','🎮','💎']
 const defaults = { name:'', bio:'', role:'Explorer', website:'', github:'', avatar:'🪐', interests:[] }
 const roles = ['Explorer','Developer','Creator','Community Builder']
 const topics = ['DeFi','Games','AI','Infrastructure','SNS','NFTs','Developer Tools','Community']
-const storageKey = principal => `catalog:profile:v1:${principal}`
+const storageKey = principal => compatibility.profileStoragePrefix + principal
 
 const remoteProfiles=new Map(), remoteStatus=new Map();
 export async function syncRemoteProfile(principal,force=false){
@@ -22,7 +22,7 @@ export async function syncRemoteProfile(principal,force=false){
 function load(principal) {
   if(usingIcp)return remoteProfiles.get(principal)||{...defaults};
   try {
-    const data = JSON.parse(localStorage.getItem(storageKey(principal)) ?? localStorage.getItem(compatibility.profileStoragePrefix + principal) ?? '{}')
+    const data = JSON.parse(localStorage.getItem(storageKey(principal)) ?? '{}')
     if (!data || typeof data !== 'object' || Array.isArray(data)) return { ...defaults }
     return { ...defaults, ...data, interests: Array.isArray(data.interests) ? data.interests.filter(x => topics.includes(x)) : [] }
   } catch { return { ...defaults } }

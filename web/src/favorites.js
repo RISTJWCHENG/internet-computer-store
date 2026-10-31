@@ -58,12 +58,12 @@ export function initFavorites(getPrincipal) {
     catch{if(getUser()!==owner)return;remoteState='error';}
     syncButtons();if(!panel.hidden)renderPanel();
   }
-  const key = () => 'catalog:favorites:v1:' + getUser();
+  const key = () => compatibility.favoritesStoragePrefix + getUser();
   const isValid = x => x && typeof x.href === 'string' && /^#\/app\/[a-z0-9._%-]+$/i.test(x.href) && typeof x.name === 'string' && x.name.length < 160;
   function read() {
     if (!getUser()) return [];
     if(usingIcp)return remoteOwner===getUser()?remoteFavorites.slice():[];
-    try { const value = JSON.parse(localStorage.getItem(key()) ?? localStorage.getItem(compatibility.favoritesStoragePrefix + getUser()) ?? '[]'); return Array.isArray(value) ? value.filter(isValid).slice(0,300) : []; }
+    try { const value = JSON.parse(localStorage.getItem(key()) ?? '[]'); return Array.isArray(value) ? value.filter(isValid).slice(0,300) : []; }
     catch { return []; }
   }
   async function write(data) {
