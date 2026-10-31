@@ -1,3 +1,4 @@
+import {usingIcp,readMyData,saveMyFavorites} from './icp-client.js'
 import { compatibility } from '../../config/compatibility.js'
 /* CATALOG_FAVORITES_GRID_V1 - browser-local per authenticated Principal. */
 export function initFavorites(getPrincipal) {
@@ -48,15 +49,25 @@ export function initFavorites(getPrincipal) {
   login.innerHTML = '<div class="catalog-save-login-box" role="dialog" aria-modal="true" aria-label="Sign in to save"><h2>Sign in to save</h2><p>Please sign in with Internet Identity to save this app to My Favorites.</p><div class="catalog-save-login-actions"><button type="button" class="catalog-login-cancel">Cancel</button><button type="button" class="catalog-login-continue">Continue with Internet Identity</button></div></div>';
   document.body.appendChild(login);
 
+  let remoteFavorites=[], remoteOwner='', remoteState='idle', writing=false;
   const getUser = () => String(getPrincipal() || '');
+  async function hydrateFavorites(){
+    const owner=getUser();remoteFavorites=[];remoteOwner=owner;remoteState=owner?'loading':'idle';
+    if(!usingIcp||!owner)return;
+    try{const data=await readMyData();if(getUser()!==owner)return;remoteFavorites=data.favorites.filter(isValid);remoteState='ready';}
+    catch{if(getUser()!==owner)return;remoteState='error';}
+    syncButtons();if(!panel.hidden)renderPanel();
+  }
   const key = () => 'catalog:favorites:v1:' + getUser();
   const isValid = x => x && typeof x.href === 'string' && /^#\/app\/[a-z0-9._%-]+$/i.test(x.href) && typeof x.name === 'string' && x.name.length < 160;
   function read() {
     if (!getUser()) return [];
+    if(usingIcp)return remoteOwner===getUser()?remoteFavorites.slice():[];
     try { const value = JSON.parse(localStorage.getItem(key()) ?? localStorage.getItem(compatibility.favoritesStoragePrefix + getUser()) ?? '[]'); return Array.isArray(value) ? value.filter(isValid).slice(0,300) : []; }
     catch { return []; }
   }
-  function write(data) {
+  async function write(data) {
+    if(usingIcp){const owner=getUser();try{await saveMyFavorites(data);if(owner!==getUser())return false;remoteFavorites=data;return true;}catch{window.alert('Could not save favorites on ICP. Please try again.');return false;}}
     try { localStorage.setItem(key(), JSON.stringify(data)); return true; }
     catch { window.alert('Could not save favorites in this browser.'); return false; }
   }
@@ -85,7 +96,7 @@ export function initFavorites(getPrincipal) {
     grid.replaceChildren();
     const data = read();
     empty.hidden = data.length > 0;
-    if (!data.length) empty.textContent = getUser() ? 'No favorites yet. Save apps from project cards.' : 'Sign in with Internet Identity to view your favorites.';
+    if (!data.length) empty.textContent = !getUser()?'Sign in with Internet Identity to view your favorites.':usingIcp&&remoteState==='loading'?'Loading favorites from ICP…':usingIcp&&remoteState==='error'?'Could not load favorites. Close this panel and open it to retry.':'No favorites yet. Save apps from project cards.';
     for (const item of data) {
       const a = document.createElement('a'); a.className='catalog-fav-item'; a.href=item.href;
       const logo = document.createElement('span'); logo.className='catalog-fav-logo';
@@ -102,6 +113,7 @@ export function initFavorites(getPrincipal) {
     document.querySelector('.account-apps-btn')?.setAttribute('aria-expanded','false');
   }
   function openPanel(button) {
+    if(usingIcp&&remoteState==='error')void hydrateFavorites();
     renderPanel(); panel.hidden=false;
     const rect=button.getBoundingClientRect();
     const width=Math.min(380,window.innerWidth-24);
@@ -113,11 +125,13 @@ export function initFavorites(getPrincipal) {
   let pending=null;
   function showLogin(item) { pending=item; login.hidden=false; login.querySelector('.catalog-login-continue').focus(); }
   function closeLogin() { pending=null; login.hidden=true; }
-  function toggleFavorite(item) {
+  async function toggleFavorite(item) {
     if (!getUser()) { showLogin(item); return; }
+    if(usingIcp&&(remoteState!=='ready'||remoteOwner!==getUser())){window.alert('Load your ICP favorites before changing them.');return;}
+    if(writing)return;writing=true;
     const values=read(); const index=values.findIndex(x=>x.href===item.href);
     if(index>=0) values.splice(index,1); else values.push(item);
-    if(write(values)) { syncButtons(); if(!panel.hidden) renderPanel(); }
+    try{if(await write(values)) { syncButtons(); if(!panel.hidden) renderPanel(); }}finally{writing=false;}
   }
   function addSave(card) {
     const row=card.querySelector('.catalog-vote-buttons');
@@ -166,7 +180,9 @@ export function initFavorites(getPrincipal) {
   },true);
   document.addEventListener('keydown',event=>{if(event.key==='Escape'){closePanel();closeLogin();}});
   window.addEventListener('hashchange',closePanel);
-  window.addEventListener('catalog:auth-changed',()=>{
+  window.addEventListener('catalog:user-data-deleted',()=>{remoteFavorites=[];remoteOwner=getUser();remoteState='ready';syncButtons();if(!panel.hidden)renderPanel();});
+  window.addEventListener('catalog:auth-changed',async()=>{
+    if(usingIcp)await hydrateFavorites();
     if(getUser() && pending) {const item=pending;pending=null;toggleFavorite(item);}
     if(!getUser()) pending=null;
     syncButtons();if(!panel.hidden) renderPanel();schedule();

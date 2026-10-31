@@ -4,24 +4,19 @@ on:
   schedule:
     - cron: '17 3 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/fresh-catalog.yml']
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: catalog-crawler
   cancel-in-progress: false
 jobs:
   crawl:
-    concurrency:
-      group: catalog-cloud-operations
-      cancel-in-progress: false
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ICPSTORE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ICPSTORE_ACCOUNT_ID }}
-      CATALOG_API_BASE_URL: ${{ vars.CATALOG_API_BASE_URL }}
-      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,47 +25,30 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Install dependencies and run tests
-        run: |
-          npm ci
-          npm test
-      - name: Check Cloudflare credentials exist
-        run: |
-          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Missing CLOUDFLARE_ICPSTORE_API_TOKEN secret' >&2; exit 1; }
-          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'Missing CLOUDFLARE_ICPSTORE_ACCOUNT_ID secret' >&2; exit 1; }
-      - name: Resolve the new API URL
-        run: node worker/api-origin.mjs
-      - name: Verify the new API URL and health
-        run: |
-          if [[ ! "$CATALOG_API_BASE_URL" =~ ^https://icpstore-catalog-api-prod\.[a-zA-Z0-9-]+\.workers\.dev$ ]]; then
-            echo 'Set CATALOG_API_BASE_URL to the new Worker origin before crawling.' >&2
-            exit 1
-          fi
-          curl --fail --silent --show-error --max-time 20 "$CATALOG_API_BASE_URL/api/health" > "$RUNNER_TEMP/catalog-health.json"
-          node -e "const d=require(process.argv[1]);if(d.ok!==true)process.exit(1)" "$RUNNER_TEMP/catalog-health.json"
-      - name: Discover SNS and Caffeine projects
+      - name: Install crawler dependencies
+        run: npm ci --omit=dev --no-audit --no-fund
+      - name: Discover fresh SNS and Caffeine projects
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           node crawler/run.mjs --only=sns
           node crawler/caffeine-discover.mjs data/caffeine-seeds.txt "$RUNNER_TEMP/caffeine-candidates.json"
-          node crawler/fresh-batches.mjs data/projects.json "$RUNNER_TEMP/caffeine-candidates.json" "$RUNNER_TEMP/catalog-imports"
-      - name: Upload batches to the new R2 bucket
-        run: |
-          set -eu
-          for file in "$RUNNER_TEMP"/catalog-imports/*.json; do
-            test -f "$file"
-            npx --yes wrangler@4 r2 object put "icpstore-catalog-files-prod/imports/v3/$(basename "$file")" --file="$file" --remote --content-type=application/json
-          done
-          echo 'Uploaded batches. The configured R2 notification and Queue must process them into D1.'
-      - name: Verify published projects appear in the new API
-        run: |
-          set -eu
-          for attempt in $(seq 1 15); do
-            if curl --fail --silent --show-error --max-time 15 "$CATALOG_API_BASE_URL/api/search?page=1&limit=1" > "$RUNNER_TEMP/catalog-result.json" && node -e "const d=require(process.argv[1]);if(!Array.isArray(d.records)||d.count<1)process.exit(1);console.log('Published projects:',d.count)" "$RUNNER_TEMP/catalog-result.json"; then
-              exit 0
-            fi
-            sleep 4
-          done
-          echo 'No published projects appeared. Check the R2 notification, Queue and Worker logs.' >&2
-          exit 1
-
-
+          node icp/scripts/prepare-catalog.mjs data/projects.json "$RUNNER_TEMP/caffeine-candidates.json" "$RUNNER_TEMP/current.json"
+      - name: Store screened public text results
+        uses: actions/github-script@v7
+        env:
+          CATALOG_REPORT: ${{ runner.temp }}/current.json
+        with:
+          script: |
+            const fs = require('fs');
+            const content = fs.readFileSync(process.env.CATALOG_REPORT);
+            if (content.length > 16000000) throw new Error('Catalog report is too large');
+            const path = 'data/catalog/current.json';
+            let sha;
+            try { const r = await github.rest.repos.getContent({...context.repo,path,ref:'main'}); sha = r.data.sha; }
+            catch (e) { if (e.status !== 404) throw e; }
+            await github.rest.repos.createOrUpdateFileContents({...context.repo,path,branch:'main',sha,message:'Update screened catalog',content:content.toString('base64')});
+      - name: Synchronize changed records to ICP
+        env:
+          NATIVE_INGEST_TOKEN: ${{ secrets.NATIVE_INGEST_TOKEN }}
+        run: node icp/scripts/import-catalog.mjs "$RUNNER_TEMP/current.json"

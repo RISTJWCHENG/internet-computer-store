@@ -1,3 +1,12 @@
+## Current ICP migration (2026-10-31)
+
+The intended runtime is the two ICP canisters in `canister_ids.json`; see
+[icp/README.md](icp/README.md) for build, authorization, fresh ingestion and
+installation. No Cloudflare data is migrated. GitHub automation is limited to
+the daily crawler after temporary validation is removed. The historical notes
+below describe earlier Cloudflare/GitHub Pages deployments and are not the new
+runtime configuration. Mainnet installation is pending validation at this commit.
+
 # Internet Computer Store
 
 A search engine and directory for the Internet Computer (ICP) ecosystem.

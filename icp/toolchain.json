@@ -1,0 +1,8 @@
+{
+  "motokoVersion": "2.1.0",
+  "compilerUrl": "https://github.com/caffeinelabs/motoko/releases/download/2.1.0/motoko-Linux-x86_64-2.1.0.tar.gz",
+  "compilerSha256": "2046ccad4b555960c4f378131e1d0c4d88ff5875525e04237e33e16798cf19a1",
+  "baseRevision": "c768aa8d5c67e6e5b72fc09fb6695d5041060856",
+  "baseUrl": "https://github.com/dfinity/motoko-base/archive/c768aa8d5c67e6e5b72fc09fb6695d5041060856.tar.gz",
+  "baseSha256": "a9bdb2db054b870daec07f94fca8cc1ba7e35b2ce370a8195ddd06b7a2e95cdd"
+}

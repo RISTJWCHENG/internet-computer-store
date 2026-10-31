@@ -1,0 +1,24 @@
+name: Temporary ICP migration validation
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/temporary-icp-validation.yml']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build:backend
+      - run: npm run test:icp
+      - run: npm test
+      - run: npm run build:icp

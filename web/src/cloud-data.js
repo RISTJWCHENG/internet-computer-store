@@ -1,70 +1,17 @@
-import { resolveApiBase } from './api-config.js';
-export async function loadPublishedProjects({ base = import.meta.env?.BASE_URL || '/', fetcher = fetch, onProgress = () => {} } = {}) {
-
-  try {
-    const configResponse = await fetcher(
-      base + "api-config.json",
-      { cache: "no-store", signal: AbortSignal.timeout(20000) }
-    );
-
-    if (!configResponse.ok) {
-      throw new Error("API config unavailable");
-    }
-
-    const config = await configResponse.json();
-    const api = resolveApiBase(config);
-
-    const records = [];
-    const seen = new Set();
-    const limit = 30;
-    const maxPages = 100;
-    let expectedCount = null;
-
-    for (let page = 1; page <= maxPages; page++) {
-      const url = new URL(api + "/api/search");
-      url.searchParams.set("page", String(page));
-      url.searchParams.set("limit", String(limit));
-
-      const response = await fetcher(url, { cache: "no-store", signal: AbortSignal.timeout(20000) });
-
-      if (!response.ok) {
-        throw new Error("Search API HTTP " + response.status);
-      }
-
-      const data = await response.json();
-
-      if (!Array.isArray(data.records)) {
-        throw new Error("Invalid search API response");
-      }
-
-      if (expectedCount === null) {
-        expectedCount = Number(data.count);
-        if (!Number.isSafeInteger(expectedCount) ||
-            expectedCount < 0) {
-          throw new Error("Invalid total record count");
-        }
-      }
-
-      for (const record of data.records) {
-        if (!record.id || seen.has(record.id)) continue;
-        seen.add(record.id);
-        records.push(record);
-      }
-
-      onProgress({ records: [...records], count: expectedCount });
-
-      if (records.length >= expectedCount) {
-        return { records, count: expectedCount };
-      }
-
-      if (data.records.length < limit) {
-        throw new Error("Search pagination ended early");
-      }
-    }
-
-    throw new Error("Search pagination safety limit reached");
-  } catch (error) {
-    console.error("Failed to load complete live catalog:", error);
-    return { records: [], loadError: true };
+import {searchIcp} from './icp-client.js';
+export async function loadPublishedProjects({query=searchIcp,onProgress=()=>{}}={}){
+ try{
+  const records=[],seen=new Set();let expected=null;
+  for(let page=1;page<=334;page++){
+   const data=await query('','',page,30);
+   if(!Array.isArray(data.records)||!Number.isSafeInteger(data.count)||data.count<0||data.count>10000)throw Error('Invalid catalog response');
+   if(expected===null)expected=data.count;
+   if(expected!==data.count)throw Error('Catalog changed during loading. Refresh to retry.');
+   for(const record of data.records){if(!record.id||seen.has(record.id))continue;seen.add(record.id);records.push(record);}
+   onProgress({records:[...records],count:expected});
+   if(records.length>=expected)return {records,count:expected};
+   if(data.records.length<30)throw Error('Catalog pagination ended early');
   }
+  throw Error('Catalog pagination safety limit reached');
+ }catch(error){console.error('Failed to load ICP catalog:',error);return {records:[],loadError:true};}
 }

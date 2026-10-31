@@ -1,0 +1,96 @@
+type UserData = 
+ record {
+   favorites: vec Favorite;
+   profile: Profile;
+ };
+type Store = 
+ service {
+   administrator_session: () ->
+    (record {
+       authenticated: bool;
+       writesEnabled: bool;
+     }) query;
+   delete_my_data: () -> (Result);
+   get_my_data: () -> (Result_3) query;
+   health: () -> (text) query;
+   import_projects: (batch: vec Project) -> (Result_2);
+   is_administrator: () -> (bool) query;
+   list_admin_projects: () -> (Result_1) query;
+   save_my_favorites: (favorites: vec Favorite) -> (Result);
+   save_my_profile: (profile: Profile) -> (Result);
+   save_project: (p: Project) -> (Result);
+   search: (term: text, category: text, offset: nat, requested: nat) ->
+    (record {
+       count: nat;
+       records: vec Project;
+     }) query;
+   set_administrator: (who: principal, enabled: bool) -> (Result);
+   set_importer: (who: principal, enabled: bool) -> (Result);
+   whoami: () -> (principal) query;
+ };
+type Source = 
+ record {
+   collectedAt: text;
+   sourceType: text;
+   sourceUrl: text;
+ };
+type Result_3 = 
+ variant {
+   err: text;
+   ok: UserData;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: vec Project;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type Project = 
+ record {
+   canisters: vec Canister;
+   category: text;
+   description: text;
+   evidenceUrl: text;
+   githubUrl: text;
+   id: text;
+   logoUrl: text;
+   name: text;
+   relationship: text;
+   source: text;
+   sources: vec Source;
+   status: text;
+   tags: vec text;
+   updatedAt: text;
+   websiteUrl: text;
+ };
+type Profile = 
+ record {
+   avatar: text;
+   bio: text;
+   github: text;
+   interests: vec text;
+   name: text;
+   role: text;
+   website: text;
+ };
+type Favorite = 
+ record {
+   href: text;
+   logo: text;
+   name: text;
+ };
+type Canister = 
+ record {
+   canisterId: text;
+   role: text;
+ };
+service : (initialAdmin: principal) -> Store

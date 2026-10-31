@@ -1,1 +1,8 @@
-{ "version": 1, "canisters": { "frontend": { "type": "assets", "source": ["dist"] } } }
+{
+  "version": 1,
+  "dfx": "0.32.0",
+  "canisters": {
+    "backend": {"type": "motoko", "main": "icp/backend/main.mo"},
+    "frontend": {"type": "assets", "source": ["dist"], "dependencies": ["backend"]}
+  }
+}

@@ -1,9 +1,9 @@
+import {usingIcp,setIdentityProvider,administratorAccess} from './icp-client.js'
 // Internet Identity authentication for Catalog.
 // A Principal is obtained from an Identity, NOT directly from AuthClient.
 import { AuthClient } from '@icp-sdk/auth/client'
 import { initFavorites } from './favorites.js'
-import { getProfileName } from './profile.js'
-import { administratorDashboardUrl } from './admin-menu.js'
+import { getProfileName, syncRemoteProfile } from './profile.js'
 
 const safeLabel = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const short = t => t.length > 17 ? `${t.slice(0, 5)}…${t.slice(-5)}` : t
@@ -12,7 +12,7 @@ let client
 let principal = ''
 let busy = false
 let lastError = ''
-let adminConfig = null
+let icpAdministrator = false
 
 const notify = () => window.dispatchEvent(new Event('catalog:auth-changed'))
 
@@ -26,7 +26,7 @@ function render() {
   if (principal) {
     const name = getProfileName(principal)
     const displayName = name || 'Member'
-    const adminUrl = administratorDashboardUrl(principal, adminConfig)
+    const adminUrl = icpAdministrator
     const adminLink = adminUrl ? `<a class="account-menu-item" href="#/admin">Admin Dashboard</a>` : ''
     const menuUserIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19c.5-3.3 3-5 6.5-5s6 1.7 6.5 5"/></svg>`
     const menuLogoutIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`
@@ -48,6 +48,8 @@ async function refreshIdentity() {
     console.error('Unable to restore Internet Identity session:', error)
     principal = ''
   }
+  if(usingIcp){try{icpAdministrator=!!(await administratorAccess())}catch{icpAdministrator=false}}
+  if(usingIcp&&principal)void syncRemoteProfile(principal);
   render()
   if (previous !== principal) notify()
 }
@@ -55,11 +57,8 @@ async function refreshIdentity() {
 export async function initAuth() {
   initFavorites(() => principal)
   try {
-    const configResponse = await fetch(`${import.meta.env.BASE_URL}admin-config.json`, {cache:'no-store', signal:AbortSignal.timeout(3000)});
-    adminConfig = configResponse.ok ? await configResponse.json() : null;
-  } catch { adminConfig = null; }
-  try {
     client = new AuthClient()
+    setIdentityProvider(async()=>client?.isAuthenticated()?client.getIdentity():null)
     client.subscribe(() => { void refreshIdentity() })
     await refreshIdentity()
   } catch (error) {
@@ -88,6 +87,8 @@ export async function initAuth() {
         // Must be initiated from the user's click; the SDK opens the II popup.
         const identity = await client.signIn({ maxTimeToLive: 8n * 3_600_000_000_000n })
         principal = identity.getPrincipal().toText()
+        if(usingIcp){try{icpAdministrator=!!(await administratorAccess())}catch{icpAdministrator=false}}
+        if(usingIcp)void syncRemoteProfile(principal);
         notify()
       } catch (error) {
         console.error('Internet Identity login failed:', error)
@@ -97,6 +98,8 @@ export async function initAuth() {
       try {
         await client.signOut()
         principal = ''
+        icpAdministrator=false
+        if(usingIcp)void syncRemoteProfile(principal);
         notify()
       } catch (error) {
         console.error('Internet Identity logout failed:', error)
@@ -126,9 +129,5 @@ export const currentPrincipal = () => principal
 window.catalogCurrentPrincipal = () => principal
 
 export async function getAdministratorAccess() {
-  const url = administratorDashboardUrl(principal, adminConfig);
-  if (!url || !client || !client.isAuthenticated()) return null;
-  const identity = await client.getIdentity();
-  if (identity.getPrincipal().toText() !== principal) return null;
-  return {url, identity};
+  return administratorAccess();
 }

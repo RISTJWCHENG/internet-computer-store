@@ -1,0 +1,41 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {PocketIc,PocketIcServer} from '@dfinity/pic';
+import {IDL} from '@icp-sdk/core/candid';
+import {Ed25519KeyIdentity} from '@icp-sdk/core/identity';
+import {Principal} from '@icp-sdk/core/principal';
+import {idlFactory,unwrap} from './interface.js';
+import {toCanisterProject} from './project-model.js';
+test('ICP backend enforces caller permissions, isolates users and preserves data across upgrades',async()=>{
+ await rm(`${tmpdir()}/pocket_ic_${process.ppid}.port`,{force:true});
+ const server=await PocketIcServer.start({showRuntimeLogs:true,showCanisterLogs:true});let pic;
+ try{
+  pic=await PocketIc.create(server.getUrl());
+  const wasm=await readFile(new URL('../.icp-build/backend.wasm',import.meta.url));
+  const owner=Ed25519KeyIdentity.generate().getPrincipal(),importer=Ed25519KeyIdentity.generate().getPrincipal(),alice=Ed25519KeyIdentity.generate().getPrincipal(),bob=Ed25519KeyIdentity.generate().getPrincipal();
+  const arg=IDL.encode([IDL.Principal],[owner]);
+  const {actor,canisterId}=await pic.setupCanister({idlFactory,wasm,arg,sender:owner,controllers:[owner]});
+  assert.match((await actor.get_my_data()).err,/Sign in/);
+  const make=(id,source='sns')=>toCanisterProject({id,name:id,description:'A verified project record',category:'DeFi',websiteUrl:'https://example.com',status:'published',sources:[{sourceType:source,sourceUrl:'https://example.com',collectedAt:new Date().toISOString()}]},source);
+  actor.setPrincipal(alice);assert.match((await actor.set_importer(importer,true)).err,/Controller/);assert.match((await actor.import_projects([make('sns-one')])).err,/Importer/);assert.equal(await actor.is_administrator(),false);
+  actor.setPrincipal(owner);unwrap(await actor.set_importer(importer,true));
+  actor.setPrincipal(importer);assert.equal(unwrap(await actor.import_projects([make('sns-one')])),1n);
+  assert.match((await actor.save_project(make('manual-test','manual'))).err,/Administrator/);
+  assert.match((await actor.import_projects([make('manual-override')])).err,/Invalid/);
+  assert.match((await actor.import_projects([make('sns-valid'),{...make('sns-bad'),websiteUrl:'javascript:alert(1)'}])).err,/Invalid/);
+  assert.equal((await actor.search('','',0n,30n)).count,1n);
+  actor.setPrincipal(owner);
+  const manual={...make('manual-infrastructure','manual'),category:'Infrastructure',status:'draft'};
+  unwrap(await actor.save_project(manual));assert.equal((await actor.search('','',0n,30n)).count,1n);
+  unwrap(await actor.save_project({...manual,status:'published'}));assert.equal((await actor.search('','Infrastructure',0n,30n)).count,1n);
+  actor.setPrincipal(alice);const profile={name:'Alice',bio:'Private to Alice',role:'Explorer',website:'',github:'',avatar:'🪐',interests:['DeFi']};unwrap(await actor.save_my_profile(profile));unwrap(await actor.save_my_favorites([{href:'#/app/sns-one',name:'SNS one',logo:''}]));
+  actor.setPrincipal(bob);assert.equal(unwrap(await actor.get_my_data()).profile.name,'');unwrap(await actor.delete_my_data());
+  actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
+  await pic.upgradeCanister({canisterId,wasm,arg,sender:owner});
+  assert.equal(unwrap(await actor.get_my_data()).favorites.length,1);assert.equal((await actor.search('','',0n,30n)).count,2n);
+  unwrap(await actor.delete_my_data());assert.equal(unwrap(await actor.get_my_data()).profile.name,'');assert.equal(unwrap(await actor.get_my_data()).favorites.length,0);assert.equal((await actor.search('','',0n,30n)).count,2n);
+  actor.setPrincipal(Principal.anonymous());assert.match((await actor.delete_my_data()).err,/Sign in/);
+ } finally {if(pic)await pic.tearDown();await server.stop();}
+});

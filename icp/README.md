@@ -1,0 +1,60 @@
+# ICP application
+
+Mainnet targets are recorded in `canister_ids.json`:
+
+- frontend: `6iwiq-eyaaa-aaaaf-qhb4a-cai`
+- backend: `ufzkd-paaaa-aaaab-ahcqq-cai`
+
+The backend uses Motoko persistent state for catalog records, administrators,
+importers and per-principal profiles/favorites. Anonymous callers cannot access
+personal data. Users can delete their own data. Only controllers manage roles;
+the crawler can import SNS/Caffeine records but cannot edit manual projects or
+user data. Internet Identity authorization uses the caller verified by ICP.
+A frontend-origin change can change the owner's app principal; recheck the
+principal on the new frontend before granting administrator membership.
+
+## Build and test
+
+```
+npm ci
+npm run build:backend
+npm run test:icp
+npm test
+npm run build:icp
+```
+
+The backend toolchain is pinned and checksum verified in `toolchain.json`.
+PocketIC requires Unix sockets. Its integration test must run outside sandboxes
+that forbid binding Unix sockets. Use Linux x86_64 for the pinned build helper.
+`MOC_BIN` and `MOTOKO_BASE` can point to an already verified toolchain.
+
+## Mainnet installation
+
+The deploy helper requires `ICP_SIGNING_KEY_PATH` pointing to an Ed25519 PEM
+outside this repository, and `ICP_ASSET_WASM_PATH` pointing to the official
+DFINITY SDK 0.32.0 `assetstorage.wasm.gz`. Its checksum is verified before use.
+Run `node icp/scripts/deploy.mjs` only after tests pass. It installs only empty
+canisters, or accepts an already installed identical module to resume an upload.
+It refuses different existing modules, never reinstalls, and verifies that all
+existing controllers are retained. Deployment receipts are written locally to
+`.icp-build/deployment.json`. Never commit a signing key.
+
+## Fresh catalog and GitHub crawler
+
+No Cloudflare data is copied. The crawler regenerates SNS/Caffeine candidates,
+applies the existing strict eligibility checks, and stores only screened public
+text and image URLs in `data/catalog/current.json` on GitHub. Image files remain
+on their original hosts. User profiles and favorites are never written to GitHub.
+
+The daily workflow derives an Ed25519 crawler identity from the existing
+`NATIVE_INGEST_TOKEN` Actions secret using HKDF-SHA256, with the backend ID and a
+crawler-specific domain separator. The token must be a strong random secret of
+at least 32 characters. Only the public crawler principal is logged. A controller
+must authorize that principal with `set_importer` before synchronization can
+succeed. The importer is not a canister controller. It sends only changed records
+in bounded batches and never removes records merely missing from a crawl.
+
+Long-term GitHub automation contains only the daily crawler. A temporary test
+workflow is removed after migration validation; GitHub Pages and Cloudflare
+hosting/deployment workflows are retired. Existing Cloudflare resources are not
+deleted by this migration.

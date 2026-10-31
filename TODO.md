@@ -59,3 +59,9 @@
 
 - Replace or update the administrator canister-signature verifier for current IC certificates and validate its certificate policy; test a real Internet Identity login before enabling administrator writes. Deploy the session capabilities response only after this validation.
 - Verify administrator UI, editing, publication and mobile layout with an authenticated production session after the verifier is fixed.
+
+
+- Finish temporary cloud PocketIC integration validation (caller permissions, user isolation, deletion, upgrade persistence), then remove the temporary workflow.
+- Install the validated modules into the two authorized empty ICP canisters; verify module hashes, controllers, assets and live catalog reads.
+- Read the public crawler principal derived inside Actions from NATIVE_INGEST_TOKEN; authorize it as importer only, rerun the fresh crawl, and verify live results. No Cloudflare migration.
+- Verify the owner's new frontend-origin Principal and grant administrator membership through the controller; retain the owner's controller and arrange long-term deployment-key custody before removing the temporary controller.

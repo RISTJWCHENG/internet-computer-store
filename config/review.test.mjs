@@ -17,14 +17,13 @@ test('review data proxy reads the fixed upstream without forwarding browser cred
 test('upstream failure is an error, not an empty successful catalog',async()=>{
  const worker=createReviewWorker({},async()=>{throw Error('network');});
  assert.equal((await worker.fetch(new Request('https://review.example/api/search'))).status,502);
- const result=await loadPublishedProjects({base:'/',fetcher:async url=>url==='/api-config.json'?Response.json({apiBaseUrl:'https://example.account.workers.dev'}):Response.json({error:'unavailable'},{status:502})});
+ const result=await loadPublishedProjects({query:async()=>{throw Error('unavailable')}});
  assert.equal(result.loadError,true);
 });
 test('catalog renders progressively while validating the full result count',async()=>{
  const progress=[];let calls=0;
- const result=await loadPublishedProjects({base:'/',onProgress:x=>progress.push(x.records.length),fetcher:async url=>{
-  if(url==='/api-config.json')return Response.json({apiBaseUrl:'https://example.account.workers.dev'});
-  calls++;return Response.json({records:Array.from({length:calls===1?30:1},(_,i)=>({id:String((calls-1)*30+i)})),count:31});
+ const result=await loadPublishedProjects({onProgress:x=>progress.push(x.records.length),query:async()=>{
+  calls++;return {records:Array.from({length:calls===1?30:1},(_,i)=>({id:String((calls-1)*30+i)})),count:31};
  }});
  assert.equal(result.records.length,31);assert.deepEqual(progress,[30,31]);
 });

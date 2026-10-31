@@ -210,6 +210,7 @@ if(d.github&&!safe(d.github))x.github='Enter a full https:// URL.';if(d.logo&&!s
 const r=document.getElementById('res');if(Object.keys(x).length){r.hidden=true;return}
 r.hidden=false;r.textContent='Submission is not connected yet. Nothing was saved. Please do not assume your project was submitted.'}});
 addEventListener('hashchange',route);
+addEventListener('catalog:profile-loaded',()=>{if(location.hash.startsWith('#/profile'))route();});
 addEventListener('catalog:auth-changed', () => { if (location.hash.startsWith('#/profile') || location.hash.startsWith('#/admin')) route() });
 initProfile();
 async function remoteGames(startedHash) {

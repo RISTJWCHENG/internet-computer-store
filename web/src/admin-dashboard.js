@@ -1,8 +1,9 @@
+import {adminRequest} from './icp-client.js';
 import {createAdminLoginProof} from './admin-auth-client.js';
 
 export async function startAdminDashboard(root, access) {
   if (!root) return;
-  if (!access?.identity || !access?.url) {
+  if (!access?.identity || (!access?.url && access?.transport!=='icp')) {
     root.textContent = 'Administrator access is unavailable. Sign in with the authorized Internet Identity.';
     return;
   }
@@ -46,6 +47,7 @@ export async function startAdminDashboard(root, access) {
   }
   root.querySelectorAll('[data-tab], [data-go]').forEach(button=>button.addEventListener('click',()=>{if(button.dataset.go==='editor'){form.reset();form.elements.id.readOnly=false;$('#admin-editor-title').textContent='Add a project';$('#admin-form-status').textContent='';}setPanel(button.dataset.tab||button.dataset.go);}));
   async function call(path,options={}) {
+    if(access.transport==='icp')return adminRequest(access.identity,path,options);
     const response=await fetch(endpoint(path),{...options,headers:{...(options.body?{'Content-Type':'application/json'}:{}),...(token?{Authorization:`Bearer ${token}`}:{})},cache:'no-store',signal:AbortSignal.timeout(20000)});
     let data;try{data=await response.json();}catch{throw Error('The administrator service returned an invalid response.');}
     if(!response.ok)throw Error(data.error||'Administrator request failed.');return data;
@@ -77,7 +79,7 @@ export async function startAdminDashboard(root, access) {
   async function refresh(){const data=await call('/api/projects');if(!Array.isArray(data.projects))throw Error('Project data is unavailable.');projects=data.projects;loaded=true;render();}
   async function connect(){
     token='';fields.disabled=true;loaded=false;projects=[];render();retry.disabled=true;setStatus('Verifying your identity','Connecting securely with Internet Identity…');
-    try{const challenge=await call('/api/ii/challenge',{method:'POST',body:'{}'});const proof=await createAdminLoginProof(access.identity,challenge);const session=await call('/api/ii/session',{method:'POST',body:JSON.stringify(proof)});if(typeof session.token!=='string'||!session.token)throw Error('Administrator authentication failed.');token=session.token;if(!root.isConnected)return;const capabilities=await call('/api/ii/session');await refresh();fields.disabled=capabilities.writesEnabled!==true;setStatus('Identity verified',fields.disabled?'Connected in read-only mode. Editing is currently unavailable.':'Connected to your administrator workspace.','success');}
+    try{if(access.transport==='icp'){const check=await call('/api/ii/session');if(!check.authenticated)throw Error('Administrator authorization required.');token='icp';}else{const challenge=await call('/api/ii/challenge',{method:'POST',body:'{}'});const proof=await createAdminLoginProof(access.identity,challenge);const session=await call('/api/ii/session',{method:'POST',body:JSON.stringify(proof)});if(typeof session.token!=='string'||!session.token)throw Error('Administrator authentication failed.');token=session.token;}if(!root.isConnected)return;const capabilities=await call('/api/ii/session');await refresh();fields.disabled=capabilities.writesEnabled!==true;setStatus('Identity verified',fields.disabled?'Connected in read-only mode. Editing is currently unavailable.':'Connected to your administrator workspace.','success');}
     catch(error){if(root.isConnected)setStatus('Connection unavailable',`${error.message||'Administrator authentication failed.'} Project data and editing are unavailable until verification succeeds.`,'error');}
     finally{retry.disabled=false;}
   }
