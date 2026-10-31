@@ -6,19 +6,19 @@
       "35w5h-sdkk3-c4ngn-skhml-bg3uq-w54ch-dpgmo-6dxaq-eb5zi-b2iw6-cae",
       "2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe"
     ],
-    "cycles": "2097248505030"
+    "cycles": "2095616092986"
   },
   "backend": {
     "id": "ufzkd-paaaa-aaaab-ahcqq-cai",
-    "moduleHash": "a3b24ab4667c848c0b0918cdb79abb1f80948792e0abb107070fead576bdb0a8",
+    "moduleHash": "3b802356c7cf991bb66c37a92e779297b708e309e60552c49f4f63bff8194fbe",
     "controllers": [
       "35w5h-sdkk3-c4ngn-skhml-bg3uq-w54ch-dpgmo-6dxaq-eb5zi-b2iw6-cae",
       "2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe"
     ],
-    "cycles": "2113564123679"
+    "cycles": "2111571382246"
   },
   "assets": [
-    "/assets/index-DgWhPWge.js",
+    "/assets/index-CN7fXuEv.js",
     "/assets/index-PwiV1sxD.css",
     "/assets/site-logo-CTfcYHAo.png",
     "/catalog-16-dots.js",
@@ -45,5 +45,5 @@
     "/site-logo.png",
     "/"
   ],
-  "deployedAt": "2026-10-31T02:19:24.855Z"
+  "deployedAt": "2026-10-31T02:29:14.403Z"
 }

@@ -72,7 +72,7 @@ JavaScript/CSS bundles before recording success. This avoids relying on an alias
 witness that may not certify the root. Run `node icp/scripts/verify-frontend.mjs`
 for an independent mainnet certificate check. No raw-domain bypass is used.
 
-Deployed catalog seed: 32 fresh records. Native voting, submission review and
+Current catalog: 29 SNS records. The former three Caffeine seed records were removed at the owner's request, and the previous seed URL list is empty. Native voting, submission review and
 developer-claim verification remain separate work; the current migration does
 not implement those features. Owner administrator activation requires the new
 frontend-origin Principal displayed after Internet Identity login.
