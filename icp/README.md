@@ -58,3 +58,10 @@ Long-term GitHub automation contains only the daily crawler. A temporary test
 workflow is removed after migration validation; GitHub Pages and Cloudflare
 hosting/deployment workflows are retired. Existing Cloudflare resources are not
 deleted by this migration.
+
+Frontend builds are emitted into `.icp-build/frontend` with a Vite manifest.
+Only current manifest assets, the HTML entry and current public source files
+are uploaded; stale build output and legacy endpoint configuration are excluded.
+The deploy helper atomically replaces existing managed files in a batch, checks
+the SHA-256 of the exact uploaded module bytes (including gzip when used), and
+verifies all existing controllers remain present.

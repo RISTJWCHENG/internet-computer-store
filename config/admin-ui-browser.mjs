@@ -3,7 +3,7 @@ import {spawn} from 'node:child_process';
 import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 const path=new URL('../web/admin-preview.html',import.meta.url);
-const html=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/src/style.css"><link rel="stylesheet" href="/src/admin-dashboard.css"></head><body><main class="wrap"><div id="admin-dashboard"></div></main><script type="module">import {startAdminDashboard} from '/src/admin-dashboard.js';window.fetch=async()=>new Response(JSON.stringify({error:'Authentication failed (delegation signature).'}),{status:401,headers:{'Content-Type':'application/json'}});startAdminDashboard(document.getElementById('admin-dashboard'),{identity:{},url:'https://admin.example'});</script></body></html>`;
+const html=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/src/style.css"><link rel="stylesheet" href="/src/admin-dashboard.css"></head><body><main class="wrap"><div id="admin-dashboard"></div></main><script type="module">import {startAdminDashboard} from '/src/admin-dashboard.js';window.fetch=async()=>new Response(JSON.stringify({error:'Authentication failed (delegation signature).'}),{status:401,headers:{'Content-Type':'application/json'}});startAdminDashboard(document.getElementById('admin-dashboard'),{identity:{},transport:'icp'});</script></body></html>`;
 await writeFile(path,html);
 const vite=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','5173','--strictPort'],{stdio:'inherit',env:{...process.env,PUBLIC_BASE_PATH:'/'}});
 let browser;

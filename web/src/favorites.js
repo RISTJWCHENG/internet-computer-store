@@ -54,7 +54,7 @@ export function initFavorites(getPrincipal) {
   async function hydrateFavorites(){
     const owner=getUser();remoteFavorites=[];remoteOwner=owner;remoteState=owner?'loading':'idle';
     if(!usingIcp||!owner)return;
-    try{const data=await readMyData();if(getUser()!==owner)return;remoteFavorites=data.favorites.filter(isValid);remoteState='ready';}
+    try{const data=await readMyData(owner);if(getUser()!==owner)return;remoteFavorites=data.favorites.filter(isValid);remoteState='ready';}
     catch{if(getUser()!==owner)return;remoteState='error';}
     syncButtons();if(!panel.hidden)renderPanel();
   }
@@ -67,7 +67,7 @@ export function initFavorites(getPrincipal) {
     catch { return []; }
   }
   async function write(data) {
-    if(usingIcp){const owner=getUser();try{await saveMyFavorites(data);if(owner!==getUser())return false;remoteFavorites=data;return true;}catch{window.alert('Could not save favorites on ICP. Please try again.');return false;}}
+    if(usingIcp){const owner=getUser();try{await saveMyFavorites(data,owner);if(owner!==getUser())return false;remoteFavorites=data;return true;}catch{window.alert('Could not save favorites on ICP. Please try again.');return false;}}
     try { localStorage.setItem(key(), JSON.stringify(data)); return true; }
     catch { window.alert('Could not save favorites in this browser.'); return false; }
   }

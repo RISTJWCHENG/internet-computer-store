@@ -14,7 +14,7 @@
     "test": "node --test config/*.test.mjs crawler/*.test.mjs core/tests/*.test.mjs core/cloud-v1/*.test.mjs worker/v3/*.test.mjs worker/v5/*.test.mjs worker/admin/*.test.mjs icp/model.test.mjs",
     "build:backend": "node icp/scripts/build-backend.mjs",
     "test:icp": "node --test icp/backend.test.mjs",
-    "build:icp": "PUBLIC_BASE_PATH=/ vite build"
+    "build:icp": "PUBLIC_BASE_PATH=/ vite build --outDir ../.icp-build/frontend --manifest"
   },
   "dependencies": {
     "@dfinity/standalone-sig-verifier-web": "1.0.0",

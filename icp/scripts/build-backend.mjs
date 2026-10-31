@@ -12,4 +12,7 @@ if(!compiler){const archive=await download(toolchain.compilerUrl,'motoko.tar.gz'
 if(!base){const archive=await download(toolchain.baseUrl,'base.tar.gz',toolchain.baseSha256);await mkdir(resolve(tools,'base'),{recursive:true});run('tar',['--no-same-owner','-xzf',archive,'--strip-components=1','-C',resolve(tools,'base')]);base=resolve(tools,'base/src');}
 await access(compiler);await access(base);await mkdir(resolve(root,'.icp-build'),{recursive:true});
 run(compiler,['--package','base',base,'-c','--idl','--stable-types','-o','.icp-build/backend.wasm','icp/backend/main.mo']);
+const wasm=await readFile(resolve(root,'.icp-build/backend.wasm'));
+if(wasm.length<1000||wasm.subarray(0,8).toString('hex')!=='0061736d01000000')throw Error('Compiler did not produce a valid WebAssembly module');
+console.log('Backend module SHA-256: '+createHash('sha256').update(wasm).digest('hex'));
 console.log('ICP backend compiled with pinned toolchain.');

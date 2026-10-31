@@ -1,9 +1,8 @@
 import {adminRequest} from './icp-client.js';
-import {createAdminLoginProof} from './admin-auth-client.js';
 
 export async function startAdminDashboard(root, access) {
   if (!root) return;
-  if (!access?.identity || (!access?.url && access?.transport!=='icp')) {
+  if (!access?.identity || access?.transport!=='icp') {
     root.textContent = 'Administrator access is unavailable. Sign in with the authorized Internet Identity.';
     return;
   }
@@ -36,7 +35,6 @@ export async function startAdminDashboard(root, access) {
   const form=$('#admin-form'), fields=$('#admin-fields'), list=$('#admin-projects'), recent=$('#admin-recent');
   let token='', projects=[], loaded=false;
   const stateOf = project => project.status === 'published' ? 'published' : 'draft';
-  const endpoint = path => new URL(path, access.url).href;
   function setStatus(title, detail, state='waiting') {
     statusTitle.textContent=title; statusDetail.textContent=detail; alert.dataset.state=state; retry.hidden=state!=='error';
   }
@@ -46,12 +44,7 @@ export async function startAdminDashboard(root, access) {
     $('#admin-breadcrumb').textContent=({overview:'OVERVIEW',projects:'PROJECTS',editor:'PROJECT EDITOR'})[name];
   }
   root.querySelectorAll('[data-tab], [data-go]').forEach(button=>button.addEventListener('click',()=>{if(button.dataset.go==='editor'){form.reset();form.elements.id.readOnly=false;$('#admin-editor-title').textContent='Add a project';$('#admin-form-status').textContent='';}setPanel(button.dataset.tab||button.dataset.go);}));
-  async function call(path,options={}) {
-    if(access.transport==='icp')return adminRequest(access.identity,path,options);
-    const response=await fetch(endpoint(path),{...options,headers:{...(options.body?{'Content-Type':'application/json'}:{}),...(token?{Authorization:`Bearer ${token}`}:{})},cache:'no-store',signal:AbortSignal.timeout(20000)});
-    let data;try{data=await response.json();}catch{throw Error('The administrator service returned an invalid response.');}
-    if(!response.ok)throw Error(data.error||'Administrator request failed.');return data;
-  }
+  async function call(path,options={}) {return adminRequest(access.identity,path,options);}
   function edit(project) {
     form.reset();for(const key of ['id','name','description','websiteUrl','logoUrl','evidenceUrl','relationship'])form.elements[key].value=project[key]||'';
     form.elements.status.value=stateOf(project);form.elements.id.readOnly=true;$('#admin-editor-title').textContent='Edit project';$('#admin-form-status').textContent='';setPanel('editor');
@@ -79,7 +72,7 @@ export async function startAdminDashboard(root, access) {
   async function refresh(){const data=await call('/api/projects');if(!Array.isArray(data.projects))throw Error('Project data is unavailable.');projects=data.projects;loaded=true;render();}
   async function connect(){
     token='';fields.disabled=true;loaded=false;projects=[];render();retry.disabled=true;setStatus('Verifying your identity','Connecting securely with Internet Identity…');
-    try{if(access.transport==='icp'){const check=await call('/api/ii/session');if(!check.authenticated)throw Error('Administrator authorization required.');token='icp';}else{const challenge=await call('/api/ii/challenge',{method:'POST',body:'{}'});const proof=await createAdminLoginProof(access.identity,challenge);const session=await call('/api/ii/session',{method:'POST',body:JSON.stringify(proof)});if(typeof session.token!=='string'||!session.token)throw Error('Administrator authentication failed.');token=session.token;}if(!root.isConnected)return;const capabilities=await call('/api/ii/session');await refresh();fields.disabled=capabilities.writesEnabled!==true;setStatus('Identity verified',fields.disabled?'Connected in read-only mode. Editing is currently unavailable.':'Connected to your administrator workspace.','success');}
+    try{const check=await call('/api/ii/session');if(!check.authenticated)throw Error('Administrator authorization required.');token='icp';if(!root.isConnected)return;const capabilities=await call('/api/ii/session');await refresh();fields.disabled=capabilities.writesEnabled!==true;setStatus('Identity verified',fields.disabled?'Connected in read-only mode. Editing is currently unavailable.':'Connected to your administrator workspace.','success');}
     catch(error){if(root.isConnected)setStatus('Connection unavailable',`${error.message||'Administrator authentication failed.'} Project data and editing are unavailable until verification succeeds.`,'error');}
     finally{retry.disabled=false;}
   }

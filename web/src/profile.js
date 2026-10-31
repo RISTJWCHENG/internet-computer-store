@@ -14,7 +14,7 @@ const remoteProfiles=new Map(), remoteStatus=new Map();
 export async function syncRemoteProfile(principal,force=false){
   if(!usingIcp||!principal||(!force&&remoteStatus.has(principal)))return;
   remoteStatus.set(principal,'loading');
-  try{const data=await readMyData();if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,{...defaults,...data.profile});remoteStatus.set(principal,'ready');}
+  try{const data=await readMyData(principal);if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,{...defaults,...data.profile});remoteStatus.set(principal,'ready');}
   catch{if(currentPrincipal()!==principal)return;remoteStatus.set(principal,'error');}
   window.dispatchEvent(new Event('catalog:profile-loaded'));
   window.dispatchEvent(new Event('catalog:profile-updated'));
@@ -69,7 +69,7 @@ export function initProfile() {
     if(usingIcp&&e.target.closest('#profile-delete')){
       if(!window.confirm('Delete your profile, favorites and preferences from this website? This cannot be undone. Your Internet Identity account will remain.'))return;
       const principal=currentPrincipal();const button=e.target.closest('button');button.disabled=true;
-      try{await deleteMyData();if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,{...defaults});remoteStatus.set(principal,'ready');window.dispatchEvent(new Event('catalog:user-data-deleted'));window.dispatchEvent(new Event('catalog:profile-loaded'));window.dispatchEvent(new Event('catalog:profile-updated'));}
+      try{await deleteMyData(principal);if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,{...defaults});remoteStatus.set(principal,'ready');window.dispatchEvent(new Event('catalog:user-data-deleted'));window.dispatchEvent(new Event('catalog:profile-loaded'));window.dispatchEvent(new Event('catalog:profile-updated'));}
       catch{window.alert('Could not delete your data. Please try again.');button.disabled=false;}return;
     }
     const avatarButton = e.target.closest('[data-avatar]')
@@ -115,7 +115,7 @@ export function initProfile() {
     if(usingIcp){
       if(remoteStatus.get(principal)!=='ready'){feedback.textContent='Load your profile before saving.';return;}
       const button=e.target.querySelector('[type=submit]');button.disabled=true;feedback.textContent='Saving to ICP…';
-      try{await saveMyProfile(profile);if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,profile);feedback.textContent='✓ Saved on ICP';window.dispatchEvent(new Event('catalog:profile-updated'));}
+      try{await saveMyProfile(profile,principal);if(currentPrincipal()!==principal)return;remoteProfiles.set(principal,profile);feedback.textContent='✓ Saved on ICP';window.dispatchEvent(new Event('catalog:profile-updated'));}
       catch(error){feedback.textContent=error.message||'Could not save on ICP.';}finally{button.disabled=false;}return;
     }
     try { localStorage.setItem(storageKey(principal), JSON.stringify(profile)); feedback.textContent = '✓ Saved in this browser'; window.dispatchEvent(new Event('catalog:profile-updated')) }
