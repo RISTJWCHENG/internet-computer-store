@@ -43,3 +43,7 @@ rules still used by production into `crawler/validation.mjs`; retained their saf
 and provenance checks. Renamed frontend catalog adapters and centralized the two
 neutral browser-local storage prefixes. Production backend state is unchanged.
 Validation of the reduced active tree is recorded after its checks complete.
+
+Validation run 41163527531 passed the 20 active regression tests, native backend integration, frontend build, desktop/mobile administrator UI checks and mainnet certificate verification. Certified live root/index/JS/CSS bytes exactly match the new build, so no canister reinstall or state mutation was required.
+
+Main-branch crawler run 41163616121 succeeded after deleting the retired implementations. It used the independent eligibility module and native import path, synchronized 29 SNS records, and found no configured community seeds.

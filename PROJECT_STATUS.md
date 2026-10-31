@@ -22,8 +22,10 @@
 
 ## Pending verification and work
 
-- Run all remaining tests, the backend integration test, frontend build and browser checks after source cleanup.
-- Verify the daily crawler with the independent validation module and native importer.
+- Completed: all 20 current regression tests, native backend integration, frontend build, desktop/mobile administrator UI checks and certified mainnet response checks passed (validation run 41163527531).
+- Completed: main-branch crawler run 41163616121 prepared and synchronized 29 SNS records using the independent validation module and native importer.
 - Verify owner administrator editing/publication in an authenticated owner session.
 - Arrange owner-controlled deployment-key custody before removing the temporary deployment controller.
 - Add reviewed sources for Community Apps and implement native voting/submission/claim features separately.
+
+The deployed root HTML, entry HTML, JS and CSS match the current build byte-for-byte. The runtime modules and persisted state required no replacement for this source-only cleanup.
