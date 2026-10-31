@@ -1,8 +1,8 @@
 import site from '../../config/site.json'
 import { normalizeCategories } from './catalog-categories.js'
 const SITE_NAME = site.name;
-import {searchProjectsV3} from './cloud-search.js';
-import { loadPublishedProjects } from './cloud-data.js'
+import {searchCatalog} from './catalog-search.js';
+import { loadPublishedProjects } from './catalog-data.js'
 import { renderProfile, initProfile } from './profile.js'
 import { getAdministratorAccess } from './auth.js'
 import { startAdminDashboard } from './admin-dashboard.js'
@@ -224,7 +224,7 @@ async function remoteGames(startedHash) {
     const results=[];
     let total=0;
     for(let page=1;page<=5;page++) {
-      const data=await searchProjectsV3('', 'Games', page, 50);
+      const data=await searchCatalog('', 'Games', page, 50);
       if(!data) throw new Error('Live search configuration unavailable');
       total=Math.max(0, Number(data.count)||0);
       const records=Array.isArray(data.records)?data.records:[];
@@ -246,7 +246,7 @@ async function remoteSearch(q, startedHash) {
   const term = String(q.q || '').trim();
   const page = Math.max(1, Math.floor(Number(q.page) || 1));
   try {
-    const result = await searchProjectsV3(term, q.cat || '', page, 6);
+    const result = await searchCatalog(term, q.cat || '', page, 6);
     if (!result || location.hash !== startedHash) return;
     const target = document.getElementById('remote-search-results');
     if (!target) return;

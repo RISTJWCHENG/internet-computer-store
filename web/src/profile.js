@@ -1,5 +1,5 @@
 import {usingIcp,readMyData,saveMyProfile,deleteMyData} from './icp-client.js'
-import { compatibility } from '../../config/compatibility.js'
+import { storage } from '../../config/storage.js'
 // ICP profiles are loaded into memory; local development uses neutral browser keys.
 import { currentPrincipal } from './auth.js'
 
@@ -8,7 +8,7 @@ const avatars = ['🪐','🦕','🌌','🚀','🧑‍🚀','🌿','🎮','💎']
 const defaults = { name:'', bio:'', role:'Explorer', website:'', github:'', avatar:'🪐', interests:[] }
 const roles = ['Explorer','Developer','Creator','Community Builder']
 const topics = ['DeFi','Games','AI','Infrastructure','SNS','NFTs','Developer Tools','Community']
-const storageKey = principal => compatibility.profileStoragePrefix + principal
+const storageKey = principal => storage.profileStoragePrefix + principal
 
 const remoteProfiles=new Map(), remoteStatus=new Map();
 export async function syncRemoteProfile(principal,force=false){

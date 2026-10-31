@@ -1,5 +1,5 @@
 import {usingIcp,readMyData,saveMyFavorites} from './icp-client.js'
-import { compatibility } from '../../config/compatibility.js'
+import { storage } from '../../config/storage.js'
 /* CATALOG_FAVORITES_GRID_V1 - browser-local per authenticated Principal. */
 export function initFavorites(getPrincipal) {
   if (window.__catalogFavoritesInstalled) return;
@@ -58,7 +58,7 @@ export function initFavorites(getPrincipal) {
     catch{if(getUser()!==owner)return;remoteState='error';}
     syncButtons();if(!panel.hidden)renderPanel();
   }
-  const key = () => compatibility.favoritesStoragePrefix + getUser();
+  const key = () => storage.favoritesStoragePrefix + getUser();
   const isValid = x => x && typeof x.href === 'string' && /^#\/app\/[a-z0-9._%-]+$/i.test(x.href) && typeof x.name === 'string' && x.name.length < 160;
   function read() {
     if (!getUser()) return [];

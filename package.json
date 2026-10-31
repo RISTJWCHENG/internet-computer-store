@@ -11,13 +11,12 @@
     "build": "vite build",
     "crawl": "node crawler/run.mjs",
     "review": "node crawler/review.mjs",
-    "test": "node --test config/*.test.mjs crawler/*.test.mjs core/tests/*.test.mjs core/cloud-v1/*.test.mjs worker/v3/*.test.mjs worker/v5/*.test.mjs worker/admin/*.test.mjs icp/model.test.mjs",
+    "test": "node --test config/*.test.mjs crawler/*.test.mjs icp/model.test.mjs",
     "build:backend": "node icp/scripts/build-backend.mjs",
     "test:icp": "node --test icp/backend.test.mjs",
     "build:icp": "PUBLIC_BASE_PATH=/ vite build --outDir ../.icp-build/frontend --manifest"
   },
   "dependencies": {
-    "@dfinity/standalone-sig-verifier-web": "1.0.0",
     "@icp-sdk/auth": "^10.0.2",
     "@icp-sdk/canisters": "4.0.0",
     "@icp-sdk/core": "6.1.1"

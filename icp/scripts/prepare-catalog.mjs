@@ -1,7 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {dirname} from 'node:path';
-import {eligibleSNS,safeHttps} from '../../worker/v3/validation.js';
-import {eligibleCommunity} from '../../worker/v5/community.js';
+import {eligibleSNS,eligibleCommunity,safeHttps} from '../../crawler/validation.mjs';
 import {toCanisterProject} from '../project-model.js';
 export function prepareCatalog(sns,community){
  if(!Array.isArray(sns?.records)||!Array.isArray(community?.records))throw Error('Both crawl reports are required');

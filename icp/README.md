@@ -41,7 +41,7 @@ existing controllers are retained. Deployment receipts are written locally to
 
 ## Fresh catalog and GitHub crawler
 
-No Cloudflare data is copied. The crawler regenerates SNS/Community candidates,
+The crawler regenerates SNS/Community candidates,
 applies the existing strict eligibility checks, and stores only screened public
 text and image URLs in `data/catalog/current.json` on GitHub. Image files remain
 on their original hosts. User profiles and favorites are never written to GitHub.
@@ -54,10 +54,8 @@ must authorize that principal with `set_importer` before synchronization can
 succeed. The importer is not a canister controller. It sends only changed records
 in bounded batches and never removes records merely missing from a crawl.
 
-Long-term GitHub automation contains only the daily crawler. A temporary test
-workflow is removed after migration validation; GitHub Pages and Cloudflare
-hosting/deployment workflows are retired. Existing Cloudflare resources are not
-deleted by this migration.
+Long-term GitHub automation contains only the daily crawler. Catalog updates use
+the native importer; no additional hosting or database service is required.
 
 Frontend builds are emitted into `.icp-build/frontend` with a Vite manifest.
 Only current manifest assets, the HTML entry and current public source files
@@ -74,5 +72,4 @@ for an independent mainnet certificate check. No raw-domain bypass is used.
 
 Current catalog: 29 SNS records. The former three Community seed records were removed at the owner's request, and the previous seed URL list is empty. Native voting, submission review and
 developer-claim verification remain separate work; the current migration does
-not implement those features. Owner administrator activation requires the new
-frontend-origin Principal displayed after Internet Identity login.
+not implement those features. Administrator roles use the frontend-origin Principal displayed after Internet Identity login. The owner administrator is already authorized.

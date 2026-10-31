@@ -1,119 +1,51 @@
-## Current ICP migration (2026-10-31)
-
-The deployed runtime is the two ICP canisters in `canister_ids.json`; see
-[icp/README.md](icp/README.md) for build, authorization, fresh ingestion and
-installation. No Cloudflare data is migrated. GitHub automation is limited to
-the daily crawler after temporary validation is removed. The historical notes
-below describe earlier Cloudflare/GitHub Pages deployments and are not the new
-runtime configuration. Mainnet installation and certified frontend responses are verified. The site serves a freshly generated catalog; user profiles and favorites are stored by the authenticated ICP caller. Owner administrator activation on the new frontend origin is pending the owner's login.
-
 # Internet Computer Store
 
-A search engine and directory for the Internet Computer (ICP) ecosystem.
-Static frontend + a discovery crawler + Internet Identity login.
+An application directory for the Internet Computer. Production uses an ICP
+frontend assets canister and a persistent Motoko backend. GitHub Actions runs
+the daily crawler; the browser reads catalog and personal data from ICP.
 
-**Status:** ICP frontend and persistent backend are deployed. The catalog contains fresh crawler results, with no Cloudflare data copied. See `icp/README.md` for the current workflow. The legacy development notes below do not describe the deployed data path.
+## Runtime
 
-## Quick start
-```bash
-npm install
-npm run dev          # http://localhost:5173
-npm test             # crawler unit tests
-npm run build        # -> dist/
+- Frontend: `6iwiq-eyaaa-aaaaf-qhb4a-cai`
+- Backend: `ufzkd-paaaa-aaaab-ahcqq-cai`
+- Public catalog: names, descriptions, categories, tags, URLs and source evidence.
+- Private data: profiles and favorites are associated with the authenticated caller.
+- Roles: controllers manage administrator and importer membership. Importers cannot edit user data.
+- Media: application images load from their original hosts; the catalog stores URLs.
+
+## Development and verification
+
+```sh
+npm ci
+npm run dev
+npm test
+npm run build:backend
+npm run test:icp
+npm run build:icp
 ```
 
-## How discovery works
-```
-npm run crawl   ->  data/projects.json   (private working store, everything is PENDING)
-npm run review  ->  web/public/projects.json   (only APPROVED records are public)
-```
-1. `npm run crawl` collects candidates, merges duplicates (same website host), classifies them, checks each homepage once, and stores them as `pending`. Re-running keeps your review decisions.
-2. Review: `npm run review -- list`, then `npm run review -- approve <id>`, `approve --source=sns --up-only`, or `reject <id>`.
-3. Reload the site. When at least one record is published the demo data disappears.
+The pinned backend build helper requires Linux x86_64. PocketIC integration tests
+need an environment that permits Unix sockets. See [icp/README.md](icp/README.md)
+for deployment and certificate verification. Never commit signing keys.
 
-Sources (public APIs only, no HTML scraping):
-| Adapter | Source | Notes |
-|---|---|---|
-| `sns` | `sns-api.internetcomputer.org/api/v2/snses` | Only SNSes whose swap is `COMMITTED`. Cursor paging is implemented from the OpenAPI spec and guarded against loops. |
-| `github` | GitHub search, topic `internet-computer` | Needs a homepage, not a fork/archived, min stars. Generic hosts (npm, x.com, github.io, ...) are dropped. Set `GITHUB_TOKEN` for a higher rate limit. |
+## Catalog updates
 
-Options: `--only=sns,github`, `--no-check` (skip website checks), `--fixture` (use the bundled SNS sample, no network for SNS).
+The **Internet Computer Store Crawler** workflow runs daily at 03:17 UTC and
+supports manual dispatch on `main`. It collects SNS candidates, checks website
+availability, applies `crawler/validation.mjs`, commits screened public text to
+`data/catalog/current.json`, and synchronizes changed records through the ICP
+backend using an importer-only identity derived from `NATIVE_INGEST_TOKEN`.
 
-## Honest limits
-- **"All projects" is not achievable.** There is no official ecosystem directory. One app often uses many canisters, so canisters are never treated as projects. Coverage = SNS projects + GitHub-discovered projects + whatever you add. Add more adapters in `crawler/adapters/` (interface: `collect(ctx) -> candidates[]`).
-- **Categories are keyword guesses** (`categorySource: "heuristic"`). Review them.
-- **GitHub results are noisy** (repo names, personal sites). That is why nothing is published without review.
-- "Last website check" means the homepage answered, not that the project is safe, audited or verified.
-- Before adding scrapers for third-party directories, check their terms and robots.txt.
+Community discovery reads `data/community-seeds.txt`, currently empty. A public
+URL is not an approval: community records must have explicit review approval
+before publication. The implementation does not claim to discover every app.
+Absent crawl results do not automatically delete existing catalog records.
 
-## Internet Identity login
-`web/src/auth.js` uses `@icp-sdk/auth` (`new AuthClient()`, `signIn()`, `signOut()`), default provider `https://id.ai`. After login the header shows your principal (your ICP ID).
-- Login proves *which principal this browser session holds*. It is **not authorization**. Anything privileged (admin, claims, moderation, persisting submissions) must be enforced by a backend canister that checks `caller`. The `/admin` page is a non-functional demo shell.
-- Principals are derived per origin. Changing the domain (e.g. `*.icp0.io` to a custom domain) changes users' principals unless you configure `derivationOrigin` and `/.well-known/ii-alternative-origins`.
-- The popup flow was not exercised in the build sandbox. Test login in a real browser.
+## Current limitations
 
-## Deploy to ICP (asset canister)
-```bash
-npm run build
-dfx deploy --network ic frontend    # dfx.json serves ./dist; routing is hash-based, so no rewrites needed
-```
-Run the crawler on a schedule elsewhere (cron / CI), run `review`, commit `web/public/projects.json`, rebuild, redeploy.
+Administrator editing currently manages manually curated Infrastructure entries.
+Native voting, public submission review and developer ownership claims remain
+separate work. The UI must not report success for unsupported operations.
 
-## Earlier prototype roadmap (historical)
-1. Backend canister (Motoko/Rust): persist submissions + review queue, store developer claims keyed by principal, admin allowlist checked on-chain.
-2. Submission form is wired to a service that refuses until a backend exists, so it never fakes a success.
-3. OpenSearch service + protected search API (the UI searches the in-browser list today; fine up to a few thousand records).
-4. Developer claim proof (DNS TXT, `.well-known` file on the project site, or canister controller check).
-5. Games: screenshots, genres and verified launch URLs need data the sources above do not provide.
-
-## Earlier local profile prototype (historical)
-After Internet Identity sign-in, click **My Profile** in the header (or visit `#/profile`).
-You can choose an avatar, display name, role, bio, website, GitHub and interests.
-The data is saved to the browser's `localStorage`, keyed by the authenticated Principal. This is **not** an ICP canister and does **not** sync to other devices. No profile is published to other users. For production, add a backend canister that uses its authenticated `caller` rather than accepting an arbitrary Principal from the browser, and configure stable Internet Identity derivation origins.
-
-
-## Display name and neutral code names
-
-Edit `config/site.json` to change the displayed site name. It is shared by the
-HTML shell and the client-side page titles. The package is `catalog-search`,
-the backend directory is `core`, UI assets use `catalog-*`, and image assets use
-`site-*`. GitHub Pages derives its base path from `GITHUB_REPOSITORY`; set
-`PUBLIC_BASE_PATH` to override it for another host.
-
-Historical wire schemas, object paths and browser storage keys are isolated in
-`config/compatibility.js`. Existing profile and favorites data remain readable.
-`config/deployment.js` reads neutral secret bindings. Legacy browser storage keys remain readable to preserve profiles and favorites.
-
-The production site uses the new catalog Worker and Cloudflare resources. Configure the public API origin in `web/public/api-config.json`; GitHub Actions credentials remain in GitHub Secrets.
-
-Run `npm ci`, `npm test`, and `npm run build` before publishing. See
-`PROJECT_STATUS.md` for the exact verification and remote-save status.
-
-
-## Private review hosting
-
-For a Sites review origin, `hosting/build-review.mjs` packages the Vite frontend
-as static Worker assets. The browser uses the same ICP catalog and identity
-clients as production. Legacy `/api/` endpoints return HTTP 410; the review
-host does not proxy to a retired service or inject an HTTP API configuration.
-Run `npm run build` and `node hosting/build-review.mjs` inside the selected Site
-checkout containing its `.openai/hosting.json` with no `static` field.
-
-
-## Earlier Cloudflare workflows (historical)
-
-The production D1 database is `icpstore-catalog-db-prod`, the R2 bucket is
-`icpstore-catalog-files-prod`, and the Worker is `icpstore-catalog-api-prod`.
-
-- **Internet Computer Store Crawler**: runs daily at 03:17 UTC and can also be started manually on `main`. It discovers SNS and curated Community projects and ingests them via R2 and Queues.
-- **Internet Computer Store Monitor**: pushes to `main` test, build and deploy GitHub Pages. A manual run can choose `build`, `deploy` (Worker), `provision` (queues, notification and Worker) or `initialize` (D1 schema). Initialization is for a new or empty database.
-
-Cloudflare operations use GitHub Secrets `CLOUDFLARE_ICPSTORE_API_TOKEN` and
-`CLOUDFLARE_ICPSTORE_ACCOUNT_ID`. The crawler discovers the Worker origin
-automatically; the optional `CATALOG_API_BASE_URL` variable can override it.
-Crawler coverage is limited to its configured sources. Crawl and Cloudflare deployment operations share a concurrency group.
-
-
-## Administrator dashboard (disabled)
-
-The separate `worker/admin` service contains a draft Infrastructure editor and requires Cloudflare Access plus an exact `ADMIN_EMAIL` Worker secret. The frontend menu remains disabled in `web/public/admin-config.json`. Do not deploy the admin Worker or enable its menu until Access has been enabled, the Access policy and administrator identity configured, the additive admin schema applied, and authenticated end-to-end testing has succeeded. The existing public catalog remains read-only.
+The repository contains only the ICP application and its current crawler tools.
+Historical deployment prototypes and their configuration have been removed.
