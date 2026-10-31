@@ -290,3 +290,5 @@ Main now contains the validated ICP runtime. Actions run 41156581741 completed t
 
 ## 2026-10-31 — Internet Identity request host correction
 The auth SDK's default browser agent inferred https://icp0.io, which the deployed connect-src policy excludes. Configure its delegation mint/revoke agent explicitly with the same https://icp-api.io host used by catalog/private-data requests. CSP and certificate verification remain enabled. Sign-in errors now display a short retry message rather than a stack trace. Frontend build and 250 regression tests pass. Real owner authentication still requires the owner's passkey/session.
+
+Browser verification after deployment reached the official Internet Identity authorize screen for the production frontend. No account was selected and no credentials were read. The owner must complete sign-in to verify delegation minting and profile access end to end. Certified v2 root/index/JS/CSS checks passed on the deployed new bundle.
