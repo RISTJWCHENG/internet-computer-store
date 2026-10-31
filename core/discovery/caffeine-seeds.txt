@@ -1,2 +1,0 @@
-# Add only verified public Caffeine Live App URLs, one HTTPS URL per line.
-# No official directory is assumed. Custom domains require independent attribution.

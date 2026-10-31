@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS search_ai_batches_v6 ( object_key TEXT PRIMARY KEY, e
 
 CREATE TABLE IF NOT EXISTS search_ai_classifications_v6 ( entity_id TEXT PRIMARY KEY REFERENCES search_entities_v3(id), category TEXT NOT NULL, reasoning TEXT NOT NULL DEFAULT '', tags_json TEXT NOT NULL DEFAULT '[]', model TEXT NOT NULL, input_hash TEXT NOT NULL, confidence REAL NOT NULL DEFAULT 0, source TEXT NOT NULL DEFAULT 'gemini', locked INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
 
-CREATE TABLE IF NOT EXISTS search_caffeine_v51 ( entity_id TEXT PRIMARY KEY REFERENCES search_entities_v3(id), builder_evidence TEXT NOT NULL, discovered_url TEXT NOT NULL, last_discovered_at TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
+CREATE TABLE IF NOT EXISTS search_community_v51 ( entity_id TEXT PRIMARY KEY REFERENCES search_entities_v3(id), source_evidence TEXT NOT NULL, discovered_url TEXT NOT NULL, last_discovered_at TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
 
 CREATE TABLE IF NOT EXISTS search_documents_v3 ( id TEXT PRIMARY KEY, entity_id TEXT NOT NULL REFERENCES search_entities_v3(id), title TEXT NOT NULL, summary TEXT NOT NULL DEFAULT '', language TEXT NOT NULL DEFAULT 'en', r2_key TEXT, content_hash TEXT, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
 
@@ -47,7 +47,7 @@ CREATE INDEX IF NOT EXISTS idx_pages_v7_project ON search_pages_v7(project_id);
 
 CREATE INDEX IF NOT EXISTS idx_project_index_public ON project_index (status, updated_at DESC);
 
-CREATE INDEX IF NOT EXISTS idx_search_caffeine_v51_discovered ON search_caffeine_v51(last_discovered_at DESC);
+CREATE INDEX IF NOT EXISTS idx_search_community_v51_discovered ON search_community_v51(last_discovered_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_search_docs_entity ON search_documents_v3(entity_id);
 

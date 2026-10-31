@@ -1,0 +1,2 @@
+# Add reviewed public HTTPS application URLs, one per line.
+# Hosting providers and development tools are not inferred from domains.

@@ -38,13 +38,13 @@ test('ICP backend enforces caller permissions, isolates users and preserves data
   await pic.upgradeCanister({canisterId,wasm,arg,sender:owner,upgradeModeOptions:{skip_pre_upgrade:[],wasm_memory_persistence:[{keep:null}]}});
   assert.equal(await actor.is_administrator(),true);
   assert.equal(unwrap(await actor.get_my_data()).favorites.length,1);assert.equal((await actor.search('','',0n,30n)).count,2n);
-  actor.setPrincipal(importer);unwrap(await actor.import_projects([make('caf-test','caffeine')]));
-  assert.match((await actor.delete_imported_projects(['caf-test'])).err,/Controller/);
+  actor.setPrincipal(importer);unwrap(await actor.import_projects([make('community-test','community')]));
+  assert.match((await actor.delete_imported_projects(['community-test'])).err,/Controller/);
   actor.setPrincipal(owner);
-  assert.match((await actor.delete_imported_projects(['caf-test','manual-infrastructure'])).err,/Manual/);
+  assert.match((await actor.delete_imported_projects(['community-test','manual-infrastructure'])).err,/Manual/);
   assert.equal((await actor.search('','',0n,30n)).count,3n);
-  assert.equal(unwrap(await actor.delete_imported_projects(['caf-test'])),1n);
-  assert.equal(unwrap(await actor.delete_imported_projects(['caf-test'])),0n);
+  assert.equal(unwrap(await actor.delete_imported_projects(['community-test'])),1n);
+  assert.equal(unwrap(await actor.delete_imported_projects(['community-test'])),0n);
   assert.equal((await actor.search('','',0n,30n)).count,2n);
   actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
   unwrap(await actor.delete_my_data());assert.equal(unwrap(await actor.get_my_data()).profile.name,'');assert.equal(unwrap(await actor.get_my_data()).favorites.length,0);assert.equal((await actor.search('','',0n,30n)).count,2n);

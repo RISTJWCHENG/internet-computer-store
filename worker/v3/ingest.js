@@ -1,4 +1,4 @@
-import {importCaffeineObject} from '../v5/caffeine.js';
+import {importCommunityObject} from '../v5/community.js';
 import {cacheProjectLogo} from './media.js';
 import {eligibleSNS, validateBatch, safeHttps} from './validation.js';
 const PREFIX='imports/v3/';
@@ -10,7 +10,7 @@ export async function importObject(env,key,etag='') {
  if(!obj) return {ignored:true,reason:'missing'};
  if(obj.size>MAX_BYTES) throw new Error('Oversized import object: '+key);
  const actualEtag=obj.etag||etag;
- if(key.startsWith('imports/v3/caffeine-v51-')) return importCaffeineObject(env,key,obj,actualEtag);
+ if(key.startsWith('imports/v3/community-v51-')) return importCommunityObject(env,key,obj,actualEtag);
  const processed=await env.DB.prepare('SELECT etag,status FROM search_ingest_batches_v3 WHERE object_key=?').bind(key).first();
  if(processed && processed.etag===actualEtag) return {ignored:true,reason:'already_handled'};
  let batch;

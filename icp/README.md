@@ -8,7 +8,7 @@ Mainnet targets are recorded in `canister_ids.json`:
 The backend uses Motoko persistent state for catalog records, administrators,
 importers and per-principal profiles/favorites. Anonymous callers cannot access
 personal data. Users can delete their own data. Only controllers manage roles;
-the crawler can import SNS/Caffeine records but cannot edit manual projects or
+the crawler can import SNS/Community records but cannot edit manual projects or
 user data. Internet Identity authorization uses the caller verified by ICP.
 A frontend-origin change can change the owner's app principal; recheck the
 principal on the new frontend before granting administrator membership.
@@ -41,7 +41,7 @@ existing controllers are retained. Deployment receipts are written locally to
 
 ## Fresh catalog and GitHub crawler
 
-No Cloudflare data is copied. The crawler regenerates SNS/Caffeine candidates,
+No Cloudflare data is copied. The crawler regenerates SNS/Community candidates,
 applies the existing strict eligibility checks, and stores only screened public
 text and image URLs in `data/catalog/current.json` on GitHub. Image files remain
 on their original hosts. User profiles and favorites are never written to GitHub.
@@ -72,7 +72,7 @@ JavaScript/CSS bundles before recording success. This avoids relying on an alias
 witness that may not certify the root. Run `node icp/scripts/verify-frontend.mjs`
 for an independent mainnet certificate check. No raw-domain bypass is used.
 
-Current catalog: 29 SNS records. The former three Caffeine seed records were removed at the owner's request, and the previous seed URL list is empty. Native voting, submission review and
+Current catalog: 29 SNS records. The former three Community seed records were removed at the owner's request, and the previous seed URL list is empty. Native voting, submission review and
 developer-claim verification remain separate work; the current migration does
 not implement those features. Owner administrator activation requires the new
 frontend-origin Principal displayed after Internet Identity login.

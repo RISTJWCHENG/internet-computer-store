@@ -13,7 +13,7 @@ export async function evaluateAutoProject(env,projectId,{apply=false}={}){
  if(project.status!=='pending')return {outcome:'unchanged',reason:'not_pending'};
  const page=await env.DB.prepare("SELECT id,content_hash AS contentHash,body_text AS bodyText FROM pages WHERE project_id=? AND index_status='indexed' AND length(trim(body_text))>=160 ORDER BY indexed_at DESC,id DESC LIMIT 1").bind(projectId).first();
  if(!page||!page.contentHash)return {outcome:'deferred',reason:'insufficient_page'};
- const source=await env.DB.prepare("SELECT COUNT(*) AS count FROM sources WHERE project_id=? AND source_type IN ('sns','caffeine','github')").bind(projectId).first();
+ const source=await env.DB.prepare("SELECT COUNT(*) AS count FROM sources WHERE project_id=? AND source_type IN ('sns','community','github')").bind(projectId).first();
  if(Number(source?.count)<1)return {outcome:'deferred',reason:'missing_source'};
  const suggestion=await env.DB.prepare('SELECT id,category,confidence,model,source_hash AS sourceHash,evidence_json AS evidenceJson FROM ai_suggestions WHERE project_id=? AND page_id=? AND source_hash=? AND model=? ORDER BY created_at DESC,id DESC LIMIT 1').bind(projectId,page.id,page.contentHash,'gpt-5-nano').first();
  if(!suggestion)return {outcome:'deferred',reason:'no_current_suggestion'};
@@ -25,7 +25,7 @@ export async function evaluateAutoProject(env,projectId,{apply=false}={}){
  // Both statements run in a single D1 transaction. Audit INSERT is conditional on
  // pending state and fresh indexed evidence; publication requires that audit row.
  const id='auto_'+await hash(projectId+'\n'+page.contentHash+'\n'+suggestion.id);
- const check="p.id=? AND p.status='pending' AND EXISTS(SELECT 1 FROM sources s WHERE s.project_id=p.id AND s.source_type IN ('sns','caffeine','github')) AND EXISTS(SELECT 1 FROM pages g WHERE g.id=? AND g.project_id=p.id AND g.index_status='indexed' AND g.content_hash=? AND length(trim(g.body_text))>=160) AND EXISTS(SELECT 1 FROM ai_suggestions a WHERE a.id=? AND a.project_id=p.id AND a.page_id=? AND a.source_hash=? AND a.model='gpt-5-nano' AND a.category=? AND a.confidence>=0.90)";
+ const check="p.id=? AND p.status='pending' AND EXISTS(SELECT 1 FROM sources s WHERE s.project_id=p.id AND s.source_type IN ('sns','community','github')) AND EXISTS(SELECT 1 FROM pages g WHERE g.id=? AND g.project_id=p.id AND g.index_status='indexed' AND g.content_hash=? AND length(trim(g.body_text))>=160) AND EXISTS(SELECT 1 FROM ai_suggestions a WHERE a.id=? AND a.project_id=p.id AND a.page_id=? AND a.source_hash=? AND a.model='gpt-5-nano' AND a.category=? AND a.confidence>=0.90)";
  const insert=`INSERT OR IGNORE INTO auto_publications(id,project_id,suggestion_id,source_hash,category,decision) SELECT ?,p.id,?,?,?,'published' FROM projects p WHERE ${check}`;
  const update=`UPDATE projects SET status='published',category=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='pending' AND EXISTS(SELECT 1 FROM auto_publications a WHERE a.id=? AND a.project_id=projects.id AND a.category=? AND a.suggestion_id=?) AND EXISTS(SELECT 1 FROM pages g WHERE g.id=? AND g.project_id=projects.id AND g.content_hash=? AND g.index_status='indexed')`;
  const args=[projectId,page.id,page.contentHash,suggestion.id,page.id,page.contentHash,suggestion.category];

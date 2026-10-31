@@ -109,7 +109,7 @@ it to same-origin unless the host supplies the corresponding API proxy.
 The production D1 database is `icpstore-catalog-db-prod`, the R2 bucket is
 `icpstore-catalog-files-prod`, and the Worker is `icpstore-catalog-api-prod`.
 
-- **Internet Computer Store Crawler**: runs daily at 03:17 UTC and can also be started manually on `main`. It discovers SNS and curated Caffeine projects and ingests them via R2 and Queues.
+- **Internet Computer Store Crawler**: runs daily at 03:17 UTC and can also be started manually on `main`. It discovers SNS and curated Community projects and ingests them via R2 and Queues.
 - **Internet Computer Store Monitor**: pushes to `main` test, build and deploy GitHub Pages. A manual run can choose `build`, `deploy` (Worker), `provision` (queues, notification and Worker) or `initialize` (D1 schema). Initialization is for a new or empty database.
 
 Cloudflare operations use GitHub Secrets `CLOUDFLARE_ICPSTORE_API_TOKEN` and

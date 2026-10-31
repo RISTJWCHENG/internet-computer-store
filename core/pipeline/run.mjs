@@ -11,7 +11,7 @@ const coreDir=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const repoDir=resolve(coreDir,'..');
 
 export function parseOptions(args){
- const o={max:5,scan:15,sources:'sns,caffeine,github',input:null,help:false};
+ const o={max:5,scan:15,sources:'sns,community,github',input:null,help:false};
  const allowed=new Set(['--max','--scan','--sources','--input']);
  for(let i=0;i<args.length;i++){
   const key=args[i];
@@ -33,7 +33,7 @@ export function parseOptions(args){
  const channels=o.sources.split(',');
  if(!channels.length||
     new Set(channels).size!==channels.length||
-    channels.some(s=>!['sns','caffeine','github'].includes(s)))
+    channels.some(s=>!['sns','community','github'].includes(s)))
   throw Error('Invalid discovery sources');
  return o;
 }
@@ -95,7 +95,7 @@ async function main(){
  if(options.help){
   console.log(
    'Usage: node core/pipeline/run.mjs '+
-   '[--max 1..10] [--scan max..100] [--sources sns,caffeine,github] '+
+   '[--max 1..10] [--scan max..100] [--sources sns,community,github] '+
    '[--input existing-candidates.json]'
   );
   return;

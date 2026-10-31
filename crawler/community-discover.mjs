@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Discover publicly available user-made Caffeine Live Apps from supplied URLs.
+// Discover publicly available user-made Community Live Apps from supplied URLs.
 // This is a review queue, NOT an auto-publication feed. No authenticated requests.
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {lookup} from 'node:dns/promises';
@@ -30,11 +30,8 @@ export function extract(html,url){
  const img=meta(html,'og:image');
  const icon=(html.match(/<link\b(?=[^>]*rel\s*=\s*["'][^"']*icon[^"']*["'])[^>]*href\s*=\s*["']([^"']+)["'][^>]*>/i)||[])[1]||'';
  function asset(v){if(!v)return '';try {return publicHttps(new URL(v,url).href)}catch{return ''}}
- const host=new URL(url).hostname.toLowerCase();
- const onDefaultHost=host.endsWith('.caffeine.xyz');
- // A custom domain alone is not proof of Caffeine authorship.
- const evidence=onDefaultHost?['caffeine_default_live_domain']:[];
- return {name:title.slice(0,250),description:description.slice(0,2000),websiteUrl:url,logoUrl:asset(img)||asset(icon),faviconUrl:asset(icon),builder:'caffeine',builderAttribution:onDefaultHost?'domain-evidence':'unverified',evidence,sourceType:'public-live-url',status:'candidate'};
+ // A configured URL establishes discovery provenance, not builder attribution or approval.
+ return {name:title.slice(0,250),description:description.slice(0,2000),websiteUrl:url,logoUrl:asset(img)||asset(icon),faviconUrl:asset(icon),discoverySource:'community',reviewStatus:'pending',evidence:['configured_public_url'],sourceType:'public-live-url',status:'candidate'};
 }
 async function fetchPage(url){
  let current=url;
@@ -55,19 +52,19 @@ async function fetchPage(url){
  throw new Error('Too many redirects');
 }
 async function main(){
- const seeds=resolve(process.argv[2]||'data/caffeine-seeds.txt');const output=resolve(process.argv[3]||'data/caffeine-candidates-v5.json');
+ const seeds=resolve(process.argv[2]||'data/community-seeds.txt');const output=resolve(process.argv[3]||'data/community-candidates-v5.json');
  let text='';try{text=await readFile(seeds,'utf8')}catch(e){if(e.code!=='ENOENT')throw e}
  const urls=[...new Set(text.split(/\r?\n/).map(s=>s.trim()).filter(s=>s&&!s.startsWith('#')).map(publicHttps).filter(Boolean))].slice(0,100);
  const records=[],errors=[];
  for(const url of urls){
   try{const {html,url:finalUrl}=await fetchPage(url);const r=extract(html,finalUrl);
    if(!r.name)throw new Error('No public page title');
-   r.id='caf-'+createHash('sha256').update(new URL(finalUrl).origin.toLowerCase()+new URL(finalUrl).pathname).digest('hex').slice(0,24);
+   r.id='app-'+createHash('sha256').update(new URL(finalUrl).origin.toLowerCase()+new URL(finalUrl).pathname).digest('hex').slice(0,24);
    r.discoveredAt=new Date().toISOString();r.discoveryUrl=url;
-   records.push(r);console.log('Candidate',r.id,r.name,r.builderAttribution);
+   records.push(r);console.log('Candidate',r.id,r.name,r.reviewStatus);
   }catch(e){errors.push({url,reason:String(e.message).slice(0,200)});console.warn('Skipped',url,String(e.message))}
  }
- const result={schemaVersion:5,source:'caffeine-live-url-seeds',generatedAt:new Date().toISOString(),publicationPolicy:'review-required',records,errors};
+ const result={schemaVersion:5,source:'community-live-url-seeds',generatedAt:new Date().toISOString(),publicationPolicy:'review-required',records,errors};
  await mkdir(dirname(output),{recursive:true});await writeFile(output,JSON.stringify(result,null,2)+'\n');
  console.log(`V5 discovery: ${urls.length} seeds, ${records.length} public candidates, ${errors.length} failed. NOT auto-published. ${output}`);
 }

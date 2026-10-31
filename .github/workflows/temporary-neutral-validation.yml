@@ -1,0 +1,51 @@
+name: Temporary neutral community model validation
+on:
+  push:
+    branches: [main, neutral-community-model]
+    paths: ['.github/workflows/temporary-neutral-validation.yml']
+permissions:
+  contents: read
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/neutral-community-model'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build:backend
+      - name: Compile previous production backend for upgrade regression
+        run: |
+          git show 79b0f3ef840fa859a5e252fbdfe5076fc886182a:icp/backend/main.mo > "$RUNNER_TEMP/previous-backend.mo"
+          .icp-tools/compiler/moc --package base .icp-tools/base/src -c -o .icp-build/previous-backend.wasm "$RUNNER_TEMP/previous-backend.mo"
+      - run: npm run test:icp
+        env:
+          PREVIOUS_BACKEND_WASM: .icp-build/previous-backend.wasm
+      - run: npm test
+      - run: npm run build:icp
+  remove-merged-validation-branch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = 'neutral-community-model';
+            let temporary;
+            try { temporary = await github.rest.git.getRef({...context.repo,ref:'heads/'+branch}); }
+            catch(e){if(e.status===404)return;throw e;}
+            const main = await github.rest.git.getRef({...context.repo,ref:'heads/main'});
+            const comparison = await github.rest.repos.compareCommits({...context.repo,base:temporary.data.object.sha,head:main.data.object.sha});
+            if(!['ahead','identical'].includes(comparison.data.status))throw new Error('Temporary branch is not fully included in main');
+            await github.rest.git.deleteRef({...context.repo,ref:'heads/'+branch});
+            core.info('Merged temporary validation branch removed; all commits remain in main.');

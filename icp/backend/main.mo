@@ -113,7 +113,7 @@ shared persistent actor class Store(initialAdmin : Principal) = this {
     if(batch.size()==0 or batch.size() > 50) return #err("Import batch must contain 1 to 50 projects");
     var ids : [Text]=[];
     for(p in batch.vals()) {
-      if(not validProject(p) or (p.source!="sns" and p.source!="caffeine") or p.status!="published" or p.relationship!="unverified" or Text.startsWith(p.id,#text "manual-") or p.sources.size()==0) return #err("Invalid crawler project");
+      if(not validProject(p) or (p.source!="sns" and p.source!="community") or p.status!="published" or p.relationship!="unverified" or Text.startsWith(p.id,#text "manual-") or p.sources.size()==0) return #err("Invalid crawler project");
       if(Array.find<Text>(ids,func(id){id==p.id})!=null) return #err("Duplicate project ID");
       ids:=Array.append(ids,[p.id]);
       switch(Array.find<Project>(projects,func(item){item.id==p.id})) {case (?item) {if(item.source=="manual") return #err("Manual projects cannot be overwritten")};case null{}};

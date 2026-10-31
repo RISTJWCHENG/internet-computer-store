@@ -112,7 +112,7 @@ export, excluding Cloudflare internal tables and FTS shadow tables; locally
 verified repeated initialization and an FTS query. Configured a separate new
 Worker identity and bindings, replaced a hard-coded queue bucket check with a
 required configured bucket, and added a manually dispatched workflow for schema
-initialization, Worker deployment and validated SNS/Caffeine batches. The
+initialization, Worker deployment and validated SNS/Community batches. The
 workflow includes a post-ingest API check. It does not switch the live frontend.
 No Cloudflare resources were changed or crawler invoked in this session. Cloud
 credentials, Queues, notification and Worker URL still require user setup.
@@ -192,7 +192,7 @@ public frontend has not been cut over.
 
 
 ## 2026-10-27: Fresh catalog cutover
-- Read-only GitHub Actions diagnostics: both fresh R2 batches completed (29 SNS, 3 Caffeine, zero rejected); new API returned 32 records, same count as old API, and allowed the Pages origin.
+- Read-only GitHub Actions diagnostics: both fresh R2 batches completed (29 SNS, 3 Community, zero rejected); new API returned 32 records, same count as old API, and allowed the Pages origin.
 - Switched Pages API configuration to the new Worker; build, tests, deployment, and deployed api-config.json verification passed.
 - Legacy staging workflow still uses old resources; no old resources were deleted. The workers.dev subdomain retains the old name.
 
@@ -218,11 +218,11 @@ Workflow verification: GitHub Pages build and deployment passed on main. `TMPDIR
 
 
 ## Restore daily crawler
-Restored schedule `17 3 * * *` (UTC) and retained manual dispatch. A guarded one-time push triggered GitHub Actions run 40433505191 successfully; 29 SNS and 3 Caffeine candidates were uploaded and the API returned 32 published projects. Two Caffeine seeds failed to fetch. Removed the one-time push trigger afterward. The first scheduled execution remains to be observed.
+Restored schedule `17 3 * * *` (UTC) and retained manual dispatch. A guarded one-time push triggered GitHub Actions run 40433505191 successfully; 29 SNS and 3 Community candidates were uploaded and the API returned 32 published projects. Two Community seeds failed to fetch. Removed the one-time push trigger afterward. The first scheduled execution remains to be observed.
 
 
-## Caffeine navigation fix
-Preserve the Caffeine Apps category when transforming API records; previously the UI filtered it out. Added a category normalization test; 1 test passed locally. GitHub Pages verification is pending.
+## Community navigation fix
+Preserve the Community Apps category when transforming API records; previously the UI filtered it out. Added a category normalization test; 1 test passed locally. GitHub Pages verification is pending.
 
 
 ## Infrastructure navigation
@@ -240,11 +240,11 @@ The administrator UI browser check passed on GitHub Actions at desktop and 390px
 
 
 ## 2026-10-31 — ICP migration implementation
-Verified the two empty mainnet targets using signed management canister status calls. Preserved owner controller 2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe. Pinned Motoko 2.1.0 and base revision c768aa8d5c67e6e5b72fc09fb6695d5041060856. Implemented stable backend permissions, catalog, profile/favorites, self-deletion and frontend adapters. Local compiler passed; 249 existing and model tests passed. Initial PocketIC invocation timed out; logs identified sandbox Unix-socket PermissionDenied, so cloud integration validation is required and not reported as passed. Local fresh SNS discovery found 41 candidates; local Caffeine discovery failed DNS for six seeds, so no local Caffeine records were published. No Cloudflare data fetched or imported and no production module installed.
+Verified the two empty mainnet targets using signed management canister status calls. Preserved owner controller 2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe. Pinned Motoko 2.1.0 and base revision c768aa8d5c67e6e5b72fc09fb6695d5041060856. Implemented stable backend permissions, catalog, profile/favorites, self-deletion and frontend adapters. Local compiler passed; 249 existing and model tests passed. Initial PocketIC invocation timed out; logs identified sandbox Unix-socket PermissionDenied, so cloud integration validation is required and not reported as passed. Local fresh SNS discovery found 41 candidates; local Community discovery failed DNS for six seeds, so no local Community records were published. No Cloudflare data fetched or imported and no production module installed.
 
 
 ## 2026-10-31 — ICP mainnet installed and certified
-Both target canisters are installed, module hashes verified, and the owner controller retained. The backend contains 32 newly screened projects (29 SNS, 3 Caffeine), with no Cloudflare data migrated. The dedicated crawler identity is an importer only. Mainnet frontend root and index pass independent v2 certificate verification; the root is stored explicitly to avoid an index-alias witness failure. Browser checks show actual home cards and Caffeine Apps. Cloud validation passed 250 regression tests, persistent-backend permission/isolation/deletion/upgrade integration, and desktop/mobile administrator unavailable-state checks. Real owner Internet Identity login and administrator editing on the new origin still require the owner's new app principal. Voting, public submission processing and developer-claim verification are not implemented by this migration.
+Both target canisters are installed, module hashes verified, and the owner controller retained. The backend contains 32 newly screened projects (29 SNS, 3 Community), with no Cloudflare data migrated. The dedicated crawler identity is an importer only. Mainnet frontend root and index pass independent v2 certificate verification; the root is stored explicitly to avoid an index-alias witness failure. Browser checks show actual home cards and Community Apps. Cloud validation passed 250 regression tests, persistent-backend permission/isolation/deletion/upgrade integration, and desktop/mobile administrator unavailable-state checks. Real owner Internet Identity login and administrator editing on the new origin still require the owner's new app principal. Voting, public submission processing and developer-claim verification are not implemented by this migration.
 
 
 ## 2026-10-31 — Main branch cutover completed
@@ -261,6 +261,10 @@ Browser verification after deployment reached the official Internet Identity aut
 The visible category chips now follow Games, Social, Productivity, Finance, NFTs, DAOs, Websites, Other, with All retained as the reset control. Finance displays the existing DeFi category so current financial records remain visible; no stored category values or backend state were rewritten. Hidden historical AI/Developer Tools and top-level Infrastructure categories remain readable. Home, Explore, search, category directory and submission option labels use the updated list. Frontend build and 250 regression tests pass. Mainnet v2 root/index/JS/CSS certificates verified; browser checks confirmed exact chip order, Finance results, and the truthful empty Productivity state.
 
 
-## 2026-10-31 — Removed former Caffeine seed records; Community Apps navigation
-At the owner's request, deleted the three current caffeine-source records from the live ICP catalog through a controller-only bounded imported-project deletion method. A persistent backend upgrade was validated against the previous production source in PocketIC; caller checks, atomic rejection when manual IDs are included, idempotent deletion, administrator membership and private profile/favorite preservation passed. Stable state types are identical before/after. Live checks confirmed all 32 catalog records retained through upgrade, then exactly three deleted with the other 29 unchanged. Controllers were retained. No user profile/favorite deletion was requested or performed.
-Renamed the navigation/section to Community Apps. Removed the former six seed URLs and caffeine entries from the current public GitHub catalog snapshot. Main crawler run 41160144800 succeeded with zero caffeine seeds and 29 fresh SNS records; a subsequent live query confirmed 29 total and zero caffeine records. Historical Git commits are not rewritten. Community Apps is empty pending a new reviewed discovery source. Validation run 41160041334, 250 regression tests and the frontend build passed.
+## 2026-10-31 — Removed former Community seed records; Community Apps navigation
+At the owner's request, deleted the three current community-source records from the live ICP catalog through a controller-only bounded imported-project deletion method. A persistent backend upgrade was validated against the previous production source in PocketIC; caller checks, atomic rejection when manual IDs are included, idempotent deletion, administrator membership and private profile/favorite preservation passed. Stable state types are identical before/after. Live checks confirmed all 32 catalog records retained through upgrade, then exactly three deleted with the other 29 unchanged. Controllers were retained. No user profile/favorite deletion was requested or performed.
+Renamed the navigation/section to Community Apps. Removed the former six seed URLs and community entries from the current public GitHub catalog snapshot. Main crawler run 41160144800 succeeded with zero community seeds and 29 fresh SNS records; a subsequent live query confirmed 29 total and zero community records. Historical Git commits are not rewritten. Community Apps is empty pending a new reviewed discovery source. Validation run 41160041334, 250 regression tests and the frontend build passed.
+
+
+## 2026-10-31 — Neutral community application model
+Removed platform-specific terminology from the current repository source, filenames, workflows, SQL definitions, examples and documentation. Renamed nine files to community names. Replaced domain-based builder attribution with provider-neutral public URL provenance and explicit review approval; discovery alone cannot publish a community app. Removed provider-specific favicon fallback. ICP import accepts sns/community sources. The pinned compiler uses the original upstream repository URL with the same checksum. Existing 29 SNS records and user/role state require no data conversion. Local source/path audit covered 222 current files with zero old-name matches; 251 regression tests and both builds passed. Previous-production-to-current upgrade integration is validated in the temporary workflow before deployment. Historical Git commits are not rewritten and retired Cloudflare databases are not modified.

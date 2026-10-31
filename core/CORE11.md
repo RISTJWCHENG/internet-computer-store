@@ -11,10 +11,10 @@ node --test core/tests/core.test.mjs core/tests/discovery.test.mjs
 Run source discovery (requires internet):
 
 ```powershell
-node core/discovery/run.mjs --sources sns,github,caffeine --seeds core/discovery/caffeine-seeds.txt --out core/discovery/output/candidates.json
+node core/discovery/run.mjs --sources sns,github,community --seeds core/discovery/community-seeds.txt --out core/discovery/output/candidates.json
 ```
 
-To include Caffeine apps, add actual public `.caffeine.xyz` Live App links, one per line, to `discovery/caffeine-seeds.txt`. This is a seed-only method; there is no invented universal Caffeine user app listing. GitHub's public search has rate limits; `GITHUB_TOKEN` is optional and never printed. The SNS adapter includes only committed-swap records with root canister evidence. Candidates stay `status: candidate` and require separate quality / ownership assessment. Source is not project category.
+To include Community apps, add reviewed public HTTPS application links, one per line, to `discovery/community-seeds.txt`. This is a seed-only method; no universal community application directory is assumed. GitHub's public search has rate limits; `GITHUB_TOKEN` is optional and never printed. The SNS adapter includes only committed-swap records with root canister evidence. Candidates stay `status: candidate` and require separate quality / ownership assessment. Source is not project category.
 
 Output is local `ordosyn.discovery.v1` JSON with candidate provenance and per-source errors. `--strict` causes network errors to set a nonzero exit code. URL normalization is conservative; only exact normalized URL matches are merged. Canonical redirects, domain migrations and ownership remain future jobs. Dynamic JS-only sites may have insufficient public title metadata.
 

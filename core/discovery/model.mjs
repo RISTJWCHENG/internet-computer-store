@@ -3,7 +3,7 @@ import {normalizeUrl} from '../shared/url.js';
 export const sha = value => createHash('sha256').update(value).digest('hex');
 const text = (v,n=500) => String(v ?? '').replace(/[\u0000-\u001f]+/g,' ').trim().slice(0,n);
 export function candidate({name,websiteUrl,description='',sourceType,sourceUrl,evidence=[],observedAt,externalId='',logoUrl='',githubUrl=''}) {
-  if (!['sns','caffeine','github'].includes(sourceType)) throw Error('Unknown source');
+  if (!['sns','community','github'].includes(sourceType)) throw Error('Unknown source');
   const url=normalizeUrl(websiteUrl);
   const provenance=normalizeUrl(sourceUrl);
   if(!name || !observedAt || !evidence.length) throw Error('Insufficient candidate evidence');

@@ -10,7 +10,7 @@ function verify(event){
  if(typeof pg.title!=='string'||pg.title.length>220||typeof pg.description!=='string'||pg.description.length>1200||typeof pg.bodyText!=='string'||pg.bodyText.length>28000||!/^[a-f0-9]{64}$/.test(pg.contentHash))throw Error('Invalid page fields');
  for(const value of [p.websiteUrl,pg.url,p.githubUrl||'']){if(!value)continue;let u;try{u=new URL(value)}catch{throw Error('Invalid URL')};if(!['https:','http:'].includes(u.protocol)||u.username||u.password)throw Error('Invalid URL');}
  if(!Array.isArray(p.sources)||!p.sources.length||p.sources.length>16)throw Error('Missing source evidence');
- for(const s of p.sources)if(!['sns','caffeine','github'].includes(s.sourceType)||typeof s.sourceUrl!=='string'||s.sourceUrl.length>2048)throw Error('Invalid source');
+ for(const s of p.sources)if(!['sns','community','github'].includes(s.sourceType)||typeof s.sourceUrl!=='string'||s.sourceUrl.length>2048)throw Error('Invalid source');
  return event;
 }
 export async function enqueueIngest(request,env){

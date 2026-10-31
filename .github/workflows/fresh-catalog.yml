@@ -27,14 +27,14 @@ jobs:
           cache: npm
       - name: Install crawler dependencies
         run: npm ci --omit=dev --no-audit --no-fund
-      # Historical Caffeine seeds are empty; Community Apps awaits reviewed sources.
+      # Historical Community seeds are empty; Community Apps awaits reviewed sources.
       - name: Discover fresh SNS projects and configured community seeds
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node crawler/run.mjs --only=sns
-          node crawler/caffeine-discover.mjs data/caffeine-seeds.txt "$RUNNER_TEMP/caffeine-candidates.json"
-          node icp/scripts/prepare-catalog.mjs data/projects.json "$RUNNER_TEMP/caffeine-candidates.json" "$RUNNER_TEMP/current.json"
+          node crawler/community-discover.mjs data/community-seeds.txt "$RUNNER_TEMP/community-candidates.json"
+          node icp/scripts/prepare-catalog.mjs data/projects.json "$RUNNER_TEMP/community-candidates.json" "$RUNNER_TEMP/current.json"
       - name: Store screened public text results
         uses: actions/github-script@v7
         env:

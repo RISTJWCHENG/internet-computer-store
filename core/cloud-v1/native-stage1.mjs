@@ -13,7 +13,7 @@ import {classifyNativeBatch} from './native-classify.mjs';
 export function parseStage1Args(args){
  const allowed=new Set(['--out','--sources','--max','--scan']);const out={sources:'github',max:3,scan:12};
  for(let i=0;i<args.length;i++){
-  if(!allowed.has(args[i])||i+1>=args.length)throw Error('Usage: native-stage1.mjs --out FILE [--sources github,sns,caffeine] [--max 3] [--scan 12]');
+  if(!allowed.has(args[i])||i+1>=args.length)throw Error('Usage: native-stage1.mjs --out FILE [--sources github,sns,community] [--max 3] [--scan 12]');
   const key=args[i],value=args[++i];
   if(key==='--out')out.out=resolve(value);
   else if(key==='--sources')out.sources=value;
@@ -21,7 +21,7 @@ export function parseStage1Args(args){
   else out.scan=Number(value);
  }
  if(!out.out||!Number.isInteger(out.max)||out.max<1||out.max>10||!Number.isInteger(out.scan)||out.scan<out.max||out.scan>100||
-  !out.sources.split(',').every(s=>['github','sns','caffeine'].includes(s))||new Set(out.sources.split(',')).size!==out.sources.split(',').length)throw Error('Invalid native stage1 options');
+  !out.sources.split(',').every(s=>['github','sns','community'].includes(s))||new Set(out.sources.split(',')).size!==out.sources.split(',').length)throw Error('Invalid native stage1 options');
  return out;
 }
 
