@@ -286,3 +286,7 @@ Both target canisters are installed, module hashes verified, and the owner contr
 
 ## 2026-10-31 — Main branch cutover completed
 Main now contains the validated ICP runtime. Actions run 41156581741 completed the fresh crawl and authenticated import: 32 screened projects, 32 changed records imported by the importer-only principal. Validation run 41156448902 passed, including mainnet v2 root/index verification. The merged temporary branch and its workflow were removed; only the daily crawler remains. No Cloudflare data was copied and no owner controller was removed. New-origin owner administrator activation and deployment-key handoff remain pending.
+
+
+## 2026-10-31 — Internet Identity request host correction
+The auth SDK's default browser agent inferred https://icp0.io, which the deployed connect-src policy excludes. Configure its delegation mint/revoke agent explicitly with the same https://icp-api.io host used by catalog/private-data requests. CSP and certificate verification remain enabled. Sign-in errors now display a short retry message rather than a stack trace. Frontend build and 250 regression tests pass. Real owner authentication still requires the owner's passkey/session.

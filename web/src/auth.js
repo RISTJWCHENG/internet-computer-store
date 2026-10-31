@@ -1,4 +1,4 @@
-import {usingIcp,setIdentityProvider,administratorAccess} from './icp-client.js'
+import {usingIcp,icpApiHost,setIdentityProvider,administratorAccess} from './icp-client.js'
 // Internet Identity authentication for Catalog.
 // A Principal is obtained from an Identity, NOT directly from AuthClient.
 import { AuthClient } from '@icp-sdk/auth/client'
@@ -57,7 +57,8 @@ async function refreshIdentity() {
 export async function initAuth() {
   initFavorites(() => principal)
   try {
-    client = new AuthClient()
+    // Keep delegation mint/revoke traffic on the API host allowed by the CSP.
+    client = new AuthClient({ agentOptions: { host: icpApiHost } })
     setIdentityProvider(async()=>client?.isAuthenticated()?client.getIdentity():null)
     client.subscribe(() => { void refreshIdentity() })
     await refreshIdentity()
@@ -92,7 +93,7 @@ export async function initAuth() {
         notify()
       } catch (error) {
         console.error('Internet Identity login failed:', error)
-        lastError = String(error?.message || error || 'Unknown sign-in error').slice(0, 230)
+        lastError = 'Sign-in could not finish. Please retry; if it persists, reload the page.'
       }
     } else if (action === 'out') {
       try {

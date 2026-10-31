@@ -3,12 +3,13 @@ import targets from '../../canister_ids.json' with {type:'json'};
 import {idlFactory,unwrap} from '../../icp/interface.js';
 import {fromCanisterProject,toCanisterProject} from '../../icp/project-model.js';
 export const usingIcp=true;
+export const icpApiHost='https://icp-api.io';
 export const backendCanisterId=targets.backend.ic;
 let identityProvider=async()=>null, anonymousActor;
 export function setIdentityProvider(provider){identityProvider=provider;}
 export async function actorFor(identity=null){
   if(!identity&&anonymousActor)return anonymousActor;
-  const agent=await HttpAgent.create({host:'https://icp-api.io',...(identity?{identity}:{})});
+  const agent=await HttpAgent.create({host:icpApiHost,...(identity?{identity}:{})});
   const actor=Actor.createActor(idlFactory,{agent,canisterId:backendCanisterId});
   if(!identity)anonymousActor=actor;return actor;
 }
