@@ -6,6 +6,8 @@ import { loadPublishedProjects } from './catalog-data.js'
 import { renderProfile, initProfile } from './profile.js'
 import { getAdministratorAccess } from './auth.js'
 import { startAdminDashboard } from './admin-dashboard.js'
+import {renderInfrastructure,mountInfrastructure} from './infrastructure.js'
+import {resourceTypeForTags} from './resource-model.js'
 
 const CATS=['Games','Social','Productivity','DeFi','NFT','DAO','Websites','Other'];
 // Keep historical and top-navigation categories readable without showing extra chips.
@@ -125,7 +127,7 @@ catalogPagedSection('games','Discover ICP Games')+
 sec('Join the Ecosystem','<div class="glass card" style="flex-direction:row;align-items:center;flex-wrap:wrap"><p class="mute" style="flex:1">Building on ICP? Submit your project for review. Basic listings are free.</p><a class="btn p" href="#/submit">Submit Project</a></div>')},
 search(q){const pg=+q.page||1,sort=q.sort||'relevance',all=find({...q,sort}),sl=all.slice((pg-1)*6,pg*6),b=`/search?q=${encodeURIComponent(q.q||'')}&cat=${encodeURIComponent(q.cat||'')}&sort=${sort}`;
 return`<div class="page"><h1>${!q.q && q.sort==="updated"?"Discover Newly Indexed Projects":"Search"}</h1><div class="row" style="margin-top:20px;flex-wrap:wrap;gap:16px">${chips(CATS.filter(category=>category!=='Infrastructure'),q.cat,'cat')}<label style="margin-left:auto;display:flex;gap:8px;align-items:center;margin:0">Sort <select id="sort" style="width:auto"><option value="relevance">Relevance</option><option value="alpha"${sort==='alpha'?' selected':''}>A–Z</option><option value="updated"${sort==='updated'?' selected':''}>Recently updated</option></select></label></div><div style="margin-top:24px" aria-live="polite" id="remote-search-results"><p class="mute" style="font-size:14px;margin-bottom:12px">${all.length} result${all.length===1?'':'s'}${q.q?` for “${esc(q.q)}”`:''}</p>${all.length?grid(sl)+pager(all.length,pg,6,b):'<p class="glass card mute" style="padding:40px;text-align:center">No projects match yet. Try a different keyword or clear the filters.</p>'}</div></div>`},
-explore(q){if(!q.cat&&!q.source){return '<div class="page catalog-explore-sections">'+V.home()+'</div>';}const pg=+q.page||1,all=find({cat:q.cat,source:q.source,sort:'alpha'}),pageSize=(q.source==='sns'||q.cat==='Community Apps')?12:9;return`<div class="page catalog-explore-sections" id="cats"><h1>${q.source==="sns"?"Discover the ICP Community DAOs":q.cat==="Community Apps"?"Explore Community Apps":"Explore the Internet Computer Ecosystem"}</h1>${noteHTML()}${chips(CATS.filter(category=>category!=='Infrastructure'),q.cat,'cat')}<div style="margin-top:24px">${all.length?grid(all.slice((pg-1)*pageSize,pg*pageSize))+(q.source==='sns'?snsNumberPager(all.length,pg,pageSize,`/explore?cat=${encodeURIComponent(q.cat||'')}&source=${encodeURIComponent(q.source||'')}`):pager(all.length,pg,pageSize,`/explore?cat=${encodeURIComponent(q.cat||'')}&source=${encodeURIComponent(q.source||'')}`,1)):'<p class="glass card mute" style="padding:40px;text-align:center">No projects in this category yet.</p>'}</div></div>`},
+explore(q){if(q.cat==='Infrastructure'&&!q.source)return renderInfrastructure(P,catalogState);if(!q.cat&&!q.source){return '<div class="page catalog-explore-sections">'+V.home()+'</div>';}const pg=+q.page||1,all=find({cat:q.cat,source:q.source,sort:'alpha'}),pageSize=(q.source==='sns'||q.cat==='Community Apps')?12:9;return`<div class="page catalog-explore-sections" id="cats"><h1>${q.source==="sns"?"Discover the ICP Community DAOs":q.cat==="Community Apps"?"Explore Community Apps":"Explore the Internet Computer Ecosystem"}</h1>${noteHTML()}${chips(CATS.filter(category=>category!=='Infrastructure'),q.cat,'cat')}<div style="margin-top:24px">${all.length?grid(all.slice((pg-1)*pageSize,pg*pageSize))+(q.source==='sns'?snsNumberPager(all.length,pg,pageSize,`/explore?cat=${encodeURIComponent(q.cat||'')}&source=${encodeURIComponent(q.source||'')}`):pager(all.length,pg,pageSize,`/explore?cat=${encodeURIComponent(q.cat||'')}&source=${encodeURIComponent(q.source||'')}`,1)):'<p class="glass card mute" style="padding:40px;text-align:center">No projects in this category yet.</p>'}</div></div>`},
 games(q){return`<div class="page"><h1>ICP Games</h1><p class="mute" style="margin:12px 0 20px">Published ICP games from the live search index. Listings are not security endorsements.</p><div id="catalog-live-games" aria-live="polite"><p class="mute">Loading published games...</p></div></div>`},
 app(slug){const p=P.find(x=>x.slug===slug);if(!p)return'<p style="padding:80px 0;text-align:center">Project not found. <a href="#/explore" style="text-decoration:underline">Browse all projects</a></p>';const rel=P.filter(x=>x!==p&&x.cats.some(c=>p.cats.includes(c))).slice(0,3);
 return`<div class="page"><div class="cover" style="height:110px" aria-hidden="true"></div><div class="row" style="margin-top:24px;flex-wrap:wrap;gap:16px">${logo(p,64)}<div><h1 style="font-size:26px;font-weight:600">${esc(p.name)}</h1><div class="row" style="gap:6px;margin-top:6px"><span class="tag">${IDN[p.idn]}</span>${p.demo?'<span class="tag demo">Demo data</span>':''}</div></div><div class="row" style="margin-left:auto">${ext(p.play||p.url,'Launch application',1)}${ext(p.gh,'GitHub')}</div></div><p class="mute" style="max-width:760px;margin-top:24px">${esc(p.desc)}</p><p class="note" style="max-width:760px;margin:24px 0">Being listed does not mean this project is safe, audited, or endorsed. “Verified identity” only means ownership was proven.</p><dl><div><dt>Category & tags</dt><dd>${esc(p.cats.join(', '))} · ${p.tags.map(t=>'#'+esc(t)).join(' ')}</dd></div><div><dt>Official website</dt><dd>${esc(p.url)}</dd></div><div><dt>Related canister IDs</dt><dd>${p.cans.length?p.cans.map(c=>esc(c.id)+' ('+esc(c.role)+')').join(', '):'None recorded'}</dd></div><div><dt>Data sources</dt><dd>${p.srcs.map(x=>esc(x.t)+', collected '+esc(String(x.at).slice(0,10))).join('; ')||'None'}</dd></div><div><dt>Last website check</dt><dd>${p.ver?esc(p.ver.slice(0,10))+' ('+esc(p.websiteStatus||'up')+')':'Not checked'}</dd></div><div><dt>Developer claim</dt><dd>${{discovered:'Unclaimed',claimed:'Claimed, pending proof review',verified:'Claimed and verified'}[p.idn]}</dd></div></dl>${rel.length?sec('Related projects',grid(rel)):''}</div>`},
@@ -140,7 +142,12 @@ mast.innerHTML=`<h1 class="catalog-store-title"><a href="#/" aria-label="${SITE_
 
 function route(){const h=location.hash.slice(1)||'/',path=h.split('?')[0],q=query(h),seg=path.split('/')[1]||'home';
 const mi=mast.querySelector('input');if(mi)mi.value=seg==='search'?(q.q||''):'';app.innerHTML=(seg==='app'?V.app(path.split('/')[2]):(V[seg]||(()=>'<p style="padding:80px 0;text-align:center">Nothing here. <a href="#/" style="text-decoration:underline">Back home</a></p>'))(q));
-if(seg==='admin') { const target=document.getElementById('admin-dashboard'); void getAdministratorAccess().then(access=>startAdminDashboard(target,access)).catch(()=>{if(target?.isConnected)target.textContent='Administrator access is unavailable.'}); }
+if(seg==='admin') { const target=document.getElementById('admin-dashboard'); void getAdministratorAccess().then(access=>startAdminDashboard(target,access,{initialPanel:q.tab==='editor'?'editor':'overview'})).catch(()=>{if(target?.isConnected)target.textContent='Administrator access is unavailable.'}); }
+if(seg==='explore'&&q.cat==='Infrastructure'&&!q.source){
+ const directory=app.querySelector('#infrastructure-directory');mountInfrastructure(directory,P,catalogState);
+ const add=directory?.querySelector('#infra-admin-add');
+ void getAdministratorAccess().then(access=>{if(add?.isConnected&&access?.transport==='icp')add.hidden=false;}).catch(()=>{});
+}
 if(seg==='search') void remoteSearch(q,location.hash);
 if(seg==='games') void remoteGames(location.hash);
 document.title=seg==='home'?`${SITE_NAME} — ${site.tagline}`:SITE_NAME+' · '+seg;window.scrollTo({top:0,left:0,behavior:'instant'});
@@ -215,7 +222,7 @@ const r=document.getElementById('res');if(Object.keys(x).length){r.hidden=true;r
 r.hidden=false;r.textContent='Submission is not connected yet. Nothing was saved. Please do not assume your project was submitted.'}});
 addEventListener('hashchange',route);
 addEventListener('catalog:profile-loaded',()=>{if(location.hash.startsWith('#/profile'))route();});
-addEventListener('catalog:auth-changed', () => { if (location.hash.startsWith('#/profile') || location.hash.startsWith('#/admin')) route() });
+addEventListener('catalog:auth-changed', () => { if (location.hash.startsWith('#/profile') || location.hash.startsWith('#/admin') || location.hash.includes('cat=Infrastructure')) route() });
 initProfile();
 async function remoteGames(startedHash) {
   const target = document.getElementById('catalog-live-games');
@@ -277,13 +284,22 @@ async function remoteSearch(q, startedHash) {
   }
 }
 // Real data: only records you approved (web/public/projects.json). Falls back to labeled demo data when none exist.
-const fromRecord=r=>({name:String(r.name||'').slice(0,80),desc:String(r.description||''),cats:normalizeCategories(r.categories, CATALOG_CATEGORIES),tags:(r.tags||[]).slice(0,5).map(String),slug:String(r.slug||'').replace(/[^a-z0-9-]/g,''),url:safe(r.websiteUrl)?r.websiteUrl:'',play:'',gh:safe(r.githubUrl)?r.githubUrl:'',genre:'',idn:['claimed','verified'].includes(r.identity)?r.identity:'discovered',ver:r.lastVerifiedAt||'',websiteStatus:r.websiteStatus||'unchecked',logoUrl:safe(r.logoUrl)?r.logoUrl:'',upd:String(r.updatedAt||'').slice(0,10),demo:false,cans:(r.canisters||[]).map(c=>({id:String(c.canisterId),role:String(c.role)})),srcs:(r.sources||[]).map(x=>({t:String(x.sourceType),u:x.sourceUrl,at:String(x.collectedAt)}))});
+const fromRecord=r=>({source:String(r.source||''),status:r.status,relationship:r.relationship||'unverified',evidenceUrl:safe(r.evidenceUrl)?r.evidenceUrl:'',resourceType:resourceTypeForTags(r.tags),name:String(r.name||'').slice(0,80),desc:String(r.description||''),cats:normalizeCategories(r.categories, CATALOG_CATEGORIES),tags:(r.tags||[]).slice(0,5).map(String),slug:String(r.slug||'').replace(/[^a-z0-9-]/g,''),url:safe(r.websiteUrl)?r.websiteUrl:'',play:'',gh:safe(r.githubUrl)?r.githubUrl:'',genre:'',idn:['claimed','verified'].includes(r.identity)?r.identity:'discovered',ver:r.lastVerifiedAt||'',websiteStatus:r.websiteStatus||'unchecked',logoUrl:safe(r.logoUrl)?r.logoUrl:'',upd:String(r.updatedAt||'').slice(0,10),demo:false,cans:(r.canisters||[]).map(c=>({id:String(c.canisterId),role:String(c.role)})),srcs:(r.sources||[]).map(x=>({t:String(x.sourceType),u:x.sourceUrl,at:String(x.collectedAt)}))});
 const applyCatalog = data => {
  const records=(data?.records || []).filter(r=>r.status==='published' && r.slug).map(fromRecord);
- if(records.length)P=records;
+ P=records;
 };
-route();
-loadPublishedProjects({onProgress: data => {applyCatalog(data);route();}})
- .then(data=>{applyCatalog(data);catalogState=data.loadError?'error':'ready';})
- .catch(()=>{catalogState='error';}).finally(route);
+let catalogLoadVersion=0;
+const renderCatalogRoute=()=>{if(!/^#\/(admin|profile)(?:[/?]|$)/.test(location.hash))route();};
+async function refreshCatalog(){
+ const version=++catalogLoadVersion;catalogState='loading';renderCatalogRoute();
+ try{
+  const data=await loadPublishedProjects({onProgress:data=>{if(version===catalogLoadVersion){applyCatalog(data);renderCatalogRoute();}}});
+  if(version!==catalogLoadVersion)return;
+  if(data.loadError)catalogState='error';else{applyCatalog(data);catalogState='ready';}
+ }catch{if(version===catalogLoadVersion)catalogState='error';}
+ if(version===catalogLoadVersion)renderCatalogRoute();
+}
+addEventListener('catalog:projects-updated',()=>{void refreshCatalog();});
+route();void refreshCatalog();
 addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){const i=document.querySelector('.sbar input');if(i){e.preventDefault();i.focus()}}});

@@ -41,6 +41,20 @@ URL is not an approval: community records must have explicit review approval
 before publication. The implementation does not claim to discover every app.
 Absent crawl results do not automatically delete existing catalog records.
 
+## Curated infrastructure resources
+
+The Infrastructure page is a separate resource directory with resource-type
+filters, local search, direct website links, provenance links and distinct
+loading/empty/error states. It does not use application voting or game categories.
+Only published, manually managed Infrastructure records are shown.
+
+Administrators can open **Admin Dashboard → Add a resource**, enter the name,
+HTTPS URL and description, select a resource type, optionally provide a logo,
+and add an evidence URL for a stated relationship. Choose Draft or Published
+and save. Resource IDs are generated automatically; resource types use existing
+project tags, so the backend schema is unchanged. Saving refreshes the public
+catalog without replacing user profile or favorite data.
+
 ## Current limitations
 
 Administrator editing currently manages manually curated Infrastructure entries.

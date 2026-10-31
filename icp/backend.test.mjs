@@ -28,15 +28,16 @@ test('ICP backend enforces caller permissions, isolates users and preserves data
   assert.match((await actor.import_projects([make('sns-valid'),{...make('sns-bad'),websiteUrl:'javascript:alert(1)'}])).err,/Invalid/);
   assert.equal((await actor.search('','',0n,30n)).count,1n);
   actor.setPrincipal(owner);
-  const manual={...make('manual-infrastructure','manual'),category:'Infrastructure',status:'draft'};
+  const manual={...make('manual-infrastructure','manual'),category:'Infrastructure',status:'draft',tags:['resource-type:developer','curated']};
   unwrap(await actor.save_project(manual));assert.equal((await actor.search('','',0n,30n)).count,1n);
-  unwrap(await actor.save_project({...manual,status:'published'}));assert.equal((await actor.search('','Infrastructure',0n,30n)).count,1n);
+  unwrap(await actor.save_project({...manual,status:'published'}));assert.equal((await actor.search('','Infrastructure',0n,30n)).count,1n);assert.deepEqual((await actor.search('','Infrastructure',0n,30n)).records[0].tags,['resource-type:developer','curated']);
   actor.setPrincipal(owner);unwrap(await actor.set_administrator(alice,true));
   actor.setPrincipal(alice);const profile={name:'Alice',bio:'Private to Alice',role:'Explorer',website:'',github:'',avatar:'🪐',interests:['DeFi']};unwrap(await actor.save_my_profile(profile));unwrap(await actor.save_my_favorites([{href:'#/app/sns-one',name:'SNS one',logo:''}]));
   actor.setPrincipal(bob);assert.equal(unwrap(await actor.get_my_data()).profile.name,'');unwrap(await actor.delete_my_data());
   actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
   await pic.upgradeCanister({canisterId,wasm,arg,sender:owner,upgradeModeOptions:{skip_pre_upgrade:[],wasm_memory_persistence:[{keep:null}]}});
   assert.equal(await actor.is_administrator(),true);
+  assert.deepEqual((await actor.search('','Infrastructure',0n,30n)).records[0].tags,['resource-type:developer','curated']);
   assert.equal(unwrap(await actor.get_my_data()).favorites.length,1);assert.equal((await actor.search('','',0n,30n)).count,2n);
   actor.setPrincipal(importer);unwrap(await actor.import_projects([make('community-test','community')]));
   assert.match((await actor.delete_imported_projects(['community-test'])).err,/Controller/);
