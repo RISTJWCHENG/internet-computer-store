@@ -1,0 +1,49 @@
+{
+  "frontend": {
+    "id": "6iwiq-eyaaa-aaaaf-qhb4a-cai",
+    "moduleHash": "04e565b3425fe7510ee16b02adcfe3f01abc9a2725c82a21cb08969241debd62",
+    "controllers": [
+      "35w5h-sdkk3-c4ngn-skhml-bg3uq-w54ch-dpgmo-6dxaq-eb5zi-b2iw6-cae",
+      "2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe"
+    ],
+    "cycles": "2100564336722"
+  },
+  "backend": {
+    "id": "ufzkd-paaaa-aaaab-ahcqq-cai",
+    "moduleHash": "a3b24ab4667c848c0b0918cdb79abb1f80948792e0abb107070fead576bdb0a8",
+    "controllers": [
+      "35w5h-sdkk3-c4ngn-skhml-bg3uq-w54ch-dpgmo-6dxaq-eb5zi-b2iw6-cae",
+      "2up5l-veujr-dgwm2-3dmjr-pr5hv-hoiah-57y6p-sjh2n-oqaep-uissi-mqe"
+    ],
+    "cycles": "2113954905124"
+  },
+  "assets": [
+    "/assets/index-DPs-_6-4.js",
+    "/assets/index-PwiV1sxD.css",
+    "/assets/site-logo-CTfcYHAo.png",
+    "/catalog-16-dots.js",
+    "/catalog-align-filters.js",
+    "/catalog-card-pill-detail.js",
+    "/catalog-card-vote-combined.js",
+    "/catalog-centered-notice.js",
+    "/catalog-clean-card-final.js",
+    "/catalog-exact-four-titles.js",
+    "/catalog-expand-cards.js",
+    "/catalog-favorites-login-dialog.js",
+    "/catalog-four-headings-consistent.js",
+    "/catalog-nine-dots.js",
+    "/catalog-profile-menu.js",
+    "/catalog-swap-vote-buttons.js",
+    "/catalog-title-geometry-v4.js",
+    "/catalog-ui-v2.js",
+    "/catalog-unified-four-titles-v3.js",
+    "/catalog-unify-title-layout.js",
+    "/catalog-vote-login-layout.js",
+    "/index.html",
+    "/projects.json",
+    "/site-favicon.png",
+    "/site-logo.png",
+    "/"
+  ],
+  "deployedAt": "2026-10-31T01:40:54.891Z"
+}
