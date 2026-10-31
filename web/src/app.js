@@ -150,7 +150,7 @@ if(seg==='explore'&&q.cat==='Infrastructure'&&!q.source){
 }
 if(seg==='search') void remoteSearch(q,location.hash);
 if(seg==='games') void remoteGames(location.hash);
-document.title=seg==='home'?`${SITE_NAME} — ${site.tagline}`:SITE_NAME+' · '+seg;window.scrollTo({top:0,left:0,behavior:'instant'});
+document.title=seg==='explore'&&q.cat==='Infrastructure'&&!q.source?`Official ICP Resources · ${SITE_NAME}`:seg==='home'?`${SITE_NAME} — ${site.tagline}`:SITE_NAME+' · '+seg;window.scrollTo({top:0,left:0,behavior:'instant'});
 document.querySelectorAll('.navrow a').forEach(a=>{
   const target=a.getAttribute('href');
   const current=location.hash||'#/explore';

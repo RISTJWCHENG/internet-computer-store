@@ -31,6 +31,7 @@ try{
   let saved=await page.evaluate(()=>window.__testProjects.find(p=>p.name==='New test resource'));assert.match(saved.id,/^manual-[0-9a-f]{32}$/);assert.deepEqual(saved.tags,['resource-type:developer']);assert.equal(saved.category,'Infrastructure');assert.equal(saved.status,'published');assert.equal(await page.evaluate(()=>window.__testUpdates),1);
   await page.getByRole('button',{name:'Infrastructure resources',exact:true}).click();await page.locator('#admin-projects .admin-project-row').filter({hasText:'Seeded resource'}).getByRole('button',{name:'Edit →',exact:true}).click();await page.getByLabel('Resource type',{exact:true}).selectOption('identity');await page.getByRole('button',{name:'Save resource',exact:true}).click();await page.getByText('The listing is saved as a draft.',{exact:true}).waitFor();
   saved=await page.evaluate(()=>window.__testProjects.find(p=>p.id==='manual-seeded'));assert.deepEqual(saved.tags,['resource-type:identity','custom-owner-tag']);assert.equal(await page.evaluate(()=>window.__testUpdates),2);
+  await page.getByRole('button',{name:'Add a resource',exact:true}).click();assert.equal(await page.getByPlaceholder('e.g. OpenCloud').inputValue(),'');assert.equal(await page.locator('input[name=id]').inputValue(),'');assert.equal(await page.getByLabel('Resource type',{exact:true}).inputValue(),'other');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+1),'Admin overflow at '+width);
   await page.close();
  }

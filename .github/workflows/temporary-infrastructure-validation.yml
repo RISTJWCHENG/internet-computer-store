@@ -25,8 +25,10 @@ jobs:
       - run: npm run build:icp
       - run: npm install --no-save --no-audit --no-fund playwright@1.56.1
       - run: npx playwright install chromium
+        id: browser_setup
       - run: node config/admin-ui-browser.mjs
       - run: node config/infrastructure-browser.mjs
+        if: ${{ success() || (failure() && steps.browser_setup.outcome == 'success') }}
       - run: node icp/scripts/verify-frontend.mjs
   cleanup:
     if: github.ref == 'refs/heads/main'
