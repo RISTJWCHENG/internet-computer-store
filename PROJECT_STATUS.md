@@ -313,3 +313,5 @@ Main crawler run 41161572165 passed with the renamed scripts, zero community see
 
 ## 2026-10-31 — Complete current-source brand cleanup
 Removed remaining retired brand markers from source comments, the pagination wrapper class, documentation, repository references and protocol examples. Canonical browser-local keys now use catalog prefixes directly; retired storage-key read fallbacks were removed without deleting browser data or changing ICP profile/favorite state. Retired review-host HTTP proxy routes return 410 and no longer reference an external backend. Review packaging no longer injects legacy API configuration. Updated tests cover neutral storage keys, static assets/HEAD behavior, retired routes and catalog error handling. All 251 regression tests and the frontend build pass. The complete 221-file current source/path scan reports zero retired-brand matches. Historical commits are not rewritten.
+
+Mainnet root/index/current JS/CSS response certification passed. Browser verification confirmed SNS page 2 renders real records and the neutral pagination wrapper. The backend module was unchanged by this frontend cleanup.
