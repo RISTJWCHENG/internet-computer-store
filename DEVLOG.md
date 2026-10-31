@@ -56,3 +56,5 @@ Administrator forms now generate resource IDs and select resource types through 
 Initial cloud UI validation 41237543697 passed unit/backend checks but exposed an ambiguous accessible name on the new resource-type select. Added explicit accessible names for resource type, relationship and status. Also reset the editor when its Add a resource navigation is used, preventing an existing ID from being reused for a new entry. Browser tests cover that reset.
 
 The next UI run passed native tests, read-only admin checks and public directory interactions, then detected decorative sidebar symbols in exact accessible button names. Marked those symbols aria-hidden so resource navigation has clear accessible names. Isolated create/publish assertions had passed before that navigation step.
+
+Run 41237905280 reached the administrator create/edit checks and caught a real reset issue: hidden input values reflect their default value, so a normal form reset retained the edited ID. Reset now explicitly clears that hidden ID before a new resource can be created. No production records were used by these tests.
