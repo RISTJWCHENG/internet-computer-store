@@ -978,7 +978,7 @@ select[name*="sort" i]:focus-visible {
 #app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2,
 
-/* SNS and Caffeine Apps headings */
+/* SNS and Community Apps headings */
 #app.wrap > .page#cats > h1,
 
 /* Newly Indexed and Submit Project headings */
@@ -990,7 +990,7 @@ select[name*="sort" i]:focus-visible {
 #app.wrap > .page.catalog-explore-sections
   > section:first-of-type > h2 + .chips,
 
-/* SNS / Caffeine Apps category buttons */
+/* SNS / Community Apps category buttons */
 #app.wrap > .page#cats > h1 + .chips,
 
 /* Newly Indexed filters */
@@ -1028,7 +1028,7 @@ select[name*="sort" i]:focus-visible {
   margin-top: 0 !important;
 }
 
-/* SNS / Caffeine Apps: title to category row */
+/* SNS / Community Apps: title to category row */
 #app.wrap > .page#cats > h1 {
   margin-bottom: 22px !important;
 }
@@ -1078,7 +1078,7 @@ body:has(#app > .page:has(#sub)) #mast {
   }
 
   /*
-   * SNS and Caffeine Apps:
+   * SNS and Community Apps:
    * Both routes use the categories page container.
    * They require approximately 60px more correction.
    */

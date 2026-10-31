@@ -14,9 +14,10 @@ test('ICP backend enforces caller permissions, isolates users and preserves data
  try{
   pic=await PocketIc.create(server.getUrl());
   const wasm=await readFile(new URL('../.icp-build/backend.wasm',import.meta.url));
+  const initialWasm=process.env.PREVIOUS_BACKEND_WASM?await readFile(process.env.PREVIOUS_BACKEND_WASM):wasm;
   const owner=Ed25519KeyIdentity.generate().getPrincipal(),importer=Ed25519KeyIdentity.generate().getPrincipal(),alice=Ed25519KeyIdentity.generate().getPrincipal(),bob=Ed25519KeyIdentity.generate().getPrincipal();
   const arg=IDL.encode([IDL.Principal],[owner]);
-  const {actor,canisterId}=await pic.setupCanister({idlFactory,wasm,arg,sender:owner,controllers:[owner]});
+  const {actor,canisterId}=await pic.setupCanister({idlFactory,wasm:initialWasm,arg,sender:owner,controllers:[owner]});
   assert.match((await actor.get_my_data()).err,/Sign in/);
   const make=(id,source='sns')=>toCanisterProject({id,name:id,description:'A verified project record',category:'DeFi',websiteUrl:'https://example.com',status:'published',sources:[{sourceType:source,sourceUrl:'https://example.com',collectedAt:new Date().toISOString()}]},source);
   actor.setPrincipal(alice);assert.match((await actor.set_importer(importer,true)).err,/Controller/);assert.match((await actor.import_projects([make('sns-one')])).err,/Importer/);assert.equal(await actor.is_administrator(),false);
@@ -30,11 +31,22 @@ test('ICP backend enforces caller permissions, isolates users and preserves data
   const manual={...make('manual-infrastructure','manual'),category:'Infrastructure',status:'draft'};
   unwrap(await actor.save_project(manual));assert.equal((await actor.search('','',0n,30n)).count,1n);
   unwrap(await actor.save_project({...manual,status:'published'}));assert.equal((await actor.search('','Infrastructure',0n,30n)).count,1n);
+  actor.setPrincipal(owner);unwrap(await actor.set_administrator(alice,true));
   actor.setPrincipal(alice);const profile={name:'Alice',bio:'Private to Alice',role:'Explorer',website:'',github:'',avatar:'🪐',interests:['DeFi']};unwrap(await actor.save_my_profile(profile));unwrap(await actor.save_my_favorites([{href:'#/app/sns-one',name:'SNS one',logo:''}]));
   actor.setPrincipal(bob);assert.equal(unwrap(await actor.get_my_data()).profile.name,'');unwrap(await actor.delete_my_data());
   actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
   await pic.upgradeCanister({canisterId,wasm,arg,sender:owner,upgradeModeOptions:{skip_pre_upgrade:[],wasm_memory_persistence:[{keep:null}]}});
+  assert.equal(await actor.is_administrator(),true);
   assert.equal(unwrap(await actor.get_my_data()).favorites.length,1);assert.equal((await actor.search('','',0n,30n)).count,2n);
+  actor.setPrincipal(importer);unwrap(await actor.import_projects([make('caf-test','caffeine')]));
+  assert.match((await actor.delete_imported_projects(['caf-test'])).err,/Controller/);
+  actor.setPrincipal(owner);
+  assert.match((await actor.delete_imported_projects(['caf-test','manual-infrastructure'])).err,/Manual/);
+  assert.equal((await actor.search('','',0n,30n)).count,3n);
+  assert.equal(unwrap(await actor.delete_imported_projects(['caf-test'])),1n);
+  assert.equal(unwrap(await actor.delete_imported_projects(['caf-test'])),0n);
+  assert.equal((await actor.search('','',0n,30n)).count,2n);
+  actor.setPrincipal(alice);assert.equal(unwrap(await actor.get_my_data()).profile.name,'Alice');
   unwrap(await actor.delete_my_data());assert.equal(unwrap(await actor.get_my_data()).profile.name,'');assert.equal(unwrap(await actor.get_my_data()).favorites.length,0);assert.equal((await actor.search('','',0n,30n)).count,2n);
   actor.setPrincipal(Principal.anonymous());assert.match((await actor.delete_my_data()).err,/Sign in/);
  } finally {if(pic)await pic.tearDown();await server.stop();}

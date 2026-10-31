@@ -93,6 +93,21 @@ shared persistent actor class Store(initialAdmin : Principal) = this {
     switch(Array.find<Project>(projects,func(item){item.id==p.id})) {case (?item) {if(item.source!="manual") return #err("Project belongs to crawler")};case null{}};
     upsert(p);#ok(())
   };
+  // Bounded operational deletion; callers cannot touch profiles or manual entries.
+  public shared ({caller}) func delete_imported_projects(ids : [Text]) : async Result<Nat> {
+    if(not Prim.isController(caller)) return #err("Controller authorization required");
+    if(ids.size()==0 or ids.size() > 50) return #err("Deletion must contain 1 to 50 IDs");
+    for(id in ids.vals()) {
+      if(id.size()==0 or id.size() > 100) return #err("Invalid project ID");
+      switch(Array.find<Project>(projects,func(p){p.id==id})) {
+        case (?p) {if(p.source=="manual") return #err("Manual projects cannot be deleted by this operation")};
+        case null {};
+      };
+    };
+    let before=projects.size();
+    projects:=Array.filter<Project>(projects,func(p){Array.find<Text>(ids,func(id){id==p.id})==null});
+    #ok(before-projects.size())
+  };
   public shared ({caller}) func import_projects(batch : [Project]) : async Result<Nat> {
     if(not includes(importers,caller) and not Prim.isController(caller)) return #err("Importer authorization required");
     if(batch.size()==0 or batch.size() > 50) return #err("Import batch must contain 1 to 50 projects");

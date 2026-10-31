@@ -15,6 +15,7 @@ export const idlFactory = ({IDL}) => {
     search:IDL.Func([IDL.Text,IDL.Text,IDL.Nat,IDL.Nat],[IDL.Record({records:IDL.Vec(Project),count:IDL.Nat})],['query']),
     list_admin_projects:IDL.Func([],[result(IDL.Vec(Project))],['query']),
     save_project:IDL.Func([Project],[result(IDL.Null)],[]),
+    delete_imported_projects:IDL.Func([IDL.Vec(IDL.Text)],[result(IDL.Nat)],[]),
     import_projects:IDL.Func([IDL.Vec(Project)],[result(IDL.Nat)],[]),
     get_my_data:IDL.Func([],[result(UserData)],['query']),
     save_my_profile:IDL.Func([Profile],[result(IDL.Null)],[]),

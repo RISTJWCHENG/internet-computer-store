@@ -10,6 +10,7 @@ type Store =
        authenticated: bool;
        writesEnabled: bool;
      }) query;
+   delete_imported_projects: (ids: vec text) -> (Result_2);
    delete_my_data: () -> (Result);
    get_my_data: () -> (Result_3) query;
    health: () -> (text) query;

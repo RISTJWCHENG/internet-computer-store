@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T01:42:01.149Z",
+  "generatedAt": "2026-10-31T01:13:24.095Z",
   "records": [
     {
       "id": "app-sonic-ooo",
@@ -32,76 +32,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
-        }
-      ]
-    },
-    {
-      "id": "caf-0165213f77d0a4dbc60654c3",
-      "name": "IC Phantom",
-      "description": "Built with caffeine.ai",
-      "category": "Caffeine Apps",
-      "websiteUrl": "https://ic-sol-dwb.caffeine.xyz/",
-      "logoUrl": "https://ic-sol-dwb.caffeine.xyz/__meta/icon.png",
-      "githubUrl": "",
-      "source": "caffeine",
-      "status": "published",
-      "relationship": "unverified",
-      "evidenceUrl": "",
-      "updatedAt": "",
-      "tags": [],
-      "canisters": [],
-      "sources": [
-        {
-          "sourceType": "caffeine",
-          "sourceUrl": "https://ic-sol-dwb.caffeine.xyz/",
-          "collectedAt": "2026-10-31T01:42:01.115Z"
-        }
-      ]
-    },
-    {
-      "id": "caf-6b9855dc3f3a7371e6efdd9b",
-      "name": "ICPvibecoder | ICP Builder & Web3 Developer",
-      "description": "Building the future on the Internet Computer. Explore projects: NovaDex DEX, Orbita B2B CRM, NationOS sovereign digital nation, Quantum-DVN countdown, YIP personal transformation app.",
-      "category": "Caffeine Apps",
-      "websiteUrl": "https://icpvibecoder-y0l.caffeine.xyz/",
-      "logoUrl": "https://icpvibecoder-y0l.caffeine.xyz/og-image.png",
-      "githubUrl": "",
-      "source": "caffeine",
-      "status": "published",
-      "relationship": "unverified",
-      "evidenceUrl": "",
-      "updatedAt": "",
-      "tags": [],
-      "canisters": [],
-      "sources": [
-        {
-          "sourceType": "caffeine",
-          "sourceUrl": "https://icpvibecoder-y0l.caffeine.xyz/",
-          "collectedAt": "2026-10-31T01:42:01.115Z"
-        }
-      ]
-    },
-    {
-      "id": "caf-7528ebbde3da039a39aad5be",
-      "name": "Crypto Aquarium",
-      "description": "Built with caffeine.ai",
-      "category": "Caffeine Apps",
-      "websiteUrl": "https://crypto-aquarium-02r.caffeine.xyz/",
-      "logoUrl": "https://crypto-aquarium-02r.caffeine.xyz/__meta/icon.svg",
-      "githubUrl": "",
-      "source": "caffeine",
-      "status": "published",
-      "relationship": "unverified",
-      "evidenceUrl": "",
-      "updatedAt": "",
-      "tags": [],
-      "canisters": [],
-      "sources": [
-        {
-          "sourceType": "caffeine",
-          "sourceUrl": "https://crypto-aquarium-02r.caffeine.xyz/",
-          "collectedAt": "2026-10-31T01:42:01.115Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -135,7 +66,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -169,7 +100,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -203,7 +134,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -237,7 +168,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -271,7 +202,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -305,7 +236,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -339,7 +270,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -373,7 +304,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -407,7 +338,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -441,7 +372,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -475,7 +406,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -509,7 +440,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -543,7 +474,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -577,7 +508,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -611,7 +542,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -645,7 +576,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -679,7 +610,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -713,7 +644,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -747,7 +678,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -781,7 +712,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -815,7 +746,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -849,7 +780,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -883,7 +814,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -917,7 +848,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -951,7 +882,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -985,7 +916,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -1019,7 +950,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     },
@@ -1053,7 +984,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-10-31T01:41:53.351Z"
+          "collectedAt": "2026-10-31T01:13:17.464Z"
         }
       ]
     }
