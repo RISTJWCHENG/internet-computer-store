@@ -2,7 +2,7 @@ name: Temporary Infrastructure UI validation
 on:
   push:
     branches: [main, infrastructure-resource-directory]
-    paths: ['.github/workflows/temporary-infrastructure-validation.yml']
+    paths: ['.github/workflows/temporary-infrastructure-validation.yml', 'web/**', 'config/**', 'icp/**']
 permissions:
   contents: read
 jobs:

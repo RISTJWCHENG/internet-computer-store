@@ -13,9 +13,9 @@ export async function startAdminDashboard(root, access, options={}) {
       <div class="admin-brand"><span class="admin-brand-icon">✦</span><div><strong>Store Admin</strong><small>Management workspace</small></div></div>
       <p class="admin-nav-label">WORKSPACE</p>
       <nav class="admin-nav" aria-label="Dashboard sections">
-        <button class="admin-nav-item is-active" data-tab="overview" type="button"><span>▦</span> Overview</button>
-        <button class="admin-nav-item" data-tab="projects" type="button"><span>▤</span> Infrastructure resources</button>
-        <button class="admin-nav-item" data-tab="editor" type="button"><span>＋</span> Add a resource</button>
+        <button class="admin-nav-item is-active" data-tab="overview" type="button"><span aria-hidden="true">▦</span> Overview</button>
+        <button class="admin-nav-item" data-tab="projects" type="button"><span aria-hidden="true">▤</span> Infrastructure resources</button>
+        <button class="admin-nav-item" data-tab="editor" type="button"><span aria-hidden="true">＋</span> Add a resource</button>
       </nav>
       <div class="admin-side-note"><strong>Curated with care</strong><p>Review sources and evidence before publishing a project.</p><a href="#/explore?cat=Infrastructure">View public directory ↗</a></div>
     </aside>
