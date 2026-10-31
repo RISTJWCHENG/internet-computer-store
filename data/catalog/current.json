@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31T01:10:47.301Z",
+  "records": [
+    {
+      "id": "app-sonic-ooo",
+      "name": "SONIC",
+      "description": "The Open Defi Suite on Internet Computer Blockchain governed by the people for the people.",
+      "category": "DeFi",
+      "websiteUrl": "https://app.sonic.ooo/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/qtooy-2yaaa-aaaaq-aabvq-cai/logo_1750088191",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "qtooy-2yaaa-aaaaq-aabvq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "qbizb-wiaaa-aaaaq-aabwq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "caf-0165213f77d0a4dbc60654c3",
+      "name": "IC Phantom",
+      "description": "Built with caffeine.ai",
+      "category": "Caffeine Apps",
+      "websiteUrl": "https://ic-sol-dwb.caffeine.xyz/",
+      "logoUrl": "https://ic-sol-dwb.caffeine.xyz/__meta/icon.png",
+      "githubUrl": "",
+      "source": "caffeine",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [],
+      "canisters": [],
+      "sources": [
+        {
+          "sourceType": "caffeine",
+          "sourceUrl": "https://ic-sol-dwb.caffeine.xyz/",
+          "collectedAt": "2026-10-31T01:10:47.255Z"
+        }
+      ]
+    },
+    {
+      "id": "caf-6b9855dc3f3a7371e6efdd9b",
+      "name": "ICPvibecoder | ICP Builder & Web3 Developer",
+      "description": "Building the future on the Internet Computer. Explore projects: NovaDex DEX, Orbita B2B CRM, NationOS sovereign digital nation, Quantum-DVN countdown, YIP personal transformation app.",
+      "category": "Caffeine Apps",
+      "websiteUrl": "https://icpvibecoder-y0l.caffeine.xyz/",
+      "logoUrl": "https://icpvibecoder-y0l.caffeine.xyz/og-image.png",
+      "githubUrl": "",
+      "source": "caffeine",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [],
+      "canisters": [],
+      "sources": [
+        {
+          "sourceType": "caffeine",
+          "sourceUrl": "https://icpvibecoder-y0l.caffeine.xyz/",
+          "collectedAt": "2026-10-31T01:10:47.255Z"
+        }
+      ]
+    },
+    {
+      "id": "caf-7528ebbde3da039a39aad5be",
+      "name": "Crypto Aquarium",
+      "description": "Built with caffeine.ai",
+      "category": "Caffeine Apps",
+      "websiteUrl": "https://crypto-aquarium-02r.caffeine.xyz/",
+      "logoUrl": "https://crypto-aquarium-02r.caffeine.xyz/__meta/icon.svg",
+      "githubUrl": "",
+      "source": "caffeine",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [],
+      "canisters": [],
+      "sources": [
+        {
+          "sourceType": "caffeine",
+          "sourceUrl": "https://crypto-aquarium-02r.caffeine.xyz/",
+          "collectedAt": "2026-10-31T01:10:47.255Z"
+        }
+      ]
+    },
+    {
+      "id": "catalyze-one",
+      "name": "Catalyze",
+      "description": "Catalyze is a one-stop social-fi application for organising your Web3 experience",
+      "category": "Social",
+      "websiteUrl": "https://catalyze.one/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/uly3p-iqaaa-aaaaq-aabma-cai/logo_1750088308",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "uly3p-iqaaa-aaaaq-aabma-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "uf2wh-taaaa-aaaaq-aabna-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "cecildao-org",
+      "name": "Cecil The Lion DAO",
+      "description": "The Cecil The Lion DAO project is the first-ever AI-driven humanitarian DAO, an initiative dedicated to supporting vital humanitarian projects across the globe. This unique organization was born from a place of deep compassion, inspired by the tragic and senseless killing of Cecil the lion, a symbol of majestic beauty and a stark reminder of the challenges facing our world. The DAO stands as a tes",
+      "category": "AI",
+      "websiteUrl": "https://cecildao.org/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/ju4gz-6iaaa-aaaaq-aaeva-cai/logo_1750088315",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "ju4gz-6iaaa-aaaaq-aaeva-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "jg2ra-syaaa-aaaaq-aaewa-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "chai-yddti",
+      "name": "CHAI",
+      "description": "CHAI is a collective of creatives building AIware in stealth on the Internet Computer.",
+      "category": "DAO",
+      "websiteUrl": "https://yddti-oiaaa-aaaag-ay5sa-cai.icp0.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/xjngq-yaaaa-aaaaq-aabha-cai/logo_1789446148",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "xjngq-yaaaa-aaaaq-aabha-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "vtrom-gqaaa-aaaaq-aabia-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "dapp-elna-ai",
+      "name": "ELNA AI",
+      "description": "Community-driven decentralised AI Agent creation platform on Internet computer",
+      "category": "AI",
+      "websiteUrl": "https://dapp.elna.ai/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/gkoex-viaaa-aaaaq-aacmq-cai/logo_1750088258",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "gkoex-viaaa-aaaaq-aacmq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "gemj7-oyaaa-aaaaq-aacnq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "decideai-xyz",
+      "name": "DecideAI DAO",
+      "description": "DecideAI is an ecosystem, creating AI that benefit users, contributors, and developers.",
+      "category": "AI",
+      "websiteUrl": "https://decideai.xyz/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/x4kx5-ziaaa-aaaaq-aabeq-cai/logo_1750088071",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "x4kx5-ziaaa-aaaaq-aabeq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "xsi2v-cyaaa-aaaaq-aabfq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "doxadao-org",
+      "name": "DOXA",
+      "description": "Doxa is A Cross-Chain Stablecoin Infrastructure with DOXA USD.Built with support from Dfinity.Incubated by Perplexity and Insead AI Lab. Doxa is built by Doxa Foundation, a non-profit organization that is committed to building a decentralized financial ecosystem that is accessible to everyone. The goal of this SNS is to further decentralize DOXA and raise at least 50,000 ICP to accelerate its grow",
+      "category": "DeFi",
+      "websiteUrl": "https://www.doxadao.org/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/bu3tj-cqaaa-aaaaq-aafdq-cai/logo_1787417021",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "bu3tj-cqaaa-aaaaq-aafdq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "a6urt-aaaaa-aaaaq-aafeq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "dragginz-io",
+      "name": "Dragginz",
+      "description": "A virtual pets game from the creators of Neopets. Non-profit, 100% on-chain. We've got baby dragons, crowdsourced world building, magic spells, and a prince in disguise!",
+      "category": "Games",
+      "websiteUrl": "https://dragginz.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/zxeu2-7aaaa-aaaaq-aaafa-cai/logo_1750088170",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "zxeu2-7aaaa-aaaaq-aaafa-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "zfcdd-tqaaa-aaaaq-aaaga-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "fomowell-com",
+      "name": "FomoWell",
+      "description": "A High-Performance Bitcoin Asset Issuance and Trading Platform, Powered by @Dfinity",
+      "category": "DAO",
+      "websiteUrl": "https://fomowell.com/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/pww3s-sqaaa-aaaaq-aaedq-cai/logo_1750088036",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "pww3s-sqaaa-aaaaq-aaedq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "o4zzi-qaaaa-aaaaq-aaeeq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "gold-dao-org",
+      "name": "Gold DAO",
+      "description": "The Gold DAO project represents a groundbreaking fusion of traditional gold and modern blockchain technology, allowing anyone in the world to access physical gold instantaneously, with no dependence upon the banking system. At its core, the project introduces two primary products: the Gold Token (GLDT) - a fungible token allowing fractional gold ownership; and a USD-pegged stablecoin (USDG) - back",
+      "category": "DeFi",
+      "websiteUrl": "https://www.gold-dao.org/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/tw2vt-hqaaa-aaaaq-aab6a-cai/logo_1750088053",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "tw2vt-hqaaa-aaaaq-aab6a-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "tyyy3-4aaaa-aaaaq-aab7a-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "icghost-yadjb",
+      "name": "ICGhost",
+      "description": "The First Decentralized Meme Coin on IC",
+      "category": "DAO",
+      "websiteUrl": "https://yadjb-mqaaa-aaaan-qaqlq-cai.raw.ic0.app/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/4m6il-zqaaa-aaaaq-aaa2a-cai/logo_1787078413",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "4m6il-zqaaa-aaaaq-aaa2a-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "4c4fd-caaaa-aaaaq-aaa3a-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "iclight-io",
+      "name": "ICLighthouse DAO",
+      "description": "Defi infrastructure based on IC.",
+      "category": "DeFi",
+      "websiteUrl": "https://iclight.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/hjcnr-bqaaa-aaaaq-aacka-cai/logo_1750087990",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "hjcnr-bqaaa-aaaaq-aacka-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "hhaaz-2aaaa-aaaaq-aacla-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "icpcc-dao-llc-osjzm",
+      "name": "ICPCC DAO LLC",
+      "description": "ICPCC DAO LLC is a community-owned and fully self-sustaining decentralized conference event series devoted to highlighting the ICP's technology and ecosystem. This DAO is registered and legally recognized as a Non-Profit Marshall Islands DAO LLC. According to the ICPCC Constitution, important proposals will be guided by an ICPCC Council made up of ICP ecosystem leaders elected by the DAO. The ICPC",
+      "category": "Social",
+      "websiteUrl": "https://osjzm-oaaaa-aaaal-ajcoq-cai.icp0.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/l7ra6-uqaaa-aaaaq-aadea-cai/logo_1787078937",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "l7ra6-uqaaa-aaaaq-aadea-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "lrtnw-paaaa-aaaaq-aadfa-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "icpex-org",
+      "name": "ICPEx",
+      "description": "AI-Driven Decentralized Liquidity Network.",
+      "category": "DeFi",
+      "websiteUrl": "https://icpex.org/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/jpz24-eqaaa-aaaaq-aaexq-cai/logo_1750088344",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "jpz24-eqaaa-aaaaq-aaexq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "lvfsa-2aaaa-aaaaq-aaeyq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "icpswap-com",
+      "name": "ICPSwap",
+      "description": "ICPSwap stands as the native, pioneering, and premier Decentralized Exchange (DEX) within the Internet Computer Protocol (ICP) ecosystem, providing an extensive array of financial and market services. Our users and fans may immerse themselves in the ultimate Decentralized Finance (DeFi) experience, featuring a broad spectrum of token standards trading, dedicated staking pools, robust yield farming",
+      "category": "DeFi",
+      "websiteUrl": "https://www.icpswap.com/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/csyra-haaaa-aaaaq-aacva-cai/logo_1750088298",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "csyra-haaaa-aaaaq-aacva-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "ca6gz-lqaaa-aaaaq-aacwa-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "icvc-mnc6b",
+      "name": "ICVC",
+      "description": "ICVC DAO is a community governed Web3 venture builder.",
+      "category": "Social",
+      "websiteUrl": "https://mnc6b-aaaaa-aaaap-qhnrq-cai.icp0.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/nuywj-oaaaa-aaaaq-aadta-cai/logo_1750088129",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "nuywj-oaaaa-aaaaq-aadta-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "m6xut-mqaaa-aaaaq-aadua-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "kinic-io",
+      "name": "Kinic",
+      "description": "The home of portable and verifiable AI. A DAO for push to deploy vector DB, zkML, search, trading bots and much more.",
+      "category": "AI",
+      "websiteUrl": "https://kinic.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/7jkta-eyaaa-aaaaq-aaarq-cai/logo_1750088287",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "7jkta-eyaaa-aaaaq-aaarq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "73mez-iiaaa-aaaaq-aaasq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "neutrinite-io",
+      "name": "Neutrinite",
+      "description": "Neutrinite DAO governs open protocols for an autonomous digital future.",
+      "category": "DAO",
+      "websiteUrl": "https://neutrinite.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/extk7-gaaaa-aaaaq-aacda-cai/logo_1788030490",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "extk7-gaaaa-aaaaq-aacda-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "f54if-eqaaa-aaaaq-aacea-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "nfid-one",
+      "name": "NFID Wallet",
+      "description": "Web3's easiest to use, hardest to lose, and only wallet governed by a DAO.",
+      "category": "DeFi",
+      "websiteUrl": "https://nfid.one/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/m2blf-zqaaa-aaaaq-aaejq-cai/logo_1750088335",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "m2blf-zqaaa-aaaaq-aaejq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "mih44-vaaaa-aaaaq-aaekq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "nuance-xyz",
+      "name": "Nuance",
+      "description": "Nuance is the world's first publishing platform built entirely on-chain. In the same way DeFi has taken the middleman out of finance Nuance does the same for the written word.",
+      "category": "DeFi",
+      "websiteUrl": "https://nuance.xyz/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/rzbmc-yiaaa-aaaaq-aabsq-cai/logo_1750088161",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "rzbmc-yiaaa-aaaaq-aabsq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "rxdbk-dyaaa-aaaaq-aabtq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "oc-app",
+      "name": "OpenChat",
+      "description": "A decentralized chat app governed by the people for the people",
+      "category": "Social",
+      "websiteUrl": "https://oc.app/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/3e3x2-xyaaa-aaaaq-aaalq-cai/logo_1750088799",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "3e3x2-xyaaa-aaaaq-aaalq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "2ouva-viaaa-aaaaq-aaamq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "origyn-com",
+      "name": "ORIGYN",
+      "description": "The ORIGYN Protocol has been made possible thanks to the major contribution of the ORIGYN Foundation and embodies its vision of becoming the universal digital standard for certification, traceability, and authentication. Achieving standardization requires neutrality, and as a DAO, the ORIGYN Protocol fulfills this requirement. The ORIGYN Protocol is the most advanced Real World Assets (RWA) infras",
+      "category": "DAO",
+      "websiteUrl": "https://www.origyn.com/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/leu43-oiaaa-aaaaq-aadgq-cai/logo_1750088245",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "leu43-oiaaa-aaaaq-aadgq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "lkwrt-vyaaa-aaaaq-aadhq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "panda-fans",
+      "name": "ICPanda",
+      "description": "An on-chain Builder DAO for digital sovereignty. Minds: https://anda.ai | Markets: https://tokenlist.ing | Private Collaboration: https://dmsg.net",
+      "category": "AI",
+      "websiteUrl": "https://panda.fans/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/d7wvo-iiaaa-aaaaq-aacsq-cai/logo_1750088227",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "d7wvo-iiaaa-aaaaq-aacsq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "druyg-tyaaa-aaaaq-aactq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "personal-dao-gsnnn",
+      "name": "Personal DAO",
+      "description": "Personal DAOs are turnkey DAOs in which every component of the DAO (UI, API, Database and AI model) is coded within smart contracts that rest under the sole custodies of the respective communities that operate them. Personal DAOs operate as self-sustaining financial institutions and Decentralized AI agents that allow communities to conduct collaborative allocation of resources without the need for",
+      "category": "AI",
+      "websiteUrl": "https://gsnnn-ziaaa-aaaag-acaaa-cai.icp0.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/izscx-raaaa-aaaaq-aaesq-cai/logo_1750087998",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "izscx-raaaa-aaaaq-aaesq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "ixqp7-kqaaa-aaaaq-aaetq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "phasma-cards",
+      "name": "PHASMA",
+      "description": "Curated markets • Future visions",
+      "category": "DAO",
+      "websiteUrl": "https://phasma.cards/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/nb7he-piaaa-aaaaq-aadqq-cai/logo_1758353320",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "nb7he-piaaa-aaaaq-aadqq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "np5km-uyaaa-aaaaq-aadrq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "sneed-4pk43",
+      "name": "Sneed",
+      "description": "A 'blank canvas' DAO designed to enable the community to innovate, Sneed offers an accessible, open platform for creative and technological exploration on the Internet Computer Protocol.",
+      "category": "Social",
+      "websiteUrl": "https://4pk43-5qaaa-aaaag-qc44a-cai.icp0.io/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/fp274-iaaaa-aaaaq-aacha-cai/logo_1750088114",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "fp274-iaaaa-aaaaq-aacha-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "hvgxa-wqaaa-aaaaq-aacia-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "tacodao-com",
+      "name": "TACO DAO",
+      "description": "The TACO DAO introduces a transformative approach to digital asset collaboration as a DAO that actively manages a diverse portfolio of digital assets. By pooling the collective intelligence of its community, it ensures a well-informed and stable management strategy. This innovative model not only encourages market adaptability but cultivates a learning environment where both novice and seasoned DA",
+      "category": "Social",
+      "websiteUrl": "https://tacodao.com/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/lacdn-3iaaa-aaaaq-aae3a-cai/logo_1750088177",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "lacdn-3iaaa-aaaaq-aae3a-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "kknbx-zyaaa-aaaaq-aae4a-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "waifu-ic0-ai",
+      "name": "Waifu.ai",
+      "description": "A rude chicken",
+      "category": "AI",
+      "websiteUrl": "https://waifu.ic0.ai/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/kwj3g-oyaaa-aaaaq-aae6a-cai/logo_1776609686",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "kwj3g-oyaaa-aaaaq-aae6a-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "kylwo-viaaa-aaaaq-aae7a-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    },
+    {
+      "id": "yuku-app",
+      "name": "Yuku AI",
+      "description": "Yuku AI is a groundbreaking platform at the intersection of AI and Web3, empowering users with decentralized AI agents, immersive 3D spaces, and a dynamic marketplace for AI assets. By combining AI Agent DID, Social and Payment on-chain Protocols, Yuku AI enables seamless collaboration and innovation across digital and real-world ecosystems. It's not just a platform—it's a launchpad for the next e",
+      "category": "AI",
+      "websiteUrl": "https://yuku.app/",
+      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/cj5nf-5yaaa-aaaaq-aacxq-cai/logo_1750088078",
+      "githubUrl": "",
+      "source": "sns",
+      "status": "published",
+      "relationship": "unverified",
+      "evidenceUrl": "",
+      "updatedAt": "",
+      "tags": [
+        "sns"
+      ],
+      "canisters": [
+        {
+          "canisterId": "cj5nf-5yaaa-aaaaq-aacxq-cai",
+          "role": "sns-root"
+        },
+        {
+          "canisterId": "atbfz-diaaa-aaaaq-aacyq-cai",
+          "role": "ledger"
+        }
+      ],
+      "sources": [
+        {
+          "sourceType": "sns",
+          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
+          "collectedAt": "2026-10-31T01:10:41.094Z"
+        }
+      ]
+    }
+  ]
+}
