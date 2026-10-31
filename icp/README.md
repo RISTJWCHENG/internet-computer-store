@@ -65,3 +65,14 @@ are uploaded; stale build output and legacy endpoint configuration are excluded.
 The deploy helper atomically replaces existing managed files in a batch, checks
 the SHA-256 of the exact uploaded module bytes (including gzip when used), and
 verifies all existing controllers remain present.
+
+The deploy helper stores `/` explicitly alongside `/index.html`, applies security
+headers, and verifies certified v2 responses for both entries and the current
+JavaScript/CSS bundles before recording success. This avoids relying on an alias
+witness that may not certify the root. Run `node icp/scripts/verify-frontend.mjs`
+for an independent mainnet certificate check. No raw-domain bypass is used.
+
+Deployed catalog seed: 32 fresh records. Native voting, submission review and
+developer-claim verification remain separate work; the current migration does
+not implement those features. Owner administrator activation requires the new
+frontend-origin Principal displayed after Internet Identity login.

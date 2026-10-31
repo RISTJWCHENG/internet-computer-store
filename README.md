@@ -1,18 +1,18 @@
 ## Current ICP migration (2026-10-31)
 
-The intended runtime is the two ICP canisters in `canister_ids.json`; see
+The deployed runtime is the two ICP canisters in `canister_ids.json`; see
 [icp/README.md](icp/README.md) for build, authorization, fresh ingestion and
 installation. No Cloudflare data is migrated. GitHub automation is limited to
 the daily crawler after temporary validation is removed. The historical notes
 below describe earlier Cloudflare/GitHub Pages deployments and are not the new
-runtime configuration. Mainnet installation is pending validation at this commit.
+runtime configuration. Mainnet installation and certified frontend responses are verified. The site serves a freshly generated catalog; user profiles and favorites are stored by the authenticated ICP caller. Owner administrator activation on the new frontend origin is pending the owner's login.
 
 # Internet Computer Store
 
 A search engine and directory for the Internet Computer (ICP) ecosystem.
 Static frontend + a discovery crawler + Internet Identity login.
 
-**Status:** the web app, crawler, review CLI and login are implemented. The frontend ships with clearly labeled **demo data** until you crawl and approve real projects. There is **no backend canister yet** (see "Not built").
+**Status:** ICP frontend and persistent backend are deployed. The catalog contains fresh crawler results, with no Cloudflare data copied. See `icp/README.md` for the current workflow. The legacy development notes below do not describe the deployed data path.
 
 ## Quick start
 ```bash
@@ -59,14 +59,14 @@ dfx deploy --network ic frontend    # dfx.json serves ./dist; routing is hash-ba
 ```
 Run the crawler on a schedule elsewhere (cron / CI), run `review`, commit `web/public/projects.json`, rebuild, redeploy.
 
-## Not built (next steps)
+## Earlier prototype roadmap (historical)
 1. Backend canister (Motoko/Rust): persist submissions + review queue, store developer claims keyed by principal, admin allowlist checked on-chain.
 2. Submission form is wired to a service that refuses until a backend exists, so it never fakes a success.
 3. OpenSearch service + protected search API (the UI searches the in-browser list today; fine up to a few thousand records).
 4. Developer claim proof (DNS TXT, `.well-known` file on the project site, or canister controller check).
 5. Games: screenshots, genres and verified launch URLs need data the sources above do not provide.
 
-## My Profile (local prototype)
+## Earlier local profile prototype (historical)
 After Internet Identity sign-in, click **My Profile** in the header (or visit `#/profile`).
 You can choose an avatar, display name, role, bio, website, GitHub and interests.
 The data is saved to the browser's `localStorage`, keyed by the authenticated Principal. This is **not** an ICP canister and does **not** sync to other devices. No profile is published to other users. For production, add a backend canister that uses its authenticated `caller` rather than accepting an arbitrary Principal from the browser, and configure stable Internet Identity derivation origins.

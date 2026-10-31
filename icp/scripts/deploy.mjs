@@ -10,6 +10,7 @@ globalThis.require=createRequire(import.meta.url);
 const {AssetManager}=await import('@icp-sdk/canisters/assets');
 import {pemIdentity} from '../signing-identity.mjs';
 import {idlFactory} from '../interface.js';
+import {verifyFrontend} from './verify-frontend.mjs';
 const root=resolve(new URL('../..',import.meta.url).pathname);
 const targets=JSON.parse(await readFile(resolve(root,'canister_ids.json'),'utf8'));
 if(!process.env.ICP_SIGNING_KEY_PATH)throw Error('ICP_SIGNING_KEY_PATH must point to a private Ed25519 PEM outside the repository');
@@ -56,6 +57,17 @@ const headers=[['X-Content-Type-Options','nosniff'],['Referrer-Policy','no-refer
 const expectedKeys=new Set(),previousAssets=await manager.list(),existingKeys=new Set(previousAssets.map(asset=>asset.key));
 for(const file of files){const key='/'+relative(resolve(root,'.icp-build/frontend'),file).replaceAll('\\','/');expectedKeys.add(key);if(existingKeys.has(key))batch.delete(key);const extension=key.slice(key.lastIndexOf('.'));await batch.store(new Uint8Array(await readFile(file)),{fileName:basename(key),path:dirname(key)==='/'?'':dirname(key),contentType:mime[extension]||'application/octet-stream',headers});}
 for(const previous of previousAssets){if(previous.key.startsWith('//')&&expectedKeys.has(previous.key.slice(1))||/^\/assets\/index-[\w-]+\.(js|css)$/.test(previous.key)&&!expectedKeys.has(previous.key))batch.delete(previous.key);}
-let lastProgress=0;await batch.commit({onProgress:p=>{if(p.current-lastProgress>65536||p.current===p.total){lastProgress=p.current;console.log(`Frontend bytes uploaded: ${p.current}/${p.total}`);}}});const stored=await manager.list();if(!stored.some(x=>x.key==='/index.html'))throw Error('Frontend asset verification failed');
-await mkdir(resolve(root,'.icp-build'),{recursive:true});await writeFile(resolve(root,'.icp-build/deployment.json'),JSON.stringify({frontend:{id:targets.frontend.ic,...frontend},backend:{id:targets.backend.ic,...backend},assets:files.map(p=>'/'+relative(resolve(root,'.icp-build/frontend'),p)),deployedAt:new Date().toISOString()},null,2)+'\n');
+let lastProgress=0;await batch.commit({onProgress:p=>{if(p.current-lastProgress>65536||p.current===p.total){lastProgress=p.current;console.log(`Frontend bytes uploaded: ${p.current}/${p.total}`);}}});// Store the root explicitly: certifying only the index alias can omit its v2 witness.
+const rootAssets=Actor.createActor(({IDL:I})=>I.Service({
+ store:I.Func([I.Record({key:I.Text,content_type:I.Text,content_encoding:I.Text,content:I.Vec(I.Nat8),sha256:I.Opt(I.Vec(I.Nat8))})],[],[]),
+ set_asset_properties:I.Func([I.Record({key:I.Text,max_age:I.Opt(I.Opt(I.Nat64)),headers:I.Opt(I.Opt(I.Vec(I.Tuple(I.Text,I.Text)))),allow_raw_access:I.Opt(I.Opt(I.Bool)),is_aliased:I.Opt(I.Opt(I.Bool))})],[],[])
+}),{agent,canisterId:targets.frontend.ic});
+await rootAssets.store({key:'/',content_type:mime['.html'],content_encoding:'identity',content:new Uint8Array(await readFile(resolve(root,'.icp-build/frontend/index.html'))),sha256:[]});
+await rootAssets.set_asset_properties({key:'/',max_age:[],headers:[[headers]],allow_raw_access:[[false]],is_aliased:[[false]]});
+// Refresh content certification after changing root properties.
+await rootAssets.store({key:'/',content_type:mime['.html'],content_encoding:'identity',content:new Uint8Array(await readFile(resolve(root,'.icp-build/frontend/index.html'))),sha256:[]});
+expectedKeys.add('/');
+const stored=await manager.list();if(!stored.some(x=>x.key==='/index.html'))throw Error('Frontend asset verification failed');
+await verifyFrontend(targets.frontend.ic,['/','/index.html',...Array.from(expectedKeys).filter(key=>/^\/assets\/index-.*\.(js|css)$/.test(key))]);
+await mkdir(resolve(root,'.icp-build'),{recursive:true});await writeFile(resolve(root,'.icp-build/deployment.json'),JSON.stringify({frontend:{id:targets.frontend.ic,...frontend},backend:{id:targets.backend.ic,...backend},assets:[...expectedKeys],deployedAt:new Date().toISOString()},null,2)+'\n');
 console.log(`Frontend published: https://${targets.frontend.ic}.icp0.io/`);

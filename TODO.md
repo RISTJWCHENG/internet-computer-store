@@ -1,67 +1,7 @@
-# TODO
+# Remaining production work
 
-- [x] Separate display branding from implementation names.
-- [x] Rename directories, assets and references consistently.
-- [x] Preserve existing browser data, wire identities and deployment secret compatibility.
-- [x] Run the full automated suite and production build.
-- [x] Resolve GitHub integration write access for the owner account.
-- [x] Save the prepared branch through the GitHub Git data API, verify the remote SHA/tree and create PR #1.
-- [ ] Perform browser visual QA before publishing.
-- [ ] Optional separate migration: provision neutral Cloudflare resource names, migrate data and switch endpoints with rollback validation.
-- [ ] Optional repository administration: rename the GitHub repository after reviewing URL and hosting implications.
-
-- [x] Deploy a separate owner-private review site and provide its live URL.
-- [ ] User acceptance review of the deployed rename before merging PR #1.
-
-- [x] Repair preview-origin dApp loading and verify live published records.
-
-- [x] Restore original 16-dot hover animation, dimensions and favorites interaction.
-- [ ] User visual acceptance of the repaired launcher on the private review site.
-
-- [x] Verify formal GitHub Pages release and automatic removal of the merged task branch.
-- [ ] Remove task-local source duplicates and archives after remote verification.
-
-
-- [x] Prepare fresh production D1 schema and new R2/D1 Worker bindings.
-- [x] Prepare manually dispatched initialization, deployment and discovery workflow.
-- [ ] Configure scoped Cloudflare Actions credentials, Queues and R2 notification.
-- [ ] Run initialization, deploy the new Worker and record its URL.
-- [ ] Run one crawl and verify D1 contents, R2 events and website behavior.
-- [ ] Switch the frontend to the verified new API, then retire old Cloudflare resources and legacy identifiers after explicit verification.
-
-- [ ] Set and verify the neutral staging secrets in GitHub, then remove the old secret references and old secrets.
-
-- [ ] Verify the selected GitHub secret names against the staging Worker before removing legacy fallback references.
-
-- [ ] Verify the new API health after the successful provisioning job.
-- [ ] Run the requested crawl manually and validate the new catalog before cutover.
-- [ ] After successful cutover, review the exact legacy Cloudflare resources for removal.
-
-- [ ] Resolve Cloudflare API token/account scope: new R2 read failed with HTTP 403 code 10000 in run 40421589976.
-- [ ] Rerun the failed provisioning job after the token is updated securely.
-
-- [ ] Configure the multi-service account API token as `CLOUDFLARE_ICPSTORE_API_TOKEN`; run current `provision` operation and verify.
-
-- Review and replace the legacy staging schedule and its old Cloudflare resource dependencies before retiring old resources. Validate ongoing ingestion and website features.
-
-- Remove or migrate legacy staging implementation and compatibility identifiers only after checking data and behavior dependencies. Retire the inventoried legacy Cloudflare resources after verifying their remaining users. New catalog ingestion remains manual.
-
-- Migrate the workers.dev account subdomain or use a custom domain without interrupting the new Worker. Keep browser legacy storage fallbacks until an explicit user-data migration strategy is in place.
-
-- Monitor the first scheduled crawler run at 03:17 UTC and investigate failed Caffeine seed fetches if they persist.
-
-- Verify Caffeine Apps navigation on the deployed website after the frontend fix.
-
-- Review inclusion criteria and ingestion for infrastructure projects such as OpenCloud; the navigation link uses existing indexed records.
-
-- Enable and configure Cloudflare Access for the separate admin Worker with the owner's chosen identity; set ADMIN_EMAIL securely and supply the owner's Internet Identity principal for the disabled menu. Review the source, apply the additive admin schema, deploy, and run authenticated and unauthorized end-to-end tests before enabling the menu.
-
-
-- Replace or update the administrator canister-signature verifier for current IC certificates and validate its certificate policy; test a real Internet Identity login before enabling administrator writes. Deploy the session capabilities response only after this validation.
-- Verify administrator UI, editing, publication and mobile layout with an authenticated production session after the verifier is fixed.
-
-
-- Finish temporary cloud PocketIC integration validation (caller permissions, user isolation, deletion, upgrade persistence), then remove the temporary workflow.
-- Install the validated modules into the two authorized empty ICP canisters; verify module hashes, controllers, assets and live catalog reads.
-- Read the public crawler principal derived inside Actions from NATIVE_INGEST_TOKEN; authorize it as importer only, rerun the fresh crawl, and verify live results. No Cloudflare migration.
-- Verify the owner's new frontend-origin Principal and grant administrator membership through the controller; retain the owner's controller and arrange long-term deployment-key custody before removing the temporary controller.
+- Ask the owner to sign in at the new ICP frontend and supply the Principal shown in My Profile. Grant that verified owner administrator membership, then verify editing/publication with the owner's session.
+- Arrange deployment-key custody or owner-controlled deployment before removing the temporary deployment controller. The owner controller is retained.
+- Verify the first main-branch daily crawl and remove temporary validation workflow/branch after the main switch.
+- Implement native voting, public submission review and developer ownership claims separately; the UI must not claim successful unsupported operations.
+- Add curated official infrastructure entries through the administrator interface after owner activation.

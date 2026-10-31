@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@dfinity/pic": "0.25.0",
+    "@dfinity/response-verification": "4.0.1",
     "vite": "^7.0.0"
   }
 }
