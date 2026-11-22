@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T11:15:56.867Z",
+  "generatedAt": "2026-11-22T11:35:48.307Z",
   "records": [
     {
       "id": "app-sonic-ooo",
@@ -32,7 +32,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -66,7 +66,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -100,7 +100,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -134,7 +134,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -168,7 +168,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -202,7 +202,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -236,7 +236,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -270,7 +270,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -304,7 +304,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -338,41 +338,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
-        }
-      ]
-    },
-    {
-      "id": "icfc-app",
-      "name": "ICFC",
-      "description": "The ICFC football ecosystem designed to reward fans for their love of football.",
-      "category": "DAO",
-      "websiteUrl": "https://icfc.app/",
-      "logoUrl": "https://dfinity-dashboard-assets.dashboard.internetcomputer.org/snses/gyito-zyaaa-aaaaq-aacpq-cai/logo_1750089083",
-      "githubUrl": "",
-      "source": "sns",
-      "status": "published",
-      "relationship": "unverified",
-      "evidenceUrl": "",
-      "updatedAt": "",
-      "tags": [
-        "sns"
-      ],
-      "canisters": [
-        {
-          "canisterId": "gyito-zyaaa-aaaaq-aacpq-cai",
-          "role": "sns-root"
-        },
-        {
-          "canisterId": "ddsp7-7iaaa-aaaaq-aacqq-cai",
-          "role": "ledger"
-        }
-      ],
-      "sources": [
-        {
-          "sourceType": "sns",
-          "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -406,7 +372,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -440,7 +406,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -474,7 +440,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -508,7 +474,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -542,7 +508,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -576,7 +542,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -610,7 +576,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -644,7 +610,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -678,7 +644,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -712,7 +678,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -746,7 +712,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -780,7 +746,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -814,7 +780,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -848,7 +814,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -882,7 +848,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -916,7 +882,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -950,7 +916,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -984,7 +950,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     },
@@ -1018,7 +984,7 @@
         {
           "sourceType": "sns",
           "sourceUrl": "https://sns-api.internetcomputer.org/api/v2/snses",
-          "collectedAt": "2026-11-21T11:15:53.948Z"
+          "collectedAt": "2026-11-22T11:35:32.177Z"
         }
       ]
     }
